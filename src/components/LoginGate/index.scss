@@ -1,0 +1,92 @@
+.login-gate {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(180deg, #f4f5fc 0%, #fbfcfd 76%, #ffffff 100%);
+  justify-content: center;
+
+  .login-box {
+    .title {
+      font-size: 38px;
+      font-family: Kanit;
+      font-weight: 500;
+      color: #000000;
+      margin-bottom: 10px;
+    }
+
+    .sub-title {
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 400;
+      color: #333333;
+      margin-bottom: 34px;
+    }
+
+    .login-pwd {
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 300;
+      color: #333333;
+      align-self: baseline;
+      margin-top: 54px;
+    }
+
+    .login-pwd-input {
+      width: 370px;
+      height: 44px;
+      background: #f7f8fa;
+      border: 1px solid #eaecf2;
+      opacity: 1;
+      border-radius: 10px;
+      margin-top: 6px;
+      margin-bottom: 32px;
+
+      .ant-input {
+        background: #f7f8fa;
+      }
+    }
+
+    .login-btn {
+      width: 371px;
+      height: 48px;
+      background: #6768ac;
+      border-radius: 10px;
+      font-size: 18px;
+      font-family: Kanit;
+      color: #ffffff;
+    }
+  }
+}
+.login-err-modal {
+  text-align: center;
+
+  .err-msg,
+  .err-tip {
+    font-size: 16px;
+    font-family: Kanit;
+    font-weight: 400;
+    line-height: 24px;
+    color: #333333;
+  }
+
+  .err-msg {
+    margin-top: 40px;
+  }
+  .err-tip {
+    margin-bottom: 30px;
+  }
+
+  .clear-btn {
+    width: 376px;
+    height: 60px;
+    background: #f4f6fd;
+    border: 1px solid #6768ac;
+    opacity: 1;
+    border-radius: 20px;
+    font-size: 18px;
+    font-family: Kanit;
+    font-weight: 500;
+    line-height: 0px;
+    color: #6768ac;
+  }
+}

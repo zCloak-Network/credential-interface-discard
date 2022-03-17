@@ -1,0 +1,25 @@
+.attester-content {
+  .select-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    .status-select {
+      width: 150px;
+      height: 34px;
+      background: #ffffff;
+      margin-top: 16px;
+      margin-bottom: 42px;
+      border-radius: 24px;
+      .ant-select-selector {
+        border-radius: 24px;
+      }
+    }
+  }
+  .header {
+    display: grid;
+    grid-template-columns: 20px repeat(3, 1fr) 2fr 3fr;
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 10px;
+    padding: 0 24px;
+  }
+}

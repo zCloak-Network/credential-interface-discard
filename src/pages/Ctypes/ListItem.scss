@@ -1,0 +1,24 @@
+.ctypes-list-item {
+  width: 100%;
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  grid-template-columns: 60px 1fr 2fr;
+  height: 60px;
+  background: #ffffff;
+  opacity: 1;
+  border-radius: 10px;
+  cursor: pointer;
+
+  .index {
+    color: #333333;
+  }
+  .owner {
+    color: #666666;
+  }
+}
+
+.ctypes-list-item:hover {
+  background: #eaecf2;
+  border-radius: 10px;
+}

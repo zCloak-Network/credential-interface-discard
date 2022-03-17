@@ -1,0 +1,73 @@
+.schema-based-json-editor {
+  width: 100%;
+  margin: {
+    right: auto;
+    bottom: 24p x;
+    left: auto;
+  }
+
+  & .hidden {
+    display: none !important;
+  }
+
+  &--title {
+    font-size: 16px;
+    font-family: Kanit;
+    font-weight: 300;
+    color: #333333;
+  }
+
+  &--button {
+    //   @include button-icon-only-i;
+
+    margin-left: 24px;
+    border: none;
+
+    // // expand
+    & .fa-caret-square-down {
+      font-family: "iconfont" !important;
+      font-size: 16px;
+      font-style: normal;
+      &:before {
+        content: "\e67f";
+      }
+    }
+
+    // // collapse
+    & .fa-caret-square-right {
+      font-family: "iconfont" !important;
+      font-size: 16px;
+      font-style: normal;
+      &:before {
+        content: "\e680";
+      }
+    }
+
+    // collapse
+    & .fa-plus {
+      font-family: "iconfont" !important;
+      font-size: 16px;
+      font-style: normal;
+      color: #6768ac;
+      &:before {
+        content: "\e67e";
+      }
+    }
+
+    & .fa-times {
+      font-family: "iconfont" !important;
+      font-size: 16px;
+      font-style: normal;
+      color: #6768ac;
+      &:before {
+        content: "\e67d";
+      }
+    }
+
+    //   & > &--row {
+    //     & > h3 {
+    //       display: none;
+    //     }
+    //   }
+  }
+}

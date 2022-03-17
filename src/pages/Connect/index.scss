@@ -1,0 +1,73 @@
+.walletModal {
+  .ant-modal-content {
+    width: 500px;
+
+    .wallets {
+      margin-top: 34px;
+
+      .account-item {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        height: $height-xl;
+        padding: 0 12px;
+        justify-content: space-between;
+        font-size: 16px;
+        font-family: Kanit;
+        font-weight: 400;
+        line-height: 24px;
+        color: #666666;
+
+        .left {
+          display: flex;
+          align-items: center;
+        }
+        .account-addr {
+          margin-left: 10px;
+        }
+
+        .right {
+          display: flex;
+          align-items: center;
+          .switchBtn {
+            display: inline-flex;
+            margin-right: 16px;
+            font-size: 12px;
+            font-family: Kanit;
+            font-weight: 400;
+            line-height: 0px;
+            color: #666666;
+            width: 118px;
+            height: 24px;
+            background: #ffffff;
+            border: 1px solid #c5c5de;
+            opacity: 1;
+            border-radius: 14px;
+            padding: 3px;
+            justify-content: space-between;
+            align-items: center;
+            > span {
+              padding: 0 6px;
+            }
+
+            .active {
+              height: 18px;
+              background: #eaecf2;
+              border-radius: 11px;
+              font-size: 12px;
+              font-family: Kanit;
+              font-weight: 400;
+              color: #6768ac;
+              line-height: 18px;
+            }
+          }
+        }
+      }
+
+      > li:hover {
+        border-radius: 10px;
+        background: $item-hover-bg;
+      }
+    }
+  }
+}

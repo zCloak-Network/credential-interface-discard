@@ -1,0 +1,112 @@
+.header-component {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 30px 50px 30px;
+
+  .logo {
+    width: 28px;
+    height: 30px;
+    cursor: pointer;
+  }
+
+  .header-menu-wrapper {
+    margin-right: auto;
+    margin-left: 64px;
+    display: block;
+  }
+
+  .header-right {
+    display: flex;
+  }
+
+  .menu-btn {
+    display: none;
+  }
+
+  .btn {
+    padding: 0 $padding-md;
+    height: 40px;
+    line-height: 40px;
+    background: $primary-2;
+    border-radius: 20px;
+    color: $primary-color;
+    text-align: center;
+    cursor: pointer;
+    padding: 0 $padding-md;
+
+    .acc-img {
+      display: inline-block;
+      margin-left: 15px;
+    }
+  }
+
+  .btn:hover {
+    border: 1px solid $primary-color;
+  }
+
+  .connected {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $white;
+    font-size: 16px;
+    color: #000000;
+  }
+}
+
+@media (max-width: $screen-sm) {
+  .header-component {
+    position: relative;
+    margin: 20px 10px 50px 10px;
+
+    .header-menu-wrapper {
+      position: absolute;
+      right: 10px;
+      top: 50px;
+      width: 156px;
+      background: $white;
+      box-shadow: 0px 6px 6px rgba(103, 104, 172, 0.2);
+      border-radius: 10px;
+      padding: 4px;
+      z-index: 999;
+      display: block;
+      &.close {
+        display: none;
+      }
+      .header-menu {
+        display: flex;
+        flex-direction: column;
+        > li {
+          width: 148px;
+          height: 40px;
+          border: 0;
+          font-size: 16px;
+          font-family: Kanit;
+          font-weight: 400;
+          line-height: 0px;
+          color: #666666;
+          margin-left: 0;
+          padding: 0 12px;
+        }
+        > li:hover {
+          background: #eaecf2;
+          border-radius: 6px;
+          color: #666666;
+        }
+
+        > li.active {
+          background: #eaecf2;
+          border-radius: 6px;
+          color: #000000;
+        }
+      }
+    }
+    .menu-btn {
+      display: flex;
+      width: 79px;
+      height: 40px;
+      margin-left: $margin-xs;
+    }
+  }
+}

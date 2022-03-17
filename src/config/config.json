@@ -1,0 +1,4 @@
+{
+  "url": "wss://test1.zcloak.network",
+  "local": "ws://127.0.0.1:9944"
+}

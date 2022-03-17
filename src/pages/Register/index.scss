@@ -1,0 +1,117 @@
+.register-main {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(180deg, #f4f5fc 0%, #fbfcfd 76%, #ffffff 100%);
+
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  .register-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+
+    .title {
+      font-size: 24px;
+      font-weight: 500;
+      color: #000000;
+      margin-top: 80px;
+      margin-bottom: 44px;
+    }
+
+    .ant-steps-item-finish
+      > .ant-steps-item-container
+      > .ant-steps-item-tail::after {
+      background-color: #6768ac;
+    }
+
+    .ant-steps-item-process
+      > .ant-steps-item-container
+      > .ant-steps-item-tail::after {
+      background-color: #999999;
+    }
+
+    .ant-steps-item-process
+      > .ant-steps-item-container
+      > .ant-steps-item-content
+      > .ant-steps-item-description,
+    .ant-steps-item-finish
+      > .ant-steps-item-container
+      > .ant-steps-item-content
+      > .ant-steps-item-description,
+    .ant-steps-item-wait
+      > .ant-steps-item-container
+      > .ant-steps-item-content
+      > .ant-steps-item-description {
+      font-size: 14px;
+      font-family: Kanit;
+      font-weight: 400;
+      color: #333333;
+    }
+    .ant-steps-item-wait
+      > .ant-steps-item-container
+      > .ant-steps-item-content
+      > .ant-steps-item-description {
+      color: #999999;
+    }
+
+    .register-step-icon {
+      &.prev {
+        width: 28px;
+        height: 28px;
+        background: #6768ac;
+        opacity: 1;
+        border-radius: 8px;
+        font-size: 16px;
+        font-family: Kanit;
+        font-weight: 500;
+        line-height: 28px;
+        color: #ffffff;
+        margin-top: 4px;
+        margin-bottom: 4px;
+      }
+
+      &.curr {
+        width: 36px;
+        height: 36px;
+        border: 1px solid #6768ac;
+        opacity: 1;
+        border-radius: 11px;
+        line-height: 28px;
+
+        > span {
+          display: inline-block;
+          width: 28px;
+          height: 28px;
+          background: #6768ac;
+          opacity: 1;
+          border-radius: 8px;
+          font-size: 16px;
+          font-family: Kanit;
+          font-weight: 500;
+          line-height: 28px;
+          color: #ffffff;
+        }
+      }
+
+      &.next {
+        width: 36px;
+        height: 36px;
+        border: 1px solid #999999;
+        opacity: 1;
+        border-radius: 11px;
+        font-size: 16px;
+        font-family: Kanit;
+        font-weight: 500;
+        line-height: 36px;
+        color: #999999;
+      }
+    }
+
+    .register-step {
+      margin-bottom: 44px;
+    }
+  }
+}

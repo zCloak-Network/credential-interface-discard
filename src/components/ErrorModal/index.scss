@@ -1,0 +1,32 @@
+.error-modal {
+  .ant-modal-content {
+    width: 424px;
+
+    .sub-title {
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 400;
+      color: $legend-color;
+      padding: 14px 0;
+      display: inline-block;
+      width: 100%;
+    }
+    .switch-btn {
+      width: 376px;
+      height: 48px;
+      background: $primary-color;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 500;
+      color: $white;
+      line-height: 48px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .switch-btn:hover {
+      background: $primary-8;
+    }
+  }
+}

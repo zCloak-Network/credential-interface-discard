@@ -1,0 +1,24 @@
+{
+    "presets": [
+        [
+        "@babel/env",
+        {
+            "targets": {
+                "chrome": "49",
+                "ie": "11",
+                "edge": "18",
+                "node": "current"
+            },
+            "modules": false,
+            "useBuiltIns": "usage",
+            "corejs": "3"
+        }
+      ],
+      "@babel/preset-react"
+    ],
+   "plugins": [
+        // "@babel/plugin-syntax-dynamic-import"
+        // "@babel/plugin-proposal-class-properties",
+        // "@loadable/babel-plugin"
+    ]  
+}

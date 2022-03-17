@@ -1,0 +1,27 @@
+.menu-components {
+  display: flex;
+  li + li {
+    margin-left: 14px;
+  }
+  > li {
+    height: 44px;
+    line-height: 44px;
+    font-size: 16px;
+    color: #000000;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    .menu-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: $margin-md;
+    }
+  }
+
+  li.active {
+    color: $subsidiary-color;
+    border-bottom: 1px solid $subsidiary-color;
+  }
+}

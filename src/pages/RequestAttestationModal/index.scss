@@ -1,0 +1,36 @@
+.request-modal {
+  .ant-select {
+    margin-top: 32px;
+
+    .ant-select-selector {
+      width: 652px !important;
+      height: 64px !important;
+      background: #f7f8fa !important;
+      border: 1px solid #c5c5de !important;
+      border-radius: 20px !important;
+      align-items: center;
+      color: #000;
+      font-size: 16px;
+    }
+  }
+  .request-btn {
+    width: 652px;
+    height: 60px;
+    border-radius: 20px;
+  }
+
+  .detail-wrapper {
+    margin-bottom: 10px;
+  }
+}
+
+.request-select {
+  .ant-select-item {
+    height: 48px;
+    align-items: center;
+    font-size: 16px !important;
+    font-family: Kanit !important;
+    font-weight: 400 !important;
+    color: #666666 !important;
+  }
+}
