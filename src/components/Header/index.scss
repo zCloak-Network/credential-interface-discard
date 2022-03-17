@@ -53,6 +53,41 @@
     font-size: 16px;
     color: #000000;
   }
+
+  .switchBtn {
+    display: inline-flex;
+    margin-right: 16px;
+    font-size: 14px;
+    font-family: Kanit;
+    font-weight: 400;
+    line-height: 0px;
+    color: #666666;
+    width: 136px;
+    height: 40px;
+    background: #ffffff;
+    border: 1px solid #c5c5de;
+    opacity: 1;
+    border-radius: 20px;
+    padding: 3px;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    > span {
+      padding: 0 6px;
+    }
+
+    .active {
+      height: 34px;
+      background: #eaecf2;
+      border-radius: 20px;
+      font-size: 14px;
+      font-family: Kanit;
+      font-weight: 400;
+      color: #6768ac;
+      line-height: 34px;
+    }
+  }
 }
 
 @media (max-width: $screen-sm) {

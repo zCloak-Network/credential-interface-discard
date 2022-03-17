@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 10:45:21
- * @LastEditTime: 2022-03-17 15:29:04
+ * @LastEditTime: 2022-03-17 19:11:54
  */
 import React, { useState, useEffect } from "react";
 import LogoBanner from "../../components/LogoBanner";
@@ -23,7 +23,6 @@ import {
   getSigningKeypair,
   getEncryptionKeypair,
   getLightDid,
-  getFullDid,
 } from "../../utils/accountUtils";
 import { useNavigate } from "react-router-dom";
 
@@ -114,7 +113,6 @@ const Register: React.FC = () => {
       signingKeypair,
       encryptionKeypair,
       lightDid,
-      // fullDid,
     };
 
     console.log(121212, newIdentity);

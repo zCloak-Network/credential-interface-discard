@@ -2,11 +2,12 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-03-16 15:39:33
+ * @LastEditTime: 2022-03-17 17:36:10
  */
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
-import arrowDownInactiveImg from "../../images/icon_arrow_inactive.png";
+// import arrowDownInactiveImg from "../../images/icon_arrow_inactive.png";
+import ContentLayout from "../../components/ContentLayout";
 
 import "./index.scss";
 
@@ -20,6 +21,14 @@ const MENU = [
     title: "CTYPEs",
     key: "ctypes",
     url: "/attester/ctypes",
+  },
+];
+
+const MODOLE = [
+  {
+    title: "Attester",
+    key: "attester",
+    url: "/attester",
   },
 ];
 
@@ -45,33 +54,27 @@ const Attester: React.FC = () => {
   }, [location]);
 
   return (
-    <div className="attester">
-      <div className="attester-header">
-        <div>
-          <img
-            src={arrowDownInactiveImg}
-            className="back-btn"
-            onClick={handleBack}
-          />
-          Attester
+    <ContentLayout menu={MODOLE}>
+      <div className="attester">
+        <div className="attester-header">
+          <ul className="menu" onClick={handleClick}>
+            {MENU.map((it) => (
+              <li
+                key={it.key}
+                data-id={it.key}
+                data-url={it.url}
+                className={module === it.key ? "active" : ""}
+              >
+                {it.title}
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className="menu" onClick={handleClick}>
-          {MENU.map((it) => (
-            <li
-              key={it.key}
-              data-id={it.key}
-              data-url={it.url}
-              className={module === it.key ? "active" : ""}
-            >
-              {it.title}
-            </li>
-          ))}
-        </ul>
+        <div className="main-content">
+          <Outlet />
+        </div>
       </div>
-      <div className="main-content">
-        <Outlet />
-      </div>
-    </div>
+    </ContentLayout>
   );
 };
 

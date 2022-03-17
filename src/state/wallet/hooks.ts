@@ -2,12 +2,17 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:03:58
- * @LastEditTime: 2022-03-16 16:00:12
+ * @LastEditTime: 2022-03-17 17:59:09
  */
 import { useCallback } from "react";
 import { AppState } from "../PersistentStore";
 import { useDispatch, useSelector } from "react-redux";
-import { saveIdentity, savePassword, saveCurrIdentity } from "./reducer";
+import {
+  saveIdentity,
+  savePassword,
+  saveCurrIdentity,
+  updateIdentity,
+} from "./reducer";
 
 export function useGetPassword(): AppState["wallet"]["password"] {
   const password = useSelector((state: AppState) => state.wallet.password);
@@ -61,6 +66,21 @@ export function useSaveCurrIdentity(): (identity) => void {
     (identity) => {
       dispatch(
         saveCurrIdentity({
+          identity,
+        })
+      );
+    },
+    [dispatch]
+  );
+}
+
+export function useUpdateIdentity(): (identity) => void {
+  const dispatch = useDispatch();
+
+  return useCallback(
+    (identity) => {
+      dispatch(
+        updateIdentity({
           identity,
         })
       );

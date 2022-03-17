@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:09:59
- * @LastEditTime: 2022-03-16 16:01:24
+ * @LastEditTime: 2022-03-17 22:12:00
  */
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -31,12 +31,23 @@ const walletSlice = createSlice({
         createdAt: Date.now(),
       });
     },
+
     saveCurrIdentity(state, { payload: { identity } }) {
       state.currentIdentity = identity;
+    },
+
+    updateIdentity(state, { payload: { identity } }) {
+      state.identities = state.identities.map((it) => {
+        if (it.account.address === identity.account.address) {
+          it = identity;
+        }
+
+        return it;
+      });
     },
   },
 });
 
-export const { saveIdentity, savePassword, saveCurrIdentity } =
+export const { saveIdentity, savePassword, saveCurrIdentity, updateIdentity } =
   walletSlice.actions;
 export default walletSlice.reducer;

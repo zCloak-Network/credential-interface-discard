@@ -2,11 +2,15 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-02 11:07:37
- * @LastEditTime: 2022-03-17 15:33:21
+ * @LastEditTime: 2022-03-17 19:07:29
  */
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useGetCurrIdentity } from "../../state/wallet/hooks";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  useGetCurrIdentity,
+  useUpdateIdentity,
+  useSaveCurrIdentity,
+} from "../../state/wallet/hooks";
 import { Image } from "@davatar/react";
 import classNames from "classnames";
 import { useClickAway } from "ahooks";
@@ -15,13 +19,8 @@ import Button from "../Button";
 import { useToggleConnectWalletModal } from "../../state/application/hooks";
 import Logo from "../../images/logo.svg";
 import { shortenHash } from "../../utils";
-import { Balance, BalanceUtils, BlockchainUtils } from "@kiltprotocol/sdk-js";
-import {
-  getSigningKeypair,
-  getEncryptionKeypair,
-  getLightDid,
-  getFullDid,
-} from "../../utils/accountUtils";
+import { Balance } from "@kiltprotocol/sdk-js";
+import { getFullDid, generateKeypairs } from "../../utils/accountUtils";
 
 import "./index.scss";
 interface Props {
@@ -30,9 +29,14 @@ interface Props {
 
 export default function Header({ menu }: Props): React.ReactElement {
   const navigate = useNavigate();
+  const location = useLocation();
   const ref = useRef();
   const currAccount = useGetCurrIdentity();
+  const saveCurrIdentity = useSaveCurrIdentity();
+  const updateIdentity = useUpdateIdentity();
   const [menuStatus, setMenuStatus] = useState(true);
+
+  const isClaimer = location.pathname.includes("user");
 
   const toggleConnectWalletModal = useToggleConnectWalletModal();
 
@@ -53,28 +57,65 @@ export default function Header({ menu }: Props): React.ReactElement {
     setMenuStatus(!menuStatus);
   };
 
-  const getMyBalance = async () => {
-    console.log(44440000, currAccount.account.address);
-    const balance = await Balance.getBalances(currAccount?.account.address);
-    console.log(4444, balance);
-    return balance.free;
-  };
-  // const aa = getMyBalance();
+  // const getMyBalance = async () => {
+  //   console.log(44440000, currAccount.account.address);
+  //   const balance = await Balance.getBalances(currAccount?.account);
+  //   console.log(4444, balance);
+  //   return balance.free;
+  // };
 
-  const getData = async () => {
+  const generateFullDid = async () => {
+    const keys = await generateKeypairs(currAccount.oldMnemonic);
     if (currAccount.account.address) {
-      const fullDid = await getFullDid(
-        currAccount.account,
-        currAccount.oldMnemonic
-      );
-      console.log(121212000, fullDid);
+      const fullDid = await getFullDid(currAccount.account, keys);
+      return fullDid;
     }
   };
 
-  useEffect(() => {
-    // getMyBalance();
-    getData();
-  }, [currAccount]);
+  const validate = async () => {
+    if (currAccount.fullDid && currAccount.fullDid.did) {
+      return true;
+    } else {
+      const fullDid = await generateFullDid();
+      const newAccount = { ...currAccount, fullDid: fullDid };
+      await updateIdentity(newAccount);
+      await saveCurrIdentity(newAccount);
+    }
+  };
+
+  const handleSwitch = () => {
+    if (isClaimer) {
+      validate();
+
+      navigate("/attester");
+    } else {
+      navigate("/user");
+    }
+  };
+
+  const switchBtn = (
+    <span className="switchBtn" onClick={handleSwitch}>
+      <span
+        className={classNames({
+          active: isClaimer,
+        })}
+      >
+        Claimer
+      </span>
+      <span
+        className={classNames({
+          active: !isClaimer,
+        })}
+      >
+        Attester
+      </span>
+    </span>
+  );
+
+  // useEffect(() => {
+  //   // getMyBalance();
+  //   // getData();
+  // }, [currAccount]);
 
   return (
     <div className="header-component">
@@ -87,6 +128,7 @@ export default function Header({ menu }: Props): React.ReactElement {
       >
         <Menu className="header-menu" menu={menu} />
       </div>
+      {switchBtn}
       <div className="header-right">
         <div className="btn connected" onClick={handleOpenConnect}>
           {shortenHash(currAccount?.account.address)}

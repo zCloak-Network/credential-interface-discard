@@ -2,16 +2,16 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-08-27 11:52:05
- * @LastEditTime: 2022-03-17 15:40:24
+ * @LastEditTime: 2022-03-17 17:10:49
  *
  */
 
 export const NETWORKID = 1287;
 
-// export const WSSURL = "wss://peregrine.kilt.io/parachain-public-ws/";
+export const WSSURL = "wss://peregrine.kilt.io/parachain-public-ws/";
 // export const WSSURL = "wss://peregrine.kilt.io/";
 // wss://spiritnet.kilt.io/:
-export const WSSURL = "wss://spiritnet.kilt.io/";
+// export const WSSURL = "wss://spiritnet.kilt.io/";
 // export const WSSURL = "wss://spiritnet.api.onfinality.io/public-ws";
 // OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws',
 // 'BOTLabs Trusted Entity': 'wss://spiritnet.kilt.io',
