@@ -30,6 +30,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE}}
           source: ${{ github.workspace }}/dist
           target: "/usr/share/nginx/html2"
+          strip_components: 2
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
