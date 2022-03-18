@@ -7,7 +7,10 @@ import {
   passwordHashing,
 } from "../utils/Encryption/Encryption";
 import { configureStore } from "@reduxjs/toolkit";
-import application, { ApplicationState } from "./application/reducer";
+import application, {
+  ApplicationState,
+  initialState as applicationInitialState,
+} from "./application/reducer";
 import wallet, { WalletState } from "./wallet/reducer";
 import transactions, { TransactionState } from "./transactions/reducer";
 import claim, { SerializedState as ClaimState } from "./claim/reducer";
@@ -134,10 +137,10 @@ export class PersistentStore {
   // }
 
   public async init(password?: string): Promise<Store> {
-    let persistedState = {};
+    let persistedState = {} as any;
     if (password) {
       persistedState = await PersistentStore.decryptAndDeserialize(password);
-
+      persistedState.application = applicationInitialState;
       console.log(666111, 111166, persistedState);
     }
 
