@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:09:59
- * @LastEditTime: 2022-03-16 15:53:00
+ * @LastEditTime: 2022-03-18 15:43:16
  */
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { DEFAULT_TXN_DISMISS_MS } from "../../constants";
@@ -48,7 +48,7 @@ export interface ApplicationState {
   readonly openModal: ApplicationModal | null;
 }
 
-const initialState: ApplicationState = {
+export const initialState: ApplicationState = {
   openModal: null,
   popupList: [],
 };

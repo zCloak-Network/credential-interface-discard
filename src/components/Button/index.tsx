@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-29 16:15:23
- * @LastEditTime: 2022-02-23 21:06:25
+ * @LastEditTime: 2022-03-18 14:22:42
  */
 import React from "react";
 import classNames from "classnames";
@@ -19,6 +19,7 @@ interface Props {
   onClick?: (e?: any) => void;
   className?: string;
   htmlType?: "button" | "submit" | "reset";
+  style?: React.CSSProperties;
 }
 
 // TODO
@@ -32,6 +33,7 @@ export default function Button({
   htmlType = "button",
   className,
   children,
+  style,
 }: Props): JSX.Element {
   const classes = classNames(
     "button-components",
@@ -59,7 +61,12 @@ export default function Button({
   }
 
   return (
-    <button onClick={handleClick} className={classes} type={htmlType}>
+    <button
+      onClick={handleClick}
+      className={classes}
+      type={htmlType}
+      style={style}
+    >
       {children}
     </button>
   );
