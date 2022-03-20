@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 10:45:21
- * @LastEditTime: 2022-03-17 19:11:54
+ * @LastEditTime: 2022-03-18 16:59:54
  */
 import React, { useState, useEffect } from "react";
 import LogoBanner from "../../components/LogoBanner";
@@ -103,7 +103,7 @@ const Register: React.FC = () => {
     // Create a light DID from the generated authentication key.
     const lightDid = getLightDid(signingKeypair, encryptionKeypair);
 
-    // const fullDid = getFullDid(account, oldMnemonic);
+    // const fullDid = createFullDid(account, oldMnemonic);
     // console.log(121212000, fullDid);
 
     const newIdentity = {

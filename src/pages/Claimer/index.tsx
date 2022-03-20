@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-03-17 13:42:30
+ * @LastEditTime: 2022-03-20 14:05:56
  */
 /*
  * @Description:
@@ -45,16 +45,6 @@ export default function Claimer(): JSX.Element {
     toggleConnectWalletModal();
   };
 
-  const detail = {
-    claim: {
-      cTypeHash: "oxxxxxx",
-      contents: {
-        age: 22,
-      },
-      owner: "oxxxxxxxxx",
-    },
-  };
-  console.log(78787, selectItem);
   return (
     <ContentLayout menu={MODOLE}>
       <>
@@ -97,7 +87,7 @@ export default function Claimer(): JSX.Element {
           {data && data.length === 0 && (
             <Empty description="Your claim will appear here." />
           )}
-          <DetailModal data={selectItem} />
+          <DetailModal data={selectItem} footer={null} />
           <RequestAttestationModal detail={selectItem} />
         </div>
       </>
