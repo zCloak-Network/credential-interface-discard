@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-02 11:07:37
- * @LastEditTime: 2022-03-17 19:07:29
+ * @LastEditTime: 2022-03-21 20:56:30
  */
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -19,8 +19,13 @@ import Button from "../Button";
 import { useToggleConnectWalletModal } from "../../state/application/hooks";
 import Logo from "../../images/logo.svg";
 import { shortenHash } from "../../utils";
-import { Balance } from "@kiltprotocol/sdk-js";
-import { getFullDid, generateKeypairs } from "../../utils/accountUtils";
+import * as Kilt from "@kiltprotocol/sdk-js";
+import { useAddPopup } from "../../state/application/hooks";
+import {
+  generateAccount,
+  generateFullDid,
+  generateFullKeypairs,
+} from "../../utils/accountUtils";
 
 import "./index.scss";
 interface Props {
@@ -31,11 +36,11 @@ export default function Header({ menu }: Props): React.ReactElement {
   const navigate = useNavigate();
   const location = useLocation();
   const ref = useRef();
+  const addPopup = useAddPopup();
   const currAccount = useGetCurrIdentity();
   const saveCurrIdentity = useSaveCurrIdentity();
   const updateIdentity = useUpdateIdentity();
   const [menuStatus, setMenuStatus] = useState(true);
-
   const isClaimer = location.pathname.includes("user");
 
   const toggleConnectWalletModal = useToggleConnectWalletModal();
@@ -57,37 +62,56 @@ export default function Header({ menu }: Props): React.ReactElement {
     setMenuStatus(!menuStatus);
   };
 
-  // const getMyBalance = async () => {
-  //   console.log(44440000, currAccount.account.address);
-  //   const balance = await Balance.getBalances(currAccount?.account);
-  //   console.log(4444, balance);
-  //   return balance.free;
-  // };
+  const getMyBalance = async () => {
+    const balance = await Kilt.Balance.getBalances(currAccount.account.address);
 
-  const generateFullDid = async () => {
-    const keys = await generateKeypairs(currAccount.oldMnemonic);
+    // const aa = await Kilt.BalanceUtils.formatKiltBalance(balance.free);
+
+    return balance.free.toString();
+  };
+
+  const handleGenerateFullDid = async () => {
     if (currAccount.account.address) {
-      const fullDid = await getFullDid(currAccount.account, keys);
-      return fullDid;
+      const keystore = new Kilt.Did.DemoKeystore();
+
+      const keys = await generateFullKeypairs(keystore, currAccount.mnemonic);
+      const account = await generateAccount(currAccount.mnemonic);
+
+      try {
+        const fullDid = await generateFullDid(keystore, account, keys);
+        const newAccount = { ...currAccount, fullDid: fullDid };
+        await updateIdentity(newAccount);
+        await saveCurrIdentity(newAccount);
+      } catch (error) {
+        throw error;
+      }
     }
   };
 
   const validate = async () => {
+    const balance = await getMyBalance();
+
     if (currAccount.fullDid && currAccount.fullDid.did) {
       return true;
+    } else if (balance === "0") {
+      addPopup({
+        txn: {
+          hash: "",
+          success: false,
+          title: "Account balance too low",
+          summary: "Invalid Transaction: Inability to pay some fees.",
+        },
+      });
     } else {
-      const fullDid = await generateFullDid();
-      const newAccount = { ...currAccount, fullDid: fullDid };
-      await updateIdentity(newAccount);
-      await saveCurrIdentity(newAccount);
+      await handleGenerateFullDid();
     }
   };
 
-  const handleSwitch = () => {
+  const handleSwitch = async () => {
     if (isClaimer) {
-      validate();
+      await validate();
 
-      navigate("/attester");
+      await navigate("/attester");
     } else {
       navigate("/user");
     }
@@ -111,11 +135,6 @@ export default function Header({ menu }: Props): React.ReactElement {
       </span>
     </span>
   );
-
-  // useEffect(() => {
-  //   // getMyBalance();
-  //   // getData();
-  // }, [currAccount]);
 
   return (
     <div className="header-component">

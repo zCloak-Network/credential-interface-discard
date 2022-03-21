@@ -2,13 +2,13 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:03:58
- * @LastEditTime: 2022-03-16 16:10:11
+ * @LastEditTime: 2022-03-18 16:05:42
  */
 import { useCallback } from "react";
 import { AppState } from "../PersistentStore";
 import { useDispatch, useSelector } from "react-redux";
 import { saveClaim } from "./reducer";
-import { IClaim, PartialClaim } from "@kiltprotocol/types";
+import { PartialClaim } from "@kiltprotocol/types";
 import { Crypto } from "@kiltprotocol/utils";
 
 function hash(claim: PartialClaim): string {

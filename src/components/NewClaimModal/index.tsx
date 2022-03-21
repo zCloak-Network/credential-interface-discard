@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-03-16 21:01:07
+ * @LastEditTime: 2022-03-21 20:50:20
  */
 import React, { useState, useEffect } from "react";
 import omit from "omit.js";
@@ -73,7 +73,7 @@ export default function NewClaimModal(): JSX.Element {
     const claim = Claim.fromCTypeAndClaimContents(
       ctype,
       omit(values, ["ctype", "alias"]),
-      currAccount.lightDid.didUri
+      currAccount.lightDidDetails.did
     );
 
     await saveClaim(claim, { alias: values.alias, time: Date.now() });

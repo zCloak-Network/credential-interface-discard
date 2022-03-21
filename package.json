@@ -62,12 +62,12 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@kiltprotocol/sdk-js": "^0.25.2",
+    "@kiltprotocol/sdk-js": "^0.26.0",
     "@polkadot/api": "^7.5.1",
     "@polkadot/extension-dapp": "^0.39.3",
     "@polkadot/react-identicon": "^0.85.3",
     "@polkadot/ui-keyring": "^0.89.3",
-    "@polkadot/util": "^7.9.2",
+    "@polkadot/util": "^8.6.1",
     "@reduxjs/toolkit": "^1.7.1",
     "ahooks": "^3.0.1",
     "ajv-errors": "^3.0.0",

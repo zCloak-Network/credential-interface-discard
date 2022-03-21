@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 13:53:47
- * @LastEditTime: 2022-03-20 14:04:06
+ * @LastEditTime: 2022-03-21 18:48:41
  */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -59,7 +59,7 @@ const Ctypes: React.FC = () => {
         </>
       )}
       {ctypes && ctypes.length === 0 && (
-        <Empty description="Your claim will appear here." />
+        <Empty description="Your ctype will appear here." />
       )}
       {loading && <Loading />}
     </div>

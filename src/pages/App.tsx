@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-03-16 22:21:43
+ * @LastEditTime: 2022-03-21 18:14:24
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -15,6 +15,7 @@ import AttesterContent from "./AttesterContent";
 import Ctypes from "./Ctypes";
 import NewCtype from "./NewCtype";
 import Modals from "./Modals";
+import Popups from "../components/Popups";
 import StoreGate from "../components/StoreGate";
 import * as Kilt from "@kiltprotocol/sdk-js";
 import { WSSURL } from "../constants";
@@ -37,6 +38,7 @@ export default function App(): JSX.Element {
   return (
     <StoreGate password={password}>
       <>
+        <Popups />
         <Routes>
           <Route path="/" element={<Navigate replace to="/login" />} />
           <Route

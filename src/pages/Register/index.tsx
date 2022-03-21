@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 10:45:21
- * @LastEditTime: 2022-03-18 16:59:54
+ * @LastEditTime: 2022-03-21 20:54:08
  */
 import React, { useState, useEffect } from "react";
 import LogoBanner from "../../components/LogoBanner";
@@ -20,17 +20,15 @@ import {
 } from "../../state/wallet/hooks";
 import * as Kilt from "@kiltprotocol/sdk-js";
 import {
-  getSigningKeypair,
-  getEncryptionKeypair,
-  getLightDid,
+  generateAccount,
+  generateLightDid,
+  generateLightKeypairs,
 } from "../../utils/accountUtils";
 import { useNavigate } from "react-router-dom";
 
 const { Step } = Steps;
 
 import "./index.scss";
-
-const keyPairType = "ed25519";
 
 const getStepItem = (num, className) => {
   const klasses = classNames("register-step-icon", className);
@@ -90,32 +88,22 @@ const Register: React.FC = () => {
   };
 
   const addIdentity = async (): Promise<void> => {
-    const keyring = new Kilt.Utils.Keyring({
-      ss58Format: 38,
-      type: keyPairType,
-    });
-    const account = keyring.addFromMnemonic(oldMnemonic);
-    console.log(account, `KILT address: ${account.address}`);
+    const account = await generateAccount(oldMnemonic);
 
-    const signingKeypair = await getSigningKeypair(oldMnemonic);
-    const encryptionKeypair = await getEncryptionKeypair(oldMnemonic);
+    const keystore = new Kilt.Did.DemoKeystore();
 
-    // Create a light DID from the generated authentication key.
-    const lightDid = getLightDid(signingKeypair, encryptionKeypair);
-
-    // const fullDid = createFullDid(account, oldMnemonic);
-    // console.log(121212000, fullDid);
+    const lightKeypairs = await generateLightKeypairs(keystore, oldMnemonic);
+    const lightDid = await generateLightDid(lightKeypairs);
 
     const newIdentity = {
       account,
-      keypairType: keyPairType,
-      oldMnemonic,
-      signingKeypair,
-      encryptionKeypair,
-      lightDid,
+      // keypairType: keyPairType,
+      mnemonic: oldMnemonic,
+      // signingKeypair,
+      // encryptionKeypair,
+      lightDidDetails: lightDid,
     };
 
-    console.log(121212, newIdentity);
     await register();
     await saveCurrIdentity(newIdentity);
     await savePassword(password);

@@ -2,54 +2,10 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:09:59
- * @LastEditTime: 2022-03-16 16:24:03
+ * @LastEditTime: 2022-03-21 20:58:30
  */
 import { createSlice } from "@reduxjs/toolkit";
 // import { IClaim } from "@kiltprotocol/types";
-import Immutable from "immutable";
-
-export type PopupContent = {
-  txn: {
-    hash: string;
-    success: boolean;
-    summary?: string;
-    title?: string;
-  };
-};
-// | {
-//     listUpdate: {
-//       listUrl: string
-//       // oldList: TokenList
-//       // newList: TokenList
-//       auto: boolean
-//     }
-//   }
-
-export enum ApplicationModal {
-  WALLET,
-  CONNECT_WALLET,
-  SELECT_TOKEN,
-  ERROR,
-  SUBMIT_PROOF,
-  ACCOUNT_DETAILS,
-  CREATE_CLAIM,
-}
-
-export type Entry = {
-  id: string;
-  claim: any;
-  attestedClaims: any;
-  requestForAttestations: any;
-  meta: {
-    alias: string;
-  };
-};
-
-type State = {
-  claims: Immutable.Map<string, Entry>;
-};
-
-export type ImmutableState = Immutable.Record<State>;
 
 export type SerializedState = {
   claims: Array<{
@@ -61,22 +17,11 @@ export type SerializedState = {
   }>;
 };
 
-type PopupList = Array<{
-  key: string;
-  show: boolean;
-  content: PopupContent;
-  removeAfterMs: number | null;
-}>;
-
-export interface ApplicationState {
+export interface State {
   readonly claims: any;
-  readonly popupList: PopupList;
-  readonly openModal: ApplicationModal | null;
 }
 
-const initialState: ApplicationState = {
-  openModal: null,
-  popupList: [],
+const initialState: State = {
   claims: [],
   // claims: [
   //   {

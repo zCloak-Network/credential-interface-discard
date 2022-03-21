@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-23 18:20:56
- * @LastEditTime: 2021-12-31 15:16:04
+ * @LastEditTime: 2022-03-21 18:19:37
  */
 import React from "react";
 // import { AlertCircle, CheckCircle } from 'react-feather'
@@ -12,6 +12,7 @@ import React from "react";
 // import { useActiveWeb3React } from "../../hooks";
 // import { ExternalLinkIcon } from "@heroicons/react/outline";
 import iconCorrect from "../../images/icon_correct.svg";
+import iconError from "../../images/icon_error.svg";
 
 export default function TransactionPopup({
   hash,
@@ -33,7 +34,7 @@ export default function TransactionPopup({
         {success ? (
           <img src={iconCorrect} className="status-img" />
         ) : (
-          <img src={iconCorrect} className="status-img" />
+          <img src={iconError} className="status-img" />
         )}
         {title}
       </span>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-24 15:55:51
- * @LastEditTime: 2022-03-17 22:11:20
+ * @LastEditTime: 2022-03-21 20:52:45
  */
 import React, { useState } from "react";
 import Modal from "../../components/Modal";
@@ -54,7 +54,7 @@ const RequestAttestationModal: React.FC<Props> = ({ detail }) => {
     };
     const message = new Kilt.Message(
       messageBody,
-      currAccount.lightDid.didUri,
+      currAccount.lightDidDetails.did,
       receiverData.fullDid.did
     );
 
