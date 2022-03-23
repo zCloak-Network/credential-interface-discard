@@ -6,6 +6,74 @@
     left: auto;
   }
 
+  .schema-main > h3 {
+    display: none;
+  }
+
+  .schema-based-json-editor--row,
+  .schema-based-json-editor--error-row {
+    margin-bottom: 16px;
+  }
+
+  .schema-based-json-editor--error-input,
+  .schema-based-json-editor--input {
+    width: 656px;
+    height: 44px;
+    background: #ffffff;
+    border: 1px solid #eaecf2;
+    opacity: 1;
+    border-radius: 10px;
+    margin-top: 6px;
+  }
+
+  .schema-properties {
+    > h3 {
+      display: flex;
+      margin-bottom: 6px;
+    }
+    .schema-based-json-editor--error-input,
+    .schema-based-json-editor--input {
+      width: 656px;
+      height: 44px;
+      background: #ffffff;
+      border: 1px solid #eaecf2;
+      opacity: 1;
+      border-radius: 10px;
+      margin-top: 6px;
+    }
+  }
+  .schema-properties {
+    > .schema-based-json-editor--card {
+      width: 656px;
+      background: #f7f8fa;
+      border: 1px solid #eaecf2;
+      opacity: 1;
+      border-radius: 10px;
+      padding: 20px;
+      > .schema-based-json-editor--card {
+        > .schema-based-json-editor--row {
+          > h3 {
+            display: flex;
+            margin-bottom: 6px;
+          }
+          > .schema-based-json-editor--card {
+            width: 616px;
+            background: #ffffff;
+            border: 1px solid #eaecf2;
+            opacity: 1;
+            border-radius: 10px;
+            padding: 20px;
+
+            > .schema-based-json-editor--row,
+            > .schema-based-json-editor--error-row {
+              display: flex;
+            }
+          }
+        }
+      }
+    }
+  }
+
   & .hidden {
     display: none !important;
   }
@@ -18,56 +86,62 @@
   }
 
   &--button {
-    //   @include button-icon-only-i;
-
     margin-left: 24px;
     border: none;
-
+    background: transparent;
     // // expand
     & .fa-caret-square-down {
       font-family: "iconfont" !important;
-      font-size: 16px;
+      font-size: 10px;
       font-style: normal;
+      color: #6768ac;
+      background: #fff;
+      padding: 4px;
+      border-radius: 4px;
       &:before {
-        content: "\e67f";
+        content: "\e682";
       }
     }
 
     // // collapse
     & .fa-caret-square-right {
       font-family: "iconfont" !important;
-      font-size: 16px;
+      font-size: 10px;
       font-style: normal;
+      color: #6768ac;
+      background: #fff;
+      padding: 4px;
+      border-radius: 4px;
       &:before {
-        content: "\e680";
+        content: "\e684";
       }
     }
 
     // collapse
     & .fa-plus {
       font-family: "iconfont" !important;
-      font-size: 16px;
+      font-size: 10px;
       font-style: normal;
       color: #6768ac;
+      background: #fff;
+      padding: 4px;
+      border-radius: 4px;
       &:before {
-        content: "\e67e";
+        content: "\e681";
       }
     }
 
     & .fa-times {
       font-family: "iconfont" !important;
-      font-size: 16px;
+      font-size: 10px;
       font-style: normal;
       color: #6768ac;
+      background: #fff;
+      padding: 4px;
+      border-radius: 4px;
       &:before {
-        content: "\e67d";
+        content: "\e683";
       }
     }
-
-    //   & > &--row {
-    //     & > h3 {
-    //       display: none;
-    //     }
-    //   }
   }
 }

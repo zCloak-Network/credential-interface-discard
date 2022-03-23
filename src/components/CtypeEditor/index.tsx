@@ -2,11 +2,11 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-03 16:03:26
- * @LastEditTime: 2022-03-16 23:37:04
+ * @LastEditTime: 2022-03-23 10:28:33
  */
 import React from "react";
 import * as common from "schema-based-json-editor";
-import Button from "../Button";
+
 import CTypeInputModel from "../../utils/CtypeUtils/CtypeInputSchema";
 import SchemaEditor from "../SchemaEditor/index";
 
@@ -14,18 +14,18 @@ import "./index.scss";
 
 type Props = {
   // input
-  connected: boolean;
+  // connected: boolean;
   cType: string;
   isValid: boolean;
   // output
-  cancel: () => void;
+  // cancel: () => void;
   submit: () => void;
   updateCType: (cType: any, isValid: boolean) => void;
 };
 
 const CTypeEditor: React.FC<Props> = ({
-  cancel,
-  connected,
+  // cancel,
+  // connected,
   isValid,
   submit,
   cType,
@@ -38,16 +38,6 @@ const CTypeEditor: React.FC<Props> = ({
         initialValue={cType}
         updateValue={updateCType}
       />
-      <div className="actions">
-        <Button
-          type="button"
-          className="submit-cType"
-          disabled={!connected || !isValid}
-          onClick={submit}
-        >
-          Submit
-        </Button>
-      </div>
     </div>
   );
 };

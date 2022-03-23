@@ -2,11 +2,10 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-03-17 17:36:10
+ * @LastEditTime: 2022-03-23 21:31:28
  */
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
-// import arrowDownInactiveImg from "../../images/icon_arrow_inactive.png";
 import ContentLayout from "../../components/ContentLayout";
 
 import "./index.scss";
@@ -40,10 +39,6 @@ const Attester: React.FC = () => {
   const handleClick = (e) => {
     setModule(e.target?.dataset.id);
     navigate(e.target?.dataset.url);
-  };
-
-  const handleBack = () => {
-    navigate("/");
   };
 
   useEffect(() => {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-29 16:15:23
- * @LastEditTime: 2022-03-18 14:22:42
+ * @LastEditTime: 2022-03-23 10:38:34
  */
 import React from "react";
 import classNames from "classnames";
@@ -28,7 +28,7 @@ interface Props {
 export default function Button({
   type = "default",
   disabled = false,
-  loading,
+  loading = false,
   onClick,
   htmlType = "button",
   className,
@@ -53,7 +53,7 @@ export default function Button({
 
   if (loading) {
     return (
-      <div className="button-components loading">
+      <div className={classNames("button-components", "loading", className)}>
         Loading
         <img src={Loading} />
       </div>
