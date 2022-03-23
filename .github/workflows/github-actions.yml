@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [15.x]
+        node-version: [16.x]
     environment: dev
     steps:
       - run: echo "🎉  ${{ github.event_name }} , ${{ runner.os }}, "
