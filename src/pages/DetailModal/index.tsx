@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-24 15:55:51
- * @LastEditTime: 2022-03-18 14:28:46
+ * @LastEditTime: 2022-03-23 23:14:22
  */
 import React from "react";
 import Modal from "../../components/Modal";
@@ -15,8 +15,8 @@ import ClaimDetail from "../../components/ClaimDetail";
 import Button from "../../components/Button";
 
 interface Props {
-  footer?: boolean;
-  handleSubmit?: () => void;
+  // TODO
+  footer?: boolean | React.ReactNode;
   data: {
     claim: {
       cTypeHash: string;
@@ -26,11 +26,7 @@ interface Props {
   };
 }
 
-const DetailModal: React.FC<Props> = ({
-  footer = true,
-  data,
-  handleSubmit,
-}) => {
+const DetailModal: React.FC<Props> = ({ footer = true, data }) => {
   const toggleModal = useToggleDetailModal();
   const modalOpen = useModalOpen(ApplicationModal.ATTESTATION_DETAIL);
 
@@ -43,17 +39,7 @@ const DetailModal: React.FC<Props> = ({
       wrapClassName="claim-details-modal"
     >
       <ClaimDetail data={data} />
-      {footer && (
-        <div>
-          <Button
-            type="primary"
-            style={{ height: "60px", marginTop: "10px", width: "100%" }}
-            onClick={handleSubmit}
-          >
-            Attest Claim
-          </Button>
-        </div>
-      )}
+      {footer && footer}
     </Modal>
   );
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:20:49
- * @LastEditTime: 2022-03-21 20:57:28
+ * @LastEditTime: 2022-03-23 23:13:57
  */
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
@@ -12,50 +12,35 @@ import * as Kilt from "@kiltprotocol/sdk-js";
 import { useToggleDetailModal } from "../../state/application/hooks";
 import { getMessage } from "../../services/api";
 import { useGetCurrIdentity } from "../../state/wallet/hooks";
-import { getFullDid } from "../../utils/accountUtils";
+import {
+  getFullDid,
+  generateLightDid,
+  generateAccount,
+  generateLightKeypairs,
+} from "../../utils/accountUtils";
 import Empty from "../../components/Empty";
 import Loading from "../../components/Loading";
-import type { IRequestForAttestation } from "@kiltprotocol/sdk-js";
+import Button from "../../components/Button";
+import { useAddPopup } from "../../state/application/hooks";
+import { useSaveAttestation } from "../../state/attestations/hooks";
 
 import "./index.scss";
-
-const data = [
-  {
-    claimer: "lixin",
-    ctype: "zcloak",
-    status: "pending",
-    time: "2021-12-02 17:34:53",
-  },
-  {
-    claimer: "lixin2",
-    ctype: "zcloak",
-    status: "pending",
-    time: "2021-12-02 17:34:53",
-  },
-];
 
 const STATUS = ["Pending", "processed"];
 
 const Option = Select.Option;
 
-const detail = {
-  claim: {
-    cTypeHash: "oxxxxxx",
-    contents: {
-      age: 22,
-    },
-    owner: "oxxxxxxxxx",
-  },
-};
-
 const Content: React.FC = () => {
   const [message, setMessage] = useState(null);
   const [selectItem, setSelectItem] = useState<any>();
+  const [loading, setLoading] = useState(false);
+  const [attestLoading, setAttestLoading] = useState(false);
+  const addPopup = useAddPopup();
+  const saveAttestation = useSaveAttestation();
   const toggleModal = useToggleDetailModal();
   const currIdentity = useGetCurrIdentity();
-  const [loading, setLoading] = useState(false);
+
   const handleTypeChange = () => {};
-  const keystore = new Kilt.Did.DemoKeystore();
 
   const handleClick = (data) => {
     setSelectItem(data);
@@ -75,25 +60,75 @@ const Content: React.FC = () => {
   useEffect(() => {
     queryMessage();
   }, []);
-  console.log(5454, selectItem);
 
   const handleSubmit = async () => {
     // /* Therefore, **during decryption** both the **sender account and the validity of the message are checked automatically**. */
     // const decrypted = await Kilt.Message.decrypt(encryptedMessage, keystore)
     // /* At this point the Attester has the original request for attestation object: */
     if (selectItem.body.type === Kilt.Message.BodyType.REQUEST_ATTESTATION) {
-      const extractedRequestForAttestation: IRequestForAttestation =
-        selectItem.body.content.requestForAttestation;
       // //   /* The Attester creates the attestation based on the IRequestForAttestation object she received: */
-      const attestation = Kilt.Attestation.fromRequestAndDid(
-        extractedRequestForAttestation,
-        currIdentity.fullDid.did
-      );
+      // build the attestation object
+      setAttestLoading(true);
+      try {
+        const request = Kilt.RequestForAttestation.fromClaim(
+          selectItem.body.content.requestForAttestation.claim
+        );
+        const keystore = new Kilt.Did.DemoKeystore();
+
+        const lightKeypairs = await generateLightKeypairs(
+          keystore,
+          currIdentity.mnemonic
+        );
+        const lightDid = await generateLightDid(lightKeypairs);
+
+        await request.signWithDidKey(
+          keystore,
+          lightDid,
+          lightDid.authenticationKey.id
+        );
+
+        const attestation = Kilt.Attestation.fromRequestAndDid(
+          request,
+          currIdentity.fullDid.did
+        );
+        const fullDid = await getFullDid(currIdentity.fullDid.identifier);
+        const account = await generateAccount(currIdentity.mnemonic);
+
+        const tx = await attestation.getStoreTx();
+        const extrinsic = await fullDid.authorizeExtrinsic(
+          tx,
+          keystore,
+          account.address
+        );
+        await Kilt.BlockchainUtils.signAndSubmitTx(extrinsic, account, {
+          resolveOn: Kilt.BlockchainUtils.IS_FINALIZED,
+          reSign: true,
+        });
+
+        await saveAttestation(request, attestation);
+
+        await addPopup({
+          txn: {
+            hash: "",
+            success: true,
+            title: "SUCCESS",
+            summary: `Attestation successfully created.`,
+          },
+        });
+        toggleModal();
+
+        console.log("Attester -> submit attestation...");
+
+        console.log("Attester -> submit attestation111...", attestation);
+      } catch (error) {
+        throw error;
+      }
+      setAttestLoading(false);
       // //   /* The complete `attestation` object looks as follows: */
       // console.log(attestation);
       // //   /* Now the Attester can store and authorize the attestation on the blockchain, which also costs tokens: */
       // const tx = await attestation.store();
-      const didResolver = await getFullDid(currIdentity.fullDid.did);
+      // const didResolver = await getFullDid(currIdentity.fullDid.did);
       // const authorizedTx = await didResolver.authorizeExtrinsic(
       //   tx,
       //   keystore,
@@ -136,7 +171,6 @@ const Content: React.FC = () => {
     <div className="attester-content">
       {message && message.length > 0 && !loading && (
         <>
-          {" "}
           <div className="select-wrapper">
             <Select
               defaultValue=""
@@ -179,7 +213,18 @@ const Content: React.FC = () => {
       )}
       <DetailModal
         data={selectItem?.body.content.requestForAttestation}
-        handleSubmit={handleSubmit}
+        footer={
+          <div>
+            <Button
+              type="primary"
+              style={{ height: "60px", marginTop: "10px", width: "100%" }}
+              onClick={handleSubmit}
+              loading={attestLoading}
+            >
+              Attest Claim
+            </Button>
+          </div>
+        }
       />
       {loading && <Loading />}
     </div>

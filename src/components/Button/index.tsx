@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-29 16:15:23
- * @LastEditTime: 2022-03-23 10:38:34
+ * @LastEditTime: 2022-03-23 23:08:02
  */
 import React from "react";
 import classNames from "classnames";
@@ -53,7 +53,10 @@ export default function Button({
 
   if (loading) {
     return (
-      <div className={classNames("button-components", "loading", className)}>
+      <div
+        className={classNames("button-components", "loading", className)}
+        style={style}
+      >
         Loading
         <img src={Loading} />
       </div>

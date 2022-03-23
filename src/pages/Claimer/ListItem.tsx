@@ -2,10 +2,9 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-30 16:51:36
- * @LastEditTime: 2022-03-16 21:18:58
+ * @LastEditTime: 2022-03-23 22:57:54
  */
 import React from "react";
-import * as Kilt from "@kiltprotocol/sdk-js";
 import dayjs from "dayjs";
 import { shortenHash } from "../../utils";
 import { timeFormat } from "../../constants";
@@ -22,6 +21,7 @@ import "./ListItem.scss";
 
 interface Props {
   index: number;
+  attestation: any;
   setSelectItem: (value) => void;
   data: {
     requestForAttestations: {
@@ -42,48 +42,77 @@ interface Props {
 export default function ListItem({
   data,
   index,
+  attestation,
   setSelectItem,
 }: Props): JSX.Element {
   const toggleModal = useToggleRequestModal();
   const toggleDetailModal = useToggleDetailModal();
 
-  const download = () => {
-    const requestForAttestation = Kilt.RequestForAttestation.fromClaim(
-      data.claim
+  const isTested = !!attestation;
+
+  const download = async () => {
+    // const request = Kilt.RequestForAttestation.fromClaim(data.claim);
+
+    // const keystore = new Kilt.Did.DemoKeystore();
+
+    // const lightKeypairs = await generateLightKeypairs(
+    //   keystore,
+    //   currIdentity.mnemonic
+    // );
+    // const lightDid = await generateLightDid(lightKeypairs);
+
+    // await request.signWithDidKey(
+    //   keystore,
+    //   lightDid,
+    //   lightDid.authenticationKey.id
+    // );
+
+    const blob = await new Blob(
+      [JSON.stringify(attestation.requestforAttestation)],
+      {
+        type: "text/plain;charset=utf-8",
+      }
     );
 
-    const blob = new Blob([JSON.stringify(requestForAttestation)], {
-      type: "text/plain;charset=utf-8",
-    });
-
-    FileSaver.saveAs(blob, "credential.txt");
+    await FileSaver.saveAs(blob, "credential.txt");
   };
 
   return (
     <div className="claim-list-item">
       <span>{index}</span>
       <span>{data.meta?.alias || "-"}</span>
-      <span>{shortenHash(data.requestForAttestations?.rootHash) || "-"}</span>
+      <span>
+        {isTested ? shortenHash(attestation.attestation?.claimHash) : "-"}
+      </span>
       <span>{shortenHash(data.claim?.cTypeHash) || "-"}</span>
-      <span>false</span>
+      <span>
+        {isTested ? (
+          <i className="iconfont icon_success2"></i>
+        ) : (
+          <i className="iconfont icon_empty"></i>
+        )}
+      </span>
       <span>
         {data.meta?.time
           ? dayjs(data.meta?.time).format(timeFormat.dateTime)
           : "-"}
       </span>
       <span>
-        <span className="op-btn" onClick={download}>
-          <img src={downloadImg} alt="" />
-        </span>
-        <span
-          className="op-btn"
-          onClick={() => {
-            setSelectItem(data);
-            toggleModal();
-          }}
-        >
-          <img src={forwardImg} alt="" />
-        </span>
+        {isTested ? (
+          <span className="op-btn" onClick={download}>
+            <img src={downloadImg} alt="" />
+          </span>
+        ) : (
+          <span
+            className="op-btn"
+            onClick={() => {
+              setSelectItem(data);
+              toggleModal();
+            }}
+          >
+            <img src={forwardImg} alt="" />
+          </span>
+        )}
         <span
           className="op-btn"
           onClick={() => {
