@@ -2,16 +2,22 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:49:25
- * @LastEditTime: 2022-03-16 23:21:31
+ * @LastEditTime: 2022-03-23 21:35:11
  */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import * as common from "schema-based-json-editor";
-// import SchemaEditor from "../../components/SchemaEditor";
 import CTypeEditor from "../../components/CtypeEditor";
-
-// import CTypeInputModel from "../../utils/CtypeUtils/CtypeInputSchema";
-
+import * as Kilt from "@kiltprotocol/sdk-js";
+import { addCtype } from "../../services/api";
+import ContentLayout from "../../components/ContentLayout";
+import {
+  getFullDid,
+  generateAccount,
+  generateFullKeypairs,
+} from "../../utils/accountUtils";
+import Button from "../../components/Button";
+import { useGetCurrIdentity } from "../../state/wallet/hooks";
+import { useAddPopup } from "../../state/application/hooks";
 import arrowDownInactiveImg from "../../images/icon_arrow_inactive.png";
 
 import "./index.scss";
@@ -27,13 +33,24 @@ type Props = {
   updateCType: (cType: any, isValid: boolean) => void;
 };
 
+const MODOLE = [
+  {
+    title: "Attester",
+    key: "attester",
+    url: "/attester",
+  },
+];
+
 const NewCtype: React.FC = () => {
   const navigate = useNavigate();
+  const addPopup = useAddPopup();
+  const currIdentity = useGetCurrIdentity();
   const [cType, setType] = useState<any>();
   const [isValid, setIsValid] = useState<boolean>(false);
-  const [connected, setConnected] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  // const [connected, setConnected] = useState<boolean>(false);
 
-  const handleClick = () => {
+  const handleBack = () => {
     navigate("/attester/ctypes");
   };
 
@@ -52,131 +69,116 @@ const NewCtype: React.FC = () => {
     // blockUi.remove();
   };
 
-  useEffect(() => {
-    // connect();
-  }, []);
+  // useEffect(() => {
+  //   // connect();
+  // }, []);
 
   const cancel = () => {
     // const { history } = this.props
     // // TODO: goto CTYPE list or previous screen?
     // history.push('/cType')
   };
+
+  const format = () => {
+    const newProperties = {};
+    cType.properties?.forEach((it) => {
+      newProperties[it.title] = { type: it.type };
+    });
+
+    const newData = {
+      ...cType,
+      properties: newProperties,
+    };
+
+    return newData;
+  };
+
   // Promise<void>
-  const submit = () => {
-    // const { selectedIdentity, history } = this.props;
-    // const { connected, isValid, cType: stateCtype } = this.state;
-    // stateCtype.owner = selectedIdentity?.identity.address;
-    // if (selectedIdentity && connected && isValid) {
-    //   let cType: CType;
-    //   let metaData: ICTypeMetadata;
-    //   try {
-    //     const inputICTypeWithMetadata = fromInputModel(stateCtype);
-    //     ({ cType, metaData } = inputICTypeWithMetadata);
-    //   } catch (error) {
-    //     errorService.log({
-    //       error,
-    //       message: "could not create CTYPE from Input Model",
-    //       origin: "CTypeCreate.submit()",
-    //     });
-    //     return;
-    //   }
-    //   const blockUi: BlockUi = FeedbackService.addBlockUi({
-    //     headline: "Creating CTYPE",
-    //   });
-    //   const cTypeWrapper: ICTypeWithMetadata = {
-    //     cType: {
-    //       schema: cType.schema,
-    //       owner: cType.owner,
-    //       hash: cType.hash,
-    //     },
-    //     metaData,
-    //   };
-    //   const tx = cType.store();
-    //   await BlockchainUtils.signAndSubmitTx(
-    //     await tx,
-    //     selectedIdentity.identity,
-    //     {
-    //       resolveOn: BlockchainUtils.IS_IN_BLOCK,
-    //     }
-    //   )
-    //     .then(() => {
-    //       blockUi.updateMessage(
-    //         `CTYPE stored on blockchain,\nnow registering CTYPE`
-    //       ); // TODO: add onrejected when sdk provides error handling
-    //     })
-    //     .catch((error) => {
-    //       errorService.log({
-    //         error,
-    //         message: "Could not submit CTYPE to the Blockchain",
-    //         origin: "CType.store()",
-    //       });
-    //       notifyError(error);
-    //       blockUi.remove();
-    //     })
-    //     .then(() => {
-    //       return CTypeRepository.register(cTypeWrapper)
-    //         .then(() => {
-    //           blockUi.remove();
-    //           notifySuccess(
-    //             `CTYPE ${metaData.metadata.title.default} successfully created.`
-    //           ); // something better?
-    //           history.push("/cType");
-    //         })
-    //         .catch((error) => {
-    //           errorService.log({
-    //             error,
-    //             message: "Could not submit CTYPE to the Registry",
-    //             origin: "CTypeRepository.register()",
-    //           });
-    //           notifyError(error);
-    //           blockUi.remove();
-    //         });
-    // });
-    // }
+  const submit = async () => {
+    // Load Account
+    await setLoading(true);
+    const account = await generateAccount(currIdentity.mnemonic);
+    const fullDid = await getFullDid(currIdentity.fullDid.identifier);
+    // Load DID
+    const keystore = new Kilt.Did.DemoKeystore();
+    await generateFullKeypairs(keystore, currIdentity.mnemonic);
+    console.log(4545454, format());
+    // get the CTYPE and see if it's stored, if yes return it
+    const ctype = Kilt.CType.fromSchema(format());
+
+    const isStored = await ctype.verifyStored();
+    if (isStored) {
+      console.log("Ctype already stored. Skipping creation");
+      return ctype;
+    }
+
+    // authorize the extrinsic
+    try {
+      const tx = await ctype.getStoreTx();
+      const extrinsic = await fullDid.authorizeExtrinsic(
+        tx,
+        keystore,
+        account.address
+      );
+      // write to chain then return ctype
+      await Kilt.BlockchainUtils.signAndSubmitTx(extrinsic, account, {
+        resolveOn: Kilt.BlockchainUtils.IS_FINALIZED,
+        reSign: true,
+      });
+      await addPopup({
+        txn: {
+          hash: "",
+          success: true,
+          title: "SUCCESS",
+          summary: `CTYPE ${cType.title} successfully created.`,
+        },
+      });
+      await addCtype({
+        ctypeHash: ctype.hash,
+        metadata: ctype.schema,
+      });
+      await setLoading(false);
+      await handleBack();
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (
-    <div className="new-ctype">
-      <div className="new-ctype-header">
-        <div>
-          <img
-            src={arrowDownInactiveImg}
-            className="back-btn"
-            onClick={handleClick}
-          />
-          Create CTYPE
+    <ContentLayout menu={MODOLE}>
+      <div className="new-ctype">
+        <div className="new-ctype-header">
+          <div className="header-back-title">
+            <img
+              src={arrowDownInactiveImg}
+              className="back-btn"
+              onClick={handleBack}
+            />
+            Claimer
+          </div>
         </div>
-      </div>
-      {/* <i className="iconfont icon_development_tasks"></i> */}
-      {/* <SchemaEditor
-        schema={CTypeInputModel as common.Schema}
-        initialValue={cType}
-        updateValue={updateCType}
-      >
+        <div className="header-title"> Create CTYPE</div>
+        <CTypeEditor
+          cType={cType}
+          updateCType={updateCType}
+          submit={submit}
+          // cancel={cancel}
+          // connected={connected}
+          isValid={isValid}
+        />
         <div className="actions">
-          <button type="button" className="cancel-cType" onClick={cancel}>
-            Cancel
-          </button>
-          <button
+          <Button
             type="button"
             className="submit-cType"
-            disabled={!connected || !isValid}
+            disabled={!isValid}
             onClick={submit}
+            loading={loading}
           >
             Submit
-          </button>
+          </Button>
         </div>
-      </SchemaEditor> */}
-
-      <CTypeEditor
-        cType={cType}
-        updateCType={updateCType}
-        submit={submit}
-        cancel={cancel}
-        connected={connected}
-        isValid={isValid}
-      />
-    </div>
+      </div>
+    </ContentLayout>
   );
 };
 
