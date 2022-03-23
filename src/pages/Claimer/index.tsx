@@ -2,16 +2,9 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-03-20 14:05:56
- */
-/*
- * @Description:
- * @Author: lixin
- * @Date: 2021-12-03 16:35:07
- * @LastEditTime: 2022-01-18 16:48:22
+ * @LastEditTime: 2022-03-23 19:50:09
  */
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ListItem from "./ListItem";
 import Button from "../../components/Button";
 import { useGetClaims } from "../../state/claim/hooks";
@@ -32,14 +25,9 @@ const MODOLE = [
 ];
 
 export default function Claimer(): JSX.Element {
-  const navigate = useNavigate();
   const data = useGetClaims();
   const [selectItem, setSelectItem] = useState();
   const toggleConnectWalletModal = useToggleCreateClaimModal();
-
-  const handleClick = () => {
-    navigate("/");
-  };
 
   const handleCreateClaim = () => {
     toggleConnectWalletModal();
