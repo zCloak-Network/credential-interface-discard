@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-07 15:19:54
- * @LastEditTime: 2022-03-07 18:02:51
+ * @LastEditTime: 2022-03-22 18:05:36
  */
 
 export default {
@@ -48,23 +48,24 @@ export default {
             format: "uri-reference",
             minLength: 1,
           },
-          $ref: {
-            title: "Reference",
-            type: "string",
-            format: "uri-reference",
-            minLength: 1,
-          },
+          // $ref: {
+          //   title: "Reference",
+          //   type: "string",
+          //   format: "uri-reference",
+          //   minLength: 1,
+          // },
           type: {
             title: "Type",
             type: "string",
+            format: "select",
             enum: ["string", "integer", "number", "boolean"],
             enumTitles: ["Text", "Number", "Decimal", "Yes/No"],
           },
-          format: {
-            title: "Format",
-            type: "string",
-            enum: ["date", "time", "uri"],
-          },
+          // format: {
+          //   title: "Format",
+          //   type: "string",
+          //   enum: ["date", "time", "uri"],
+          // },
         },
         required: ["title", "type", "$id"],
       },
