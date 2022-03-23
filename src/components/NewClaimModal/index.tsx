@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-03-21 20:50:20
+ * @LastEditTime: 2022-03-23 22:41:33
  */
 import React, { useState, useEffect } from "react";
 import omit from "omit.js";
@@ -21,6 +21,7 @@ import Loading from "../Loading";
 import PropertyInput from "./PropertyInput";
 import { useSaveClaim } from "../../state/claim/hooks";
 import { useGetCurrIdentity } from "../../state/wallet/hooks";
+import { useGetAttestations } from "../../state/attestations/hooks";
 
 import "./index.scss";
 
@@ -33,11 +34,20 @@ export default function NewClaimModal(): JSX.Element {
   const saveClaim = useSaveClaim();
   const toggleModal = useToggleCreateClaimModal();
   const currAccount = useGetCurrIdentity();
+  const attestations = useGetAttestations();
   const modalOpen = useModalOpen(ApplicationModal.CREATE_CLAIM);
 
   const getData = async () => {
     const res = await queryCtypes();
-    await setCtypes(res.data.data);
+
+    const isTestedCtype =
+      attestations.map((it) => it.attestation.cTypeHash) || [];
+
+    const formatData = res.data.data?.filter(
+      (it) => !isTestedCtype.includes(it.ctypeHash)
+    );
+
+    await setCtypes(formatData);
     await setLoading(false);
   };
 
@@ -51,10 +61,10 @@ export default function NewClaimModal(): JSX.Element {
 
   useEffect(() => {
     setLoading(true);
+    setSelectCtype(null);
     getData();
-  }, []);
+  }, [modalOpen]);
 
-  console.log(6666, currAccount);
   const handleSubmit = async (values) => {
     const newPro = {};
     Object.keys(selectCtype?.metadata?.properties).forEach((key) => {
@@ -116,7 +126,7 @@ export default function NewClaimModal(): JSX.Element {
               <Select style={{ width: "100%" }} onChange={handleChange}>
                 {ctypes.map((it) => (
                   <Option value={it.ctypeHash} key={it.ctypeHash}>
-                    {it.metadata.title}
+                    {it.metadata?.title}
                   </Option>
                 ))}
               </Select>
@@ -131,9 +141,13 @@ export default function NewClaimModal(): JSX.Element {
                 {Object.keys(selectCtype?.metadata?.properties)?.map(
                   (key, index) => {
                     const data = selectCtype?.metadata?.properties[key];
-                    const title = data.title;
 
-                    return <PropertyInput data={data} key={index} />;
+                    return (
+                      <PropertyInput
+                        data={{ title: key, ...data }}
+                        key={index}
+                      />
+                    );
                   }
                 )}
               </div>

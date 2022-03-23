@@ -14,6 +14,7 @@ import application, {
 import wallet, { WalletState } from "./wallet/reducer";
 import transactions, { TransactionState } from "./transactions/reducer";
 import claim, { SerializedState as ClaimState } from "./claim/reducer";
+import attestation, { AttestationState } from "./attestations/reducer";
 
 declare global {
   /* eslint-disable */
@@ -29,10 +30,7 @@ export type AppState = {
   application: ApplicationState;
   transactions: TransactionState;
   wallet: WalletState;
-};
-
-type SerializedState = {
-  claims: ClaimState;
+  attestation: AttestationState;
 };
 
 export class PersistentStore {
@@ -152,6 +150,7 @@ export class PersistentStore {
         }),
       reducer: {
         claim,
+        attestation,
         wallet,
         application,
         transactions,

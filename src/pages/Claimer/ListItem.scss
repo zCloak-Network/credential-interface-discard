@@ -33,4 +33,13 @@
   &:hover {
     background: #eaecf2;
   }
+  .icon_success2 {
+    font-size: 16px;
+    color: $status-success-color;
+  }
+
+  .icon_empty {
+    font-size: 16px;
+    color: $status-error-color;
+  }
 }
