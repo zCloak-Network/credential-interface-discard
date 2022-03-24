@@ -82,11 +82,34 @@
                 margin-left: 16px;
                 height: 24px;
                 margin-top: 0;
+                width: 400px;
               }
 
               .schema-based-json-editor--select:focus-visible {
                 border: 0;
                 outline-color: #fff;
+              }
+            }
+
+            > .schema-based-json-editor--error-row {
+              display: grid;
+              grid-template-areas:
+                "a b"
+                "c c";
+
+              > .schema-based-json-editor--title {
+                grid-area: a;
+              }
+
+              > .schema-based-json-editor--error-input {
+                width: 400px;
+                grid-area: b;
+              }
+
+              > .schema-based-json-editor--description {
+                grid-area: c;
+                text-align: right;
+                color: $status-error-color;
               }
             }
           }
