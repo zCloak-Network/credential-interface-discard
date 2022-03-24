@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-07 15:19:54
- * @LastEditTime: 2022-03-22 18:05:36
+ * @LastEditTime: 2022-03-24 11:37:44
  */
 
 export default {
@@ -42,12 +42,12 @@ export default {
             default: "New Property",
             minLength: 1,
           },
-          $id: {
-            title: "Identifier",
-            type: "string",
-            format: "uri-reference",
-            minLength: 1,
-          },
+          // $id: {
+          //   title: "Identifier",
+          //   type: "string",
+          //   format: "uri-reference",
+          //   minLength: 1,
+          // },
           // $ref: {
           //   title: "Reference",
           //   type: "string",

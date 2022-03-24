@@ -6,23 +6,114 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "28461992",
-      "name": "icon_copy2",
-      "font_class": "icon_copy2",
+      "icon_id": "28465765",
+      "name": "icon_down",
+      "font_class": "a-ziyuan3",
+      "unicode": "e693",
+      "unicode_decimal": 59027
+    },
+    {
+      "icon_id": "28465766",
+      "name": "icon_add",
+      "font_class": "a-ziyuan1",
+      "unicode": "e694",
+      "unicode_decimal": 59028
+    },
+    {
+      "icon_id": "28465767",
+      "name": "icon_del",
+      "font_class": "a-ziyuan5",
+      "unicode": "e695",
+      "unicode_decimal": 59029
+    },
+    {
+      "icon_id": "28465768",
+      "name": "icon_right",
+      "font_class": "a-ziyuan4",
+      "unicode": "e696",
+      "unicode_decimal": 59030
+    },
+    {
+      "icon_id": "28465185",
+      "name": "icon_narrow_right2",
+      "font_class": "icon_narrow_right21",
+      "unicode": "e68f",
+      "unicode_decimal": 59023
+    },
+    {
+      "icon_id": "28465186",
+      "name": "icon_add2",
+      "font_class": "icon_add23",
+      "unicode": "e690",
+      "unicode_decimal": 59024
+    },
+    {
+      "icon_id": "28465187",
+      "name": "icon_delete2",
+      "font_class": "icon_delete21",
+      "unicode": "e691",
+      "unicode_decimal": 59025
+    },
+    {
+      "icon_id": "28465188",
+      "name": "icon_narrow_down2",
+      "font_class": "icon_narrow_down21",
+      "unicode": "e692",
+      "unicode_decimal": 59026
+    },
+    {
+      "icon_id": "28465160",
+      "name": "icon_delete",
+      "font_class": "icon_delete4",
+      "unicode": "e68a",
+      "unicode_decimal": 59018
+    },
+    {
+      "icon_id": "28465161",
+      "name": "icon_narrow_down",
+      "font_class": "icon_narrow_down3",
+      "unicode": "e68b",
+      "unicode_decimal": 59019
+    },
+    {
+      "icon_id": "28465162",
+      "name": "icon_add",
+      "font_class": "icon_add1",
+      "unicode": "e68c",
+      "unicode_decimal": 59020
+    },
+    {
+      "icon_id": "28465163",
+      "name": "icon_narrow_right",
+      "font_class": "icon_narrow_right3",
+      "unicode": "e68d",
+      "unicode_decimal": 59021
+    },
+    {
+      "icon_id": "28465168",
+      "name": "icon_square",
+      "font_class": "icon_square",
+      "unicode": "e68e",
+      "unicode_decimal": 59022
+    },
+    {
+      "icon_id": "28464652",
+      "name": "icon_copy",
+      "font_class": "icon_copy",
       "unicode": "e687",
       "unicode_decimal": 59015
     },
     {
-      "icon_id": "28461993",
-      "name": "icon_copy",
-      "font_class": "icon_copy",
+      "icon_id": "28464653",
+      "name": "icon_copy2",
+      "font_class": "icon_copy2",
       "unicode": "e688",
       "unicode_decimal": 59016
     },
     {
-      "icon_id": "28461994",
-      "name": "icon_return",
-      "font_class": "icon_return",
+      "icon_id": "28464654",
+      "name": "icon_jump",
+      "font_class": "icon_jump",
       "unicode": "e689",
       "unicode_decimal": 59017
     },

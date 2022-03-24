@@ -67,6 +67,27 @@
             > .schema-based-json-editor--row,
             > .schema-based-json-editor--error-row {
               display: flex;
+              align-items: center;
+              justify-content: space-between;
+
+              > .schema-based-json-editor--input:focus-visible,
+              > .schema-based-json-editor--error-input:focus-visible {
+                border: 0;
+                outline-color: #fff;
+              }
+              > .schema-based-json-editor--input,
+              > .schema-based-json-editor--error-input {
+                border: 0;
+                text-align: right;
+                margin-left: 16px;
+                height: 24px;
+                margin-top: 0;
+              }
+
+              .schema-based-json-editor--select:focus-visible {
+                border: 0;
+                outline-color: #fff;
+              }
             }
           }
         }
@@ -89,58 +110,61 @@
     margin-left: 24px;
     border: none;
     background: transparent;
-    // // expand
+    // down
     & .fa-caret-square-down {
       font-family: "iconfont" !important;
-      font-size: 10px;
+      font-size: 12px;
       font-style: normal;
       color: #6768ac;
       background: #fff;
       padding: 4px;
       border-radius: 4px;
+      transform: rotate(90deg);
+      display: inherit;
       &:before {
-        content: "\e682";
+        content: "\e696";
       }
     }
 
-    // // collapse
+    // right
     & .fa-caret-square-right {
       font-family: "iconfont" !important;
-      font-size: 10px;
+      font-size: 12px;
       font-style: normal;
       color: #6768ac;
       background: #fff;
       padding: 4px;
       border-radius: 4px;
       &:before {
-        content: "\e684";
+        content: "\e696";
       }
     }
 
-    // collapse
+    // add
     & .fa-plus {
       font-family: "iconfont" !important;
-      font-size: 10px;
+      font-size: 12px;
       font-style: normal;
       color: #6768ac;
       background: #fff;
       padding: 4px;
       border-radius: 4px;
       &:before {
-        content: "\e681";
+        content: "\e694";
       }
     }
 
+    // close
     & .fa-times {
       font-family: "iconfont" !important;
-      font-size: 10px;
+      font-size: 12px;
       font-style: normal;
       color: #6768ac;
       background: #fff;
       padding: 4px;
       border-radius: 4px;
       &:before {
-        content: "\e683";
+        content: "\e695";
       }
     }
   }
