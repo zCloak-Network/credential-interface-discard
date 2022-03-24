@@ -2,10 +2,10 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-25 16:03:32
- * @LastEditTime: 2022-03-16 15:48:52
+ * @LastEditTime: 2022-03-24 14:13:47
  */
 import React from "react";
-import { Form, Input } from "antd";
+import { Form, Input, InputNumber } from "antd";
 import { ICTypeInputProperty } from "../../types/ctypes";
 
 import "./PropertyInput.scss";
@@ -16,6 +16,7 @@ interface Props {
 
 const PropertyInput: React.FC<Props> = ({ data }) => {
   const title = data.title;
+
   return (
     <Form.Item
       label={title}
@@ -28,16 +29,8 @@ const PropertyInput: React.FC<Props> = ({ data }) => {
         },
       ]}
     >
-      <Input />
+      {data.type === "integer" ? <InputNumber /> : <Input />}
     </Form.Item>
   );
-  // return (
-  //   <div className="property-input">
-  //     <div>{data.title}</div>
-  //     <div>
-  //       <Input type="text" />
-  //     </div>
-  //   </div>
-  // );
 };
 export default PropertyInput;

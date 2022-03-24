@@ -62,6 +62,7 @@
       color: #333333;
     }
     .ant-input,
+    .ant-input-number,
     .ant-select-selector {
       background: #f7f8fa;
       border: 0;
@@ -72,6 +73,19 @@
       color: #212121;
       outline: 0;
       text-align: right;
+      width: 100%;
+      input {
+        text-align: right;
+      }
+    }
+    .ant-input-number {
+      .ant-input-number-handler-wrap {
+        opacity: 1;
+      }
+
+      .ant-input-number-input-wrap {
+        padding-right: 20px;
+      }
     }
 
     .ant-input:focus,
