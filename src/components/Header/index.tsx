@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-02 11:07:37
- * @LastEditTime: 2022-03-21 20:56:30
+ * @LastEditTime: 2022-03-24 14:06:54
  */
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -82,6 +82,14 @@ export default function Header({ menu }: Props): React.ReactElement {
         const newAccount = { ...currAccount, fullDid: fullDid };
         await updateIdentity(newAccount);
         await saveCurrIdentity(newAccount);
+        await addPopup({
+          txn: {
+            hash: "",
+            success: true,
+            title: "SUCCESS",
+            summary: `Fulldid successfully created.`,
+          },
+        });
       } catch (error) {
         throw error;
       }
@@ -90,7 +98,6 @@ export default function Header({ menu }: Props): React.ReactElement {
 
   const validate = async () => {
     const balance = await getMyBalance();
-
     if (currAccount.fullDid && currAccount.fullDid.did) {
       return true;
     } else if (balance === "0") {
