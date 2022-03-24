@@ -29,6 +29,10 @@
         .right {
           display: flex;
           align-items: center;
+
+          .icon_download {
+            margin-left: 8px;
+          }
         }
       }
 

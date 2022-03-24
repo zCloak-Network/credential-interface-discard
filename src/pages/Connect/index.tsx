@@ -2,7 +2,7 @@
  * @Description: submit modal
  * @Author: lixin
  * @Date: 2021-12-02 17:23:15
- * @LastEditTime: 2022-03-17 22:10:16
+ * @LastEditTime: 2022-03-24 10:39:04
  */
 import React, { ReactElement } from "react";
 import Modal from "../../components/Modal";
@@ -16,6 +16,7 @@ import {
   useModalOpen,
   useToggleConnectWalletModal,
 } from "../../state/application/hooks";
+import CopyHelper from "../../components/Copy";
 import { ApplicationModal } from "../../state/application/reducer";
 
 import "./index.scss";
@@ -53,6 +54,9 @@ export default function Connect(): ReactElement {
               </span>
             </div>
             <div className="right">
+              <CopyHelper toCopy={it.account.address}>
+                {/* <span className="copy-btn">Copy Address</span> */}
+              </CopyHelper>
               <i className="iconfont icon_download"></i>
             </div>
           </li>
