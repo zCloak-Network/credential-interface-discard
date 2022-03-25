@@ -2,67 +2,48 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-01-12 17:20:28
+ * @LastEditTime: 2022-03-25 15:51:01
  */
 import React from "react";
 import Modal from "../Modal";
-
-import { SupportedChainId, CHAIN_INFO } from "../../constants/chains";
+import Button from "../Button";
 import {
   useModalOpen,
   useToggleErrorModal,
 } from "../../state/application/hooks";
+import { PersistentStore } from "../../state/PersistentStore";
 import { ApplicationModal } from "../../state/application/reducer";
 
 import "./index.scss";
 
-export default function ErrorModal(): JSX.Element {
+type Props = {
+  resetPassword: () => void;
+};
+
+export default function ErrorModal({ resetPassword }: Props): JSX.Element {
   const toggleErrorModal = useToggleErrorModal();
   const errorModalOpen = useModalOpen(ApplicationModal.ERROR);
 
-  const handleSwitch = async () => {
-    const { ethereum } = window;
-    if (ethereum && ethereum.isMetaMask) {
-      try {
-        await ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [
-            { chainId: CHAIN_INFO[SupportedChainId.MOONBASEALPHA].chainId },
-          ],
-        });
-      } catch (switchError) {
-        // This error code indicates that the chain has not been added to MetaMask.
-        if (switchError.code === 4902) {
-          try {
-            await ethereum.request({
-              method: "wallet_addEthereumChain",
-              params: [
-                {
-                  ...CHAIN_INFO[SupportedChainId.MOONBASEALPHA],
-                },
-              ],
-            });
-          } catch (addError) {
-            // handle "add" error
-          }
-        }
-      }
-
-      await toggleErrorModal();
-    }
+  const clear = (): void => {
+    PersistentStore.clearLocalStorage();
+    toggleErrorModal();
+    resetPassword();
   };
 
   return (
     <Modal
-      hasDivider
+      width="424px"
       visible={errorModalOpen}
-      title="Wrong Network"
+      title="Error"
       onCancel={toggleErrorModal}
-      wrapClassName="error-modal"
+      wrapClassName="login-err-modal"
     >
-      <h2 className="sub-title">Please connect to Mooriver Network.</h2>
-      <div onClick={handleSwitch} className="switch-btn">
-        Switch to Moonriver Network
+      <p className="err-msg">Password does not match!</p>
+      <p className="err-tip">Forgotten your password?</p>
+      <div className="centerDiv">
+        <Button onClick={clear} className="clear-btn">
+          Clear Storage
+        </Button>
       </div>
     </Modal>
   );
