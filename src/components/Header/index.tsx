@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-02 11:07:37
- * @LastEditTime: 2022-03-24 14:06:54
+ * @LastEditTime: 2022-03-25 17:23:28
  */
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -21,6 +21,7 @@ import Logo from "../../images/logo.svg";
 import { shortenHash } from "../../utils";
 import * as Kilt from "@kiltprotocol/sdk-js";
 import { useAddPopup } from "../../state/application/hooks";
+import Loading from "../../images/loading.gif";
 import {
   generateAccount,
   generateFullDid,
@@ -42,6 +43,8 @@ export default function Header({ menu }: Props): React.ReactElement {
   const updateIdentity = useUpdateIdentity();
   const [menuStatus, setMenuStatus] = useState(true);
   const isClaimer = location.pathname.includes("user");
+  const [balance, setBalance] = useState("");
+  const [balanceLoading, setBalanceLoading] = useState(false);
 
   const toggleConnectWalletModal = useToggleConnectWalletModal();
 
@@ -65,9 +68,24 @@ export default function Header({ menu }: Props): React.ReactElement {
   const getMyBalance = async () => {
     const balance = await Kilt.Balance.getBalances(currAccount.account.address);
 
-    // const aa = await Kilt.BalanceUtils.formatKiltBalance(balance.free);
-
     return balance.free.toString();
+  };
+
+  const getMyBalanceString = async () => {
+    if (currAccount?.account?.address) {
+      await setBalanceLoading(true);
+      const balance = await Kilt.Balance.getBalances(
+        currAccount.account.address
+      );
+
+      const balanceString = await Kilt.BalanceUtils.formatKiltBalance(
+        balance.free
+      );
+
+      await setBalanceLoading(false);
+
+      await setBalance(balanceString);
+    }
   };
 
   const handleGenerateFullDid = async () => {
@@ -143,6 +161,10 @@ export default function Header({ menu }: Props): React.ReactElement {
     </span>
   );
 
+  useEffect(() => {
+    getMyBalanceString();
+  }, [currAccount]);
+
   return (
     <div className="header-component">
       <img src={Logo} alt="logo" className="logo" onClick={handleGoHome} />
@@ -157,10 +179,21 @@ export default function Header({ menu }: Props): React.ReactElement {
       {switchBtn}
       <div className="header-right">
         <div className="btn connected" onClick={handleOpenConnect}>
-          {shortenHash(currAccount?.account.address)}
-          <div className="acc-img">
-            <Image address={currAccount?.account.address} size={16} />
-          </div>
+          <span className="balance">
+            {balanceLoading ? (
+              <img src={Loading} style={{ width: 20 }} />
+            ) : balance === "0" ? (
+              "0 KILT"
+            ) : (
+              balance
+            )}
+          </span>
+          <span className="address">
+            {shortenHash(currAccount?.account.address)}
+            <div className="acc-img">
+              <Image address={currAccount?.account.address} size={16} />
+            </div>
+          </span>
         </div>
         <Button className="menu-btn" onClick={openMenu}>
           Menu

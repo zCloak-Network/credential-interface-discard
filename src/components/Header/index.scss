@@ -25,7 +25,7 @@
   }
 
   .btn {
-    padding: 0 $padding-md;
+    padding-left: $padding-md;
     height: 40px;
     line-height: 40px;
     background: $primary-2;
@@ -33,25 +33,31 @@
     color: $primary-color;
     text-align: center;
     cursor: pointer;
-    padding: 0 $padding-md;
-
     .acc-img {
       display: inline-block;
-      margin-left: 15px;
+      margin-left: 14px;
     }
-  }
-
-  .btn:hover {
-    border: 1px solid $primary-color;
   }
 
   .connected {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: $white;
+    background: #eaecf2;
     font-size: 16px;
     color: #000000;
+
+    .balance {
+      display: flex;
+    }
+
+    .address {
+      height: 40px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 0 16px;
+      margin-left: 16px;
+    }
   }
 
   .switchBtn {
