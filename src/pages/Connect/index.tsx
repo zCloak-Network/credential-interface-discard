@@ -2,11 +2,12 @@
  * @Description: submit modal
  * @Author: lixin
  * @Date: 2021-12-02 17:23:15
- * @LastEditTime: 2022-03-24 10:39:04
+ * @LastEditTime: 2022-03-25 17:04:31
  */
 import React, { ReactElement } from "react";
 import Modal from "../../components/Modal";
 import { Image } from "@davatar/react";
+import { useNavigate } from "react-router-dom";
 import { shortenHash } from "../../utils";
 import {
   useGetidentities,
@@ -22,6 +23,7 @@ import { ApplicationModal } from "../../state/application/reducer";
 import "./index.scss";
 
 export default function Connect(): ReactElement {
+  const navigate = useNavigate();
   const data = useGetidentities();
   const saveCurrIdentity = useSaveCurrIdentity();
   const connectWalletModalOpen = useModalOpen(ApplicationModal.CONNECT_WALLET);
@@ -29,6 +31,12 @@ export default function Connect(): ReactElement {
 
   const handleClick = (value) => {
     saveCurrIdentity(value);
+    toggleConnectWalletModal();
+  };
+
+  const handleCreate = () => {
+    navigate("/register-again");
+    toggleConnectWalletModal();
   };
 
   return (
@@ -62,6 +70,9 @@ export default function Connect(): ReactElement {
           </li>
         ))}
       </ul>
+      <div className="footer" onClick={handleCreate}>
+        Create A New Account
+      </div>
     </Modal>
   );
 }

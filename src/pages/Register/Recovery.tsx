@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 17:13:19
- * @LastEditTime: 2022-03-16 12:00:27
+ * @LastEditTime: 2022-03-25 15:05:05
  */
 import React, { useState } from "react";
 import BackBtn from "./BackBtn";
@@ -12,11 +12,18 @@ import classNames from "classnames";
 import "./Recovery.scss";
 
 type Props = {
+  handleBack?: () => void;
   handleClick: () => void;
   mnemonic: string[];
+  backDisabled?: boolean;
 };
 
-const Recovery: React.FC<Props> = ({ mnemonic, handleClick }) => {
+const Recovery: React.FC<Props> = ({
+  mnemonic,
+  handleClick,
+  handleBack,
+  backDisabled = false,
+}) => {
   const [status, setStatus] = useState(true);
 
   return (
@@ -53,7 +60,7 @@ const Recovery: React.FC<Props> = ({ mnemonic, handleClick }) => {
       </div>
 
       <div className="footer">
-        <BackBtn disabled />
+        <BackBtn disabled={backDisabled} onClick={handleBack} />
         <Button className="create-btn" type="primary" onClick={handleClick}>
           Confirm Seed Phrase
         </Button>

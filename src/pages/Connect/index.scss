@@ -4,6 +4,7 @@
 
     .wallets {
       margin-top: 34px;
+      margin-bottom: 8px;
 
       .account-item {
         display: flex;
@@ -40,6 +41,23 @@
         border-radius: 10px;
         background: $item-hover-bg;
       }
+    }
+
+    .footer {
+      padding-top: 24px;
+      border-top: 1px solid #f4f6fd;
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 400;
+      line-height: 24px;
+      color: #333333;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .footer:hover {
+      color: $primary-color;
+      text-decoration: underline;
     }
   }
 }

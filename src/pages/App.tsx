@@ -2,10 +2,11 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-03-21 18:14:24
+ * @LastEditTime: 2022-03-25 15:50:40
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
+import RegisterAgain from "./Register/RegisterAgain";
 import { useNavigate } from "react-router-dom";
 import LoginGate from "../components/LoginGate";
 import { Route, Routes, Navigate } from "react-router-dom";
@@ -19,6 +20,7 @@ import Popups from "../components/Popups";
 import StoreGate from "../components/StoreGate";
 import * as Kilt from "@kiltprotocol/sdk-js";
 import { WSSURL } from "../constants";
+import ErrorModal from "../components/ErrorModal";
 
 export default function App(): JSX.Element {
   const navigate = useNavigate();
@@ -52,6 +54,10 @@ export default function App(): JSX.Element {
             }
           />
           <Route path="/register" element={<Register />} />
+          <Route
+            path="/register-again"
+            element={<RegisterAgain password={password} />}
+          />
           <Route path="/user" element={<Claimer />} />
           <Route path="/attester/ctypes/new" element={<NewCtype />} />
           <Route path="/attester" element={<Attester />}>
@@ -60,6 +66,11 @@ export default function App(): JSX.Element {
           </Route>
         </Routes>
         <Modals />
+        <ErrorModal
+          resetPassword={() => {
+            setPassword("");
+          }}
+        />
       </>
     </StoreGate>
   );

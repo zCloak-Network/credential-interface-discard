@@ -2,22 +2,17 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 10:45:21
- * @LastEditTime: 2022-03-25 15:03:55
+ * @LastEditTime: 2022-03-25 16:20:45
  */
 import React, { useState, useEffect } from "react";
 import LogoBanner from "../../components/LogoBanner";
 import { Steps } from "antd";
 import classNames from "classnames";
-import CreatePassword from "./CreatePassword";
+import ComfirmPassword from "./ComfirmPassword";
 import Recovery from "./Recovery";
 import Confirm from "./Confirm";
-import { PersistentStore } from "../../state/PersistentStore";
 import { mnemonicGenerate } from "@polkadot/util-crypto";
-import {
-  useSaveIdentity,
-  useSavePassword,
-  useSaveCurrIdentity,
-} from "../../state/wallet/hooks";
+import { useSaveIdentity } from "../../state/wallet/hooks";
 import * as Kilt from "@kiltprotocol/sdk-js";
 import {
   generateAccount,
@@ -40,24 +35,21 @@ const getStepItem = (num, className) => {
   );
 };
 
-const Register: React.FC = () => {
+type Props = {
+  password: string;
+};
+
+const RegisterAgain: React.FC<Props> = ({ password }) => {
   const navigate = useNavigate();
   const saveIdentity = useSaveIdentity();
-  const savePassword = useSavePassword();
-  const saveCurrIdentity = useSaveCurrIdentity();
-  const [password, setPassword] = useState<string>("");
+  // const saveCurrIdentity = useSaveCurrIdentity();
   const [current, setCurrent] = useState<number>(0);
   const [mnemonic, setMnemonic] = useState<string[]>([]);
   const [oldMnemonic, setOldMnemonic] = useState<string>("");
 
-  const register = async (): Promise<void> => {
-    PersistentStore.createSalt();
-    await PersistentStore.createLocalState(password);
-  };
-
-  const handleCreate = (values) => {
-    next();
-    setPassword(values.password);
+  const handleCreate = async () => {
+    await addIdentity();
+    await handleBack();
   };
 
   const next = () => {
@@ -66,10 +58,6 @@ const Register: React.FC = () => {
 
   const prev = () => {
     setCurrent(current - 1);
-  };
-
-  const handleRecovery = () => {
-    next();
   };
 
   const addIdentity = async (): Promise<void> => {
@@ -89,26 +77,24 @@ const Register: React.FC = () => {
       lightDidDetails: lightDid,
     };
 
-    await register();
-    await saveCurrIdentity(newIdentity);
-    await savePassword(password);
+    // await saveCurrIdentity(newIdentity);
     await saveIdentity(newIdentity);
+  };
 
-    await navigate("/user");
+  const handleBack = async () => {
+    navigate(-1);
   };
 
   const FirstRegisterSteps = [
     {
-      description: "Create Password",
-      content: <CreatePassword handleClick={handleCreate} />,
-    },
-    {
       description: "Recovery Phrase",
       content: (
         <Recovery
-          handleClick={handleRecovery}
+          handleClick={() => {
+            next();
+          }}
           mnemonic={mnemonic}
-          backDisabled={true}
+          handleBack={handleBack}
         />
       ),
     },
@@ -117,7 +103,21 @@ const Register: React.FC = () => {
       content: (
         <Confirm
           mnemonic={mnemonic}
-          handleClick={addIdentity}
+          handleClick={() => {
+            next();
+          }}
+          handleBack={() => {
+            prev();
+          }}
+        />
+      ),
+    },
+    {
+      description: "Create account",
+      content: (
+        <ComfirmPassword
+          handleClick={handleCreate}
+          password={password}
           handleBack={() => {
             prev();
           }}
@@ -169,4 +169,4 @@ const Register: React.FC = () => {
     </div>
   );
 };
-export default Register;
+export default RegisterAgain;
