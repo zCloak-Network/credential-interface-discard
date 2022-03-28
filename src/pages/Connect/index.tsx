@@ -2,7 +2,7 @@
  * @Description: submit modal
  * @Author: lixin
  * @Date: 2021-12-02 17:23:15
- * @LastEditTime: 2022-03-28 22:04:50
+ * @LastEditTime: 2022-03-28 23:35:50
  */
 import React, { ReactElement } from "react";
 import Modal from "../../components/Modal";
@@ -78,7 +78,7 @@ export default function Connect(): ReactElement {
                 <span className="account-addr">{shortenHash(address)}</span>
               </div>
               <div className="right">
-                {currAccount.account.address === address && (
+                {currAccount?.account?.address === address && (
                   <i
                     className="iconfont icon_success2"
                     onClick={handleDownload}

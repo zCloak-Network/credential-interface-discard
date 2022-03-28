@@ -83,7 +83,7 @@ export default function NewClaimModal(): JSX.Element {
     const claim = Claim.fromCTypeAndClaimContents(
       ctype,
       omit(values, ["ctype", "alias"]),
-      currAccount.lightDidDetails.did
+      currAccount?.lightDidDetails?.did
     );
 
     await saveClaim(claim, { alias: values.alias, time: Date.now() });

@@ -2,14 +2,16 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-02 11:07:37
- * @LastEditTime: 2022-03-28 22:31:13
+ * @LastEditTime: 2022-03-28 23:45:02
  */
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
+  useGetClaimers,
+  useGetAttesters,
   useGetCurrIdentity,
   // useUpdateIdentity,
-  // useSaveCurrIdentity,
+  useSaveCurrIdentity,
 } from "../../state/wallet/hooks";
 import { Image } from "@davatar/react";
 import classNames from "classnames";
@@ -20,6 +22,7 @@ import { useToggleConnectWalletModal } from "../../state/application/hooks";
 import Logo from "../../images/logo.svg";
 import { shortenHash } from "../../utils";
 import * as Kilt from "@kiltprotocol/sdk-js";
+import useRole from "../../hooks/useRole";
 // import { useAddPopup } from "../../state/application/hooks";
 import Loading from "../../images/loading.gif";
 
@@ -30,11 +33,14 @@ interface Props {
 
 export default function Header({ menu }: Props): React.ReactElement {
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
   const ref = useRef();
   // const addPopup = useAddPopup();
+  const isClaimer = useRole();
+  const claimers = useGetClaimers();
+  const attesters = useGetAttesters();
   const currAccount = useGetCurrIdentity();
-  // const saveCurrIdentity = useSaveCurrIdentity();
+  const saveCurrIdentity = useSaveCurrIdentity();
   // const updateIdentity = useUpdateIdentity();
   const [menuStatus, setMenuStatus] = useState(true);
   // const isClaimer = location.pathname.includes("user");
@@ -59,6 +65,14 @@ export default function Header({ menu }: Props): React.ReactElement {
     e.stopPropagation();
     setMenuStatus(!menuStatus);
   };
+
+  useEffect(() => {
+    if (isClaimer) {
+      saveCurrIdentity(claimers[0] || null);
+    } else {
+      saveCurrIdentity(attesters[0] || null);
+    }
+  }, [claimers, attesters, isClaimer]);
 
   // const getMyBalance = async () => {
   //   const balance = await Kilt.Balance.getBalances(currAccount.account.address);

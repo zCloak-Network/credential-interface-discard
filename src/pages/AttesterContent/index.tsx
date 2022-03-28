@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:20:49
- * @LastEditTime: 2022-03-23 23:13:57
+ * @LastEditTime: 2022-03-28 23:44:18
  */
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
@@ -46,8 +46,9 @@ const Content: React.FC = () => {
     setSelectItem(data);
     toggleModal();
   };
+
   const queryMessage = async () => {
-    if (currIdentity.fullDid.did) {
+    if (currIdentity?.fullDid?.did) {
       await setLoading(true);
       const res = await getMessage({ receiver: currIdentity.fullDid.did });
       if (res.data.code === 200) {

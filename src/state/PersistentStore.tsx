@@ -139,6 +139,7 @@ export class PersistentStore {
     if (password) {
       persistedState = await PersistentStore.decryptAndDeserialize(password);
       persistedState.application = applicationInitialState;
+      persistedState.wallet.currentIdentity = null;
       console.log(666111, 111166, persistedState);
     }
 

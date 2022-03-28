@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-03-28 22:25:06
+ * @LastEditTime: 2022-03-28 23:41:45
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -21,14 +21,24 @@ import StoreGate from "../components/StoreGate";
 import * as Kilt from "@kiltprotocol/sdk-js";
 import { WSSURL } from "../constants";
 import ErrorModal from "../components/ErrorModal";
+import useRole from "../hooks/useRole";
 
 export default function App(): JSX.Element {
   const navigate = useNavigate();
+  const isClaimer = useRole();
   const [password, setPassword] = useState("");
 
-  // useEffect(() => {
-  //   navigate("/claimer/login");
-  // }, []);
+  const navigateTo = () => {
+    if (isClaimer) {
+      navigate("/claimer/login");
+    } else {
+      navigate("/attester/login");
+    }
+  };
+
+  useEffect(() => {
+    navigateTo();
+  }, []);
 
   const init = async () => {
     await Kilt.init({ address: WSSURL });
@@ -98,7 +108,7 @@ export default function App(): JSX.Element {
         <ErrorModal
           resetPassword={() => {
             setPassword("");
-            navigate("./login");
+            navigateTo();
           }}
         />
       </>

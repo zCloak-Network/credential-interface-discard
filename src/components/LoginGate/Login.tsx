@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-21 20:33:30
- * @LastEditTime: 2022-03-28 22:23:30
+ * @LastEditTime: 2022-03-28 23:45:15
  */
 import React from "react";
 import Button from "../Button";
@@ -34,12 +34,11 @@ const Login: React.FC<Props> = ({ submit }) => {
       <div className="sub-title">Login to your account.</div>
       <Form form={form} colon={false} layout="vertical" validateTrigger="">
         <Form.Item
-          name="Password"
+          name="password"
           label="Password"
           rules={[
             {
               validator: async (_, value) => {
-                console.log(3333, value);
                 const decrypted = await PersistentStore.decrypt(value);
                 if (!decrypted) {
                   return Promise.reject(new Error("Password does not match."));
