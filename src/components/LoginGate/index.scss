@@ -14,6 +14,14 @@
       margin-bottom: 10px;
     }
 
+    .ant-form-item-label > label {
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 300;
+      line-height: 24px;
+      color: #666666;
+    }
+
     .sub-title {
       font-size: 16px;
       font-family: Kanit;
@@ -32,14 +40,12 @@
     }
 
     .login-pwd-input {
-      width: 370px;
+      width: 430px;
       height: 44px;
       background: #f7f8fa;
       border: 1px solid #eaecf2;
       opacity: 1;
       border-radius: 10px;
-      margin-top: 6px;
-      margin-bottom: 32px;
 
       .ant-input {
         background: #f7f8fa;
@@ -47,13 +53,30 @@
     }
 
     .login-btn {
-      width: 371px;
+      margin-top: 8px;
+      width: 430px;
       height: 48px;
       background: #6768ac;
       border-radius: 10px;
       font-size: 18px;
       font-family: Kanit;
       color: #ffffff;
+    }
+
+    .reset-btn {
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 300;
+      line-height: 24px;
+      color: #333333;
+      cursor: pointer;
+      margin-top: 20px;
+      text-align: right;
+    }
+
+    .reset-btn:hover {
+      color: #6768ac;
+      text-decoration: underline;
     }
   }
 }

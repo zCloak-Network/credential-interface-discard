@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-03-25 15:50:40
+ * @LastEditTime: 2022-03-28 15:41:33
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -69,6 +69,7 @@ export default function App(): JSX.Element {
         <ErrorModal
           resetPassword={() => {
             setPassword("");
+            navigate("./login");
           }}
         />
       </>
