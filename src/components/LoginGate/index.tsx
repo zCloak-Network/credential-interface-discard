@@ -2,12 +2,13 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-21 20:28:29
- * @LastEditTime: 2022-03-28 15:46:48
+ * @LastEditTime: 2022-03-28 22:26:41
  */
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
+import useRole from "../../hooks/useRole";
 import { PersistentStore } from "../../state/PersistentStore";
 
 import "./index.scss";
@@ -18,10 +19,15 @@ type Props = {
 
 const LoginGate: React.FC<Props> = ({ handlePassword }) => {
   const navigate = useNavigate();
+  const isClaimer = useRole();
 
   const login = async (newPassword: string): Promise<void> => {
     handlePassword(newPassword);
-    navigate("/user");
+    if (isClaimer) {
+      navigate("/claimer/claims");
+    } else {
+      navigate("/attester/attestations");
+    }
   };
 
   const state = PersistentStore.getLocalState();

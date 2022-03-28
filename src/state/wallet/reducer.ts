@@ -2,20 +2,22 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:09:59
- * @LastEditTime: 2022-03-17 22:12:00
+ * @LastEditTime: 2022-03-28 21:51:47
  */
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface WalletState {
   password: string;
-  identities: any[];
   currentIdentity: any;
+  claimers: any[];
+  attesters: any[];
 }
 
 const initialState = {
   password: "",
-  identities: [],
   currentIdentity: null,
+  claimers: [],
+  attesters: [],
 };
 
 const walletSlice = createSlice({
@@ -25,8 +27,16 @@ const walletSlice = createSlice({
     savePassword(state, { payload: { password } }) {
       state.password = password;
     },
-    saveIdentity(state, { payload: { identity } }) {
-      state.identities = state.identities.concat({
+
+    saveClaimers(state, { payload: { identity } }) {
+      state.claimers = state.claimers.concat({
+        ...identity,
+        createdAt: Date.now(),
+      });
+    },
+
+    saveAttesters(state, { payload: { identity } }) {
+      state.attesters = state.attesters.concat({
         ...identity,
         createdAt: Date.now(),
       });
@@ -36,8 +46,18 @@ const walletSlice = createSlice({
       state.currentIdentity = identity;
     },
 
-    updateIdentity(state, { payload: { identity } }) {
-      state.identities = state.identities.map((it) => {
+    updateClaimers(state, { payload: { identity } }) {
+      state.claimers = state.claimers.map((it) => {
+        if (it.account.address === identity.account.address) {
+          it = identity;
+        }
+
+        return it;
+      });
+    },
+
+    updateAttesters(state, { payload: { identity } }) {
+      state.attesters = state.attesters.map((it) => {
         if (it.account.address === identity.account.address) {
           it = identity;
         }
@@ -48,6 +68,12 @@ const walletSlice = createSlice({
   },
 });
 
-export const { saveIdentity, savePassword, saveCurrIdentity, updateIdentity } =
-  walletSlice.actions;
+export const {
+  saveClaimers,
+  saveAttesters,
+  savePassword,
+  saveCurrIdentity,
+  updateClaimers,
+  updateAttesters,
+} = walletSlice.actions;
 export default walletSlice.reducer;

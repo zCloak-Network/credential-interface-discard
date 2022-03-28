@@ -2,16 +2,18 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:03:58
- * @LastEditTime: 2022-03-17 17:59:09
+ * @LastEditTime: 2022-03-28 21:49:38
  */
 import { useCallback } from "react";
 import { AppState } from "../PersistentStore";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  saveIdentity,
+  saveClaimers,
+  saveAttesters,
   savePassword,
   saveCurrIdentity,
-  updateIdentity,
+  updateClaimers,
+  updateAttesters,
 } from "./reducer";
 
 export function useGetPassword(): AppState["wallet"]["password"] {
@@ -19,8 +21,13 @@ export function useGetPassword(): AppState["wallet"]["password"] {
   return password;
 }
 
-export function useGetidentities(): AppState["wallet"]["identities"] {
-  const data = useSelector((state: AppState) => state.wallet.identities);
+export function useGetClaimers(): AppState["wallet"]["claimers"] {
+  const data = useSelector((state: AppState) => state.wallet.claimers);
+  return data;
+}
+
+export function useGetAttesters(): AppState["wallet"]["attesters"] {
+  const data = useSelector((state: AppState) => state.wallet.attesters);
   return data;
 }
 
@@ -44,13 +51,28 @@ export function useSavePassword(): (password) => void {
   );
 }
 
-export function useSaveIdentity(): (identity) => void {
+export function useSaveClaimer(): (identity) => void {
   const dispatch = useDispatch();
 
   return useCallback(
     (identity) => {
       dispatch(
-        saveIdentity({
+        saveClaimers({
+          identity,
+        })
+      );
+    },
+    [dispatch]
+  );
+}
+
+export function useSaveAttester(): (identity) => void {
+  const dispatch = useDispatch();
+
+  return useCallback(
+    (identity) => {
+      dispatch(
+        saveAttesters({
           identity,
         })
       );
@@ -74,13 +96,28 @@ export function useSaveCurrIdentity(): (identity) => void {
   );
 }
 
-export function useUpdateIdentity(): (identity) => void {
+export function useUpdateClaimers(): (identity) => void {
   const dispatch = useDispatch();
 
   return useCallback(
     (identity) => {
       dispatch(
-        updateIdentity({
+        updateClaimers({
+          identity,
+        })
+      );
+    },
+    [dispatch]
+  );
+}
+
+export function useUpdateAttesters(): (identity) => void {
+  const dispatch = useDispatch();
+
+  return useCallback(
+    (identity) => {
+      dispatch(
+        updateAttesters({
           identity,
         })
       );

@@ -21,7 +21,7 @@ const Ctypes: React.FC = () => {
   const [ctypes, setCtypes] = useState(null);
 
   const handleJump = () => {
-    navigate("/attester/ctypes/new");
+    navigate("/attester/attestations/ctypes/new");
   };
 
   const getData = async () => {

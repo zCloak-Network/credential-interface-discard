@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-03-23 22:49:03
+ * @LastEditTime: 2022-03-28 22:16:28
  */
 import React, { useState } from "react";
 import ListItem from "./ListItem";
@@ -21,7 +21,7 @@ const MODOLE = [
   {
     title: "Claimer",
     key: "claimer",
-    url: "/claimer",
+    url: "/claimer/claims",
   },
 ];
 

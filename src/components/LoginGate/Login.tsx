@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-21 20:33:30
- * @LastEditTime: 2022-03-28 14:49:56
+ * @LastEditTime: 2022-03-28 22:23:30
  */
 import React from "react";
 import Button from "../Button";
@@ -30,7 +30,7 @@ const Login: React.FC<Props> = ({ submit }) => {
 
   const children = (
     <div>
-      <div className="title">Welcome to Credential</div>
+      <div className="title">Welcome to zCloak Credential Center</div>
       <div className="sub-title">Login to your account.</div>
       <Form form={form} colon={false} layout="vertical" validateTrigger="">
         <Form.Item

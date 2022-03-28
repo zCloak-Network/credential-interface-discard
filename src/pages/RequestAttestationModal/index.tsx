@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-24 15:55:51
- * @LastEditTime: 2022-03-21 20:52:45
+ * @LastEditTime: 2022-03-28 21:59:39
  */
 import React, { useState } from "react";
 import Modal from "../../components/Modal";
@@ -10,7 +10,11 @@ import {
   useModalOpen,
   useToggleRequestModal,
 } from "../../state/application/hooks";
-import { useGetCurrIdentity, useGetidentities } from "../../state/wallet/hooks";
+import {
+  useGetCurrIdentity,
+  useGetClaimers,
+  useGetAttesters,
+} from "../../state/wallet/hooks";
 import { Select } from "antd";
 import { ApplicationModal } from "../../state/application/reducer";
 import { shortenHash } from "../../utils";
@@ -19,6 +23,7 @@ import ClaimDetail from "../../components/ClaimDetail";
 import { sendMessage } from "../../services/api";
 import * as Kilt from "@kiltprotocol/sdk-js";
 import type { MessageBody } from "@kiltprotocol/sdk-js";
+import useRole from "../../hooks/useRole";
 
 import "./index.scss";
 
@@ -29,7 +34,10 @@ type Props = {
 const { Option } = Select;
 
 const RequestAttestationModal: React.FC<Props> = ({ detail }) => {
-  const identities = useGetidentities();
+  const isClaimer = useRole();
+  const claimers = useGetClaimers();
+  const attesters = useGetAttesters();
+  const data = isClaimer ? claimers : attesters;
   const currAccount = useGetCurrIdentity();
   const toggleModal = useToggleRequestModal();
   const [receiver, setReceiver] = useState("");
@@ -41,9 +49,7 @@ const RequestAttestationModal: React.FC<Props> = ({ detail }) => {
   };
 
   const handleSendMessage = async () => {
-    const receiverData = identities.find(
-      (it) => it.account.address === receiver
-    );
+    const receiverData = data.find((it) => it.account.address === receiver);
 
     const requestForAttestation = Kilt.RequestForAttestation.fromClaim(
       detail.claim
@@ -52,12 +58,23 @@ const RequestAttestationModal: React.FC<Props> = ({ detail }) => {
       content: { requestForAttestation },
       type: Kilt.Message.BodyType.REQUEST_ATTESTATION,
     };
+
     const message = new Kilt.Message(
       messageBody,
       currAccount.lightDidDetails.did,
       receiverData.fullDid.did
     );
 
+    // const keystore = new Kilt.Did.DemoKeystore();
+
+    // const encryptedPresentationMessage = await message.encrypt(
+    //   currAccount.encryptionKey!.id,
+    //   currAccount,
+    //   keystore,
+    //   receiverData.assembleKeyId(receiverData.encryptionKey!.id)
+    // );
+
+    // did:kilt:address
     // const attesterEncryptionKey = receiverData.account.getKeys(
     //   KeyRelationship.keyAgreement
     // )[0] as IDidKeyDetails<string>;
@@ -93,7 +110,7 @@ const RequestAttestationModal: React.FC<Props> = ({ detail }) => {
         onChange={handleChange}
         dropdownClassName="request-select"
       >
-        {identities.map((it) => {
+        {data.map((it) => {
           if (it.fullDid && it.fullDid.did) {
             return (
               <Option value={it.account.address} key={it.account.address}>

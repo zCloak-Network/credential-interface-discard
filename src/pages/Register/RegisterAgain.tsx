@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 10:45:21
- * @LastEditTime: 2022-03-25 16:20:45
+ * @LastEditTime: 2022-03-28 22:01:53
  */
 import React, { useState, useEffect } from "react";
 import LogoBanner from "../../components/LogoBanner";
@@ -12,7 +12,7 @@ import ComfirmPassword from "./ComfirmPassword";
 import Recovery from "./Recovery";
 import Confirm from "./Confirm";
 import { mnemonicGenerate } from "@polkadot/util-crypto";
-import { useSaveIdentity } from "../../state/wallet/hooks";
+import { useSaveClaimer, useSaveAttester } from "../../state/wallet/hooks";
 import * as Kilt from "@kiltprotocol/sdk-js";
 import {
   generateAccount,
@@ -20,6 +20,7 @@ import {
   generateLightKeypairs,
 } from "../../utils/accountUtils";
 import { useNavigate } from "react-router-dom";
+import useRole from "../../hooks/useRole";
 
 const { Step } = Steps;
 
@@ -41,7 +42,9 @@ type Props = {
 
 const RegisterAgain: React.FC<Props> = ({ password }) => {
   const navigate = useNavigate();
-  const saveIdentity = useSaveIdentity();
+  const isClaimer = useRole();
+  const saveClaimer = useSaveClaimer();
+  const saveAttester = useSaveAttester();
   // const saveCurrIdentity = useSaveCurrIdentity();
   const [current, setCurrent] = useState<number>(0);
   const [mnemonic, setMnemonic] = useState<string[]>([]);
@@ -78,7 +81,11 @@ const RegisterAgain: React.FC<Props> = ({ password }) => {
     };
 
     // await saveCurrIdentity(newIdentity);
-    await saveIdentity(newIdentity);
+    if (isClaimer) {
+      await saveClaimer(newIdentity);
+    } else {
+      await saveAttester(newIdentity);
+    }
   };
 
   const handleBack = async () => {

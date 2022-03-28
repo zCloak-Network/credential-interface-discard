@@ -2,9 +2,9 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:49:25
- * @LastEditTime: 2022-03-23 21:35:11
+ * @LastEditTime: 2022-03-28 22:28:59
  */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CTypeEditor from "../../components/CtypeEditor";
 import * as Kilt from "@kiltprotocol/sdk-js";
@@ -37,7 +37,7 @@ const MODOLE = [
   {
     title: "Attester",
     key: "attester",
-    url: "/attester",
+    url: "/attester/attestations",
   },
 ];
 
@@ -51,7 +51,7 @@ const NewCtype: React.FC = () => {
   // const [connected, setConnected] = useState<boolean>(false);
 
   const handleBack = () => {
-    navigate("/attester/ctypes");
+    navigate("/attester/attestations/ctypes");
   };
 
   const updateCType = (type: string, isValid: boolean): void => {

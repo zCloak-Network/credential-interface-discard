@@ -2,14 +2,14 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-02 11:07:37
- * @LastEditTime: 2022-03-25 17:23:28
+ * @LastEditTime: 2022-03-28 22:31:13
  */
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   useGetCurrIdentity,
-  useUpdateIdentity,
-  useSaveCurrIdentity,
+  // useUpdateIdentity,
+  // useSaveCurrIdentity,
 } from "../../state/wallet/hooks";
 import { Image } from "@davatar/react";
 import classNames from "classnames";
@@ -20,13 +20,8 @@ import { useToggleConnectWalletModal } from "../../state/application/hooks";
 import Logo from "../../images/logo.svg";
 import { shortenHash } from "../../utils";
 import * as Kilt from "@kiltprotocol/sdk-js";
-import { useAddPopup } from "../../state/application/hooks";
+// import { useAddPopup } from "../../state/application/hooks";
 import Loading from "../../images/loading.gif";
-import {
-  generateAccount,
-  generateFullDid,
-  generateFullKeypairs,
-} from "../../utils/accountUtils";
 
 import "./index.scss";
 interface Props {
@@ -37,12 +32,12 @@ export default function Header({ menu }: Props): React.ReactElement {
   const navigate = useNavigate();
   const location = useLocation();
   const ref = useRef();
-  const addPopup = useAddPopup();
+  // const addPopup = useAddPopup();
   const currAccount = useGetCurrIdentity();
-  const saveCurrIdentity = useSaveCurrIdentity();
-  const updateIdentity = useUpdateIdentity();
+  // const saveCurrIdentity = useSaveCurrIdentity();
+  // const updateIdentity = useUpdateIdentity();
   const [menuStatus, setMenuStatus] = useState(true);
-  const isClaimer = location.pathname.includes("user");
+  // const isClaimer = location.pathname.includes("user");
   const [balance, setBalance] = useState("");
   const [balanceLoading, setBalanceLoading] = useState(false);
 
@@ -65,11 +60,11 @@ export default function Header({ menu }: Props): React.ReactElement {
     setMenuStatus(!menuStatus);
   };
 
-  const getMyBalance = async () => {
-    const balance = await Kilt.Balance.getBalances(currAccount.account.address);
+  // const getMyBalance = async () => {
+  //   const balance = await Kilt.Balance.getBalances(currAccount.account.address);
 
-    return balance.free.toString();
-  };
+  //   return balance.free.toString();
+  // };
 
   const getMyBalanceString = async () => {
     if (currAccount?.account?.address) {
@@ -88,78 +83,78 @@ export default function Header({ menu }: Props): React.ReactElement {
     }
   };
 
-  const handleGenerateFullDid = async () => {
-    if (currAccount.account.address) {
-      const keystore = new Kilt.Did.DemoKeystore();
+  // const handleGenerateFullDid = async () => {
+  //   if (currAccount.account.address) {
+  //     const keystore = new Kilt.Did.DemoKeystore();
 
-      const keys = await generateFullKeypairs(keystore, currAccount.mnemonic);
-      const account = await generateAccount(currAccount.mnemonic);
+  //     const keys = await generateFullKeypairs(keystore, currAccount.mnemonic);
+  //     const account = await generateAccount(currAccount.mnemonic);
 
-      try {
-        const fullDid = await generateFullDid(keystore, account, keys);
-        const newAccount = { ...currAccount, fullDid: fullDid };
-        await updateIdentity(newAccount);
-        await saveCurrIdentity(newAccount);
-        await addPopup({
-          txn: {
-            hash: "",
-            success: true,
-            title: "SUCCESS",
-            summary: `Fulldid successfully created.`,
-          },
-        });
-      } catch (error) {
-        throw error;
-      }
-    }
-  };
+  //     try {
+  //       const fullDid = await generateFullDid(keystore, account, keys);
+  //       const newAccount = { ...currAccount, fullDid: fullDid };
+  //       await updateIdentity(newAccount);
+  //       await saveCurrIdentity(newAccount);
+  //       await addPopup({
+  //         txn: {
+  //           hash: "",
+  //           success: true,
+  //           title: "SUCCESS",
+  //           summary: `Fulldid successfully created.`,
+  //         },
+  //       });
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   }
+  // };
 
-  const validate = async () => {
-    const balance = await getMyBalance();
-    if (currAccount.fullDid && currAccount.fullDid.did) {
-      return true;
-    } else if (balance === "0") {
-      addPopup({
-        txn: {
-          hash: "",
-          success: false,
-          title: "Account balance too low",
-          summary: "Invalid Transaction: Inability to pay some fees.",
-        },
-      });
-    } else {
-      await handleGenerateFullDid();
-    }
-  };
+  // const validate = async () => {
+  //   const balance = await getMyBalance();
+  //   if (currAccount.fullDid && currAccount.fullDid.did) {
+  //     return true;
+  //   } else if (balance === "0") {
+  //     addPopup({
+  //       txn: {
+  //         hash: "",
+  //         success: false,
+  //         title: "Account balance too low",
+  //         summary: "Invalid Transaction: Inability to pay some fees.",
+  //       },
+  //     });
+  //   } else {
+  //     await handleGenerateFullDid();
+  //   }
+  // };
 
-  const handleSwitch = async () => {
-    if (isClaimer) {
-      await validate();
+  // const handleSwitch = async () => {
+  //   if (isClaimer) {
+  //     await validate();
 
-      await navigate("/attester");
-    } else {
-      navigate("/user");
-    }
-  };
+  //     await navigate("/attester");
+  //   } else {
+  //     navigate("/claimer");
+  //   }
+  // };
 
-  const switchBtn = (
-    <span className="switchBtn" onClick={handleSwitch}>
-      <span
-        className={classNames({
-          active: isClaimer,
-        })}
-      >
-        Claimer
-      </span>
-      <span
-        className={classNames({
-          active: !isClaimer,
-        })}
-      >
-        Attester
-      </span>
-    </span>
-  );
+  // const switchBtn = (
+  //   <span className="switchBtn" onClick={handleSwitch}>
+  //     <span
+  //       className={classNames({
+  //         active: isClaimer,
+  //       })}
+  //     >
+  //       Claimer
+  //     </span>
+  //     <span
+  //       className={classNames({
+  //         active: !isClaimer,
+  //       })}
+  //     >
+  //       Attester
+  //     </span>
+  //   </span>
+  // );
 
   useEffect(() => {
     getMyBalanceString();
@@ -176,7 +171,7 @@ export default function Header({ menu }: Props): React.ReactElement {
       >
         <Menu className="header-menu" menu={menu} />
       </div>
-      {switchBtn}
+      {/* {switchBtn} */}
       <div className="header-right">
         <div className="btn connected" onClick={handleOpenConnect}>
           <span className="balance">

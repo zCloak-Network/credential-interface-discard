@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 10:45:21
- * @LastEditTime: 2022-03-25 15:03:55
+ * @LastEditTime: 2022-03-28 22:17:30
  */
 import React, { useState, useEffect } from "react";
 import LogoBanner from "../../components/LogoBanner";
@@ -14,7 +14,8 @@ import Confirm from "./Confirm";
 import { PersistentStore } from "../../state/PersistentStore";
 import { mnemonicGenerate } from "@polkadot/util-crypto";
 import {
-  useSaveIdentity,
+  useSaveClaimer,
+  useSaveAttester,
   useSavePassword,
   useSaveCurrIdentity,
 } from "../../state/wallet/hooks";
@@ -25,6 +26,7 @@ import {
   generateLightKeypairs,
 } from "../../utils/accountUtils";
 import { useNavigate } from "react-router-dom";
+import useRole from "../../hooks/useRole";
 
 const { Step } = Steps;
 
@@ -42,7 +44,9 @@ const getStepItem = (num, className) => {
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
-  const saveIdentity = useSaveIdentity();
+  const isClaimer = useRole();
+  const saveClaimer = useSaveClaimer();
+  const saveAttester = useSaveAttester();
   const savePassword = useSavePassword();
   const saveCurrIdentity = useSaveCurrIdentity();
   const [password, setPassword] = useState<string>("");
@@ -92,9 +96,13 @@ const Register: React.FC = () => {
     await register();
     await saveCurrIdentity(newIdentity);
     await savePassword(password);
-    await saveIdentity(newIdentity);
-
-    await navigate("/user");
+    if (isClaimer) {
+      await saveClaimer(newIdentity);
+      await navigate("/claimer/claims");
+    } else {
+      await saveAttester(newIdentity);
+      await navigate("/attester/attestations");
+    }
   };
 
   const FirstRegisterSteps = [

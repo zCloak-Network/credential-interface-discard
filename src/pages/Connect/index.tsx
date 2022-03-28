@@ -2,7 +2,7 @@
  * @Description: submit modal
  * @Author: lixin
  * @Date: 2021-12-02 17:23:15
- * @LastEditTime: 2022-03-25 17:40:59
+ * @LastEditTime: 2022-03-28 22:04:50
  */
 import React, { ReactElement } from "react";
 import Modal from "../../components/Modal";
@@ -10,7 +10,8 @@ import { Image } from "@davatar/react";
 import { useNavigate } from "react-router-dom";
 import { shortenHash } from "../../utils";
 import {
-  useGetidentities,
+  useGetClaimers,
+  useGetAttesters,
   useSaveCurrIdentity,
   useGetCurrIdentity,
 } from "../../state/wallet/hooks";
@@ -18,6 +19,7 @@ import {
   useModalOpen,
   useToggleConnectWalletModal,
 } from "../../state/application/hooks";
+import useRole from "../../hooks/useRole";
 import CopyHelper from "../../components/Copy";
 import { ApplicationModal } from "../../state/application/reducer";
 
@@ -25,7 +27,10 @@ import "./index.scss";
 
 export default function Connect(): ReactElement {
   const navigate = useNavigate();
-  const data = useGetidentities();
+  const isClaimer = useRole();
+  const claimers = useGetClaimers();
+  const attesters = useGetAttesters();
+  const data = isClaimer ? claimers : attesters;
   const currAccount = useGetCurrIdentity();
   const saveCurrIdentity = useSaveCurrIdentity();
   const connectWalletModalOpen = useModalOpen(ApplicationModal.CONNECT_WALLET);
@@ -37,7 +42,11 @@ export default function Connect(): ReactElement {
   };
 
   const handleCreate = () => {
-    navigate("/register-again");
+    if (isClaimer) {
+      navigate("/claimer/register-again");
+    } else {
+      navigate("/attester/register-again");
+    }
     toggleConnectWalletModal();
   };
 
