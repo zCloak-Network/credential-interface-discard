@@ -1,9 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3139480 */
-  src: url('iconfont.woff2?t=1648097748280') format('woff2'),
-       url('iconfont.woff?t=1648097748280') format('woff'),
-       url('iconfont.ttf?t=1648097748280') format('truetype'),
-       url('iconfont.svg?t=1648097748280#iconfont') format('svg');
+  src: url('iconfont.woff2?t=1648453761462') format('woff2'),
+       url('iconfont.woff?t=1648453761462') format('woff'),
+       url('iconfont.ttf?t=1648453761462') format('truetype'),
+       url('iconfont.svg?t=1648453761462#iconfont') format('svg');
 }
 
 .iconfont {
@@ -28,22 +28,6 @@
 
 .a-ziyuan4:before {
   content: "\e696";
-}
-
-.icon_narrow_right21:before {
-  content: "\e68f";
-}
-
-.icon_add23:before {
-  content: "\e690";
-}
-
-.icon_delete21:before {
-  content: "\e691";
-}
-
-.icon_narrow_down21:before {
-  content: "\e692";
 }
 
 .icon_delete4:before {
@@ -112,22 +96,6 @@
 
 .a-icon_wrongreason:before {
   content: "\e67c";
-}
-
-.icon_delete1:before {
-  content: "\e67d";
-}
-
-.icon_add21:before {
-  content: "\e67e";
-}
-
-.icon_narrow_down:before {
-  content: "\e67f";
-}
-
-.icon_narrow_right:before {
-  content: "\e680";
 }
 
 .icon_development_tasks:before {

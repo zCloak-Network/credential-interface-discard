@@ -2,7 +2,7 @@
  * @Description: submit modal
  * @Author: lixin
  * @Date: 2021-12-02 17:23:15
- * @LastEditTime: 2022-03-25 17:04:31
+ * @LastEditTime: 2022-03-25 17:40:59
  */
 import React, { ReactElement } from "react";
 import Modal from "../../components/Modal";
@@ -12,6 +12,7 @@ import { shortenHash } from "../../utils";
 import {
   useGetidentities,
   useSaveCurrIdentity,
+  useGetCurrIdentity,
 } from "../../state/wallet/hooks";
 import {
   useModalOpen,
@@ -25,6 +26,7 @@ import "./index.scss";
 export default function Connect(): ReactElement {
   const navigate = useNavigate();
   const data = useGetidentities();
+  const currAccount = useGetCurrIdentity();
   const saveCurrIdentity = useSaveCurrIdentity();
   const connectWalletModalOpen = useModalOpen(ApplicationModal.CONNECT_WALLET);
   const toggleConnectWalletModal = useToggleConnectWalletModal();
@@ -39,6 +41,10 @@ export default function Connect(): ReactElement {
     toggleConnectWalletModal();
   };
 
+  const handleDownload = (e) => {
+    e.stopPropagation();
+  };
+
   return (
     <Modal
       title="Choose Account"
@@ -47,28 +53,37 @@ export default function Connect(): ReactElement {
       wrapClassName="walletModal"
     >
       <ul className="wallets">
-        {data?.map((it) => (
-          <li
-            className="account-item"
-            key={it.account.address}
-            onClick={() => {
-              handleClick(it);
-            }}
-          >
-            <div className="left">
-              <Image address={it.account.address} size={18} />
-              <span className="account-addr">
-                {shortenHash(it.account.address)}
-              </span>
-            </div>
-            <div className="right">
-              <CopyHelper toCopy={it.account.address}>
-                {/* <span className="copy-btn">Copy Address</span> */}
-              </CopyHelper>
-              <i className="iconfont icon_download"></i>
-            </div>
-          </li>
-        ))}
+        {data?.map((it) => {
+          const address = it.account.address;
+
+          return (
+            <li
+              className="account-item"
+              key={address}
+              onClick={() => {
+                handleClick(it);
+              }}
+            >
+              <div className="left">
+                <Image address={address} size={18} />
+                <span className="account-addr">{shortenHash(address)}</span>
+              </div>
+              <div className="right">
+                {currAccount.account.address === address && (
+                  <i
+                    className="iconfont icon_success2"
+                    onClick={handleDownload}
+                  />
+                )}
+                <CopyHelper toCopy={address} />
+                <i
+                  className="iconfont icon_download"
+                  onClick={handleDownload}
+                />
+              </div>
+            </li>
+          );
+        })}
       </ul>
       <div className="footer" onClick={handleCreate}>
         Create A New Account
