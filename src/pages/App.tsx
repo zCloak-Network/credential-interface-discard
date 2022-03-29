@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-03-28 23:41:45
+ * @LastEditTime: 2022-03-29 17:11:30
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -49,7 +49,7 @@ export default function App(): JSX.Element {
   }, []);
 
   return (
-    <StoreGate password={password}>
+    <StoreGate password={password} isClaimer={isClaimer}>
       <>
         <Popups />
         <Routes>

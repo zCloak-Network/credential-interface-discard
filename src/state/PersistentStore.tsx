@@ -134,12 +134,19 @@ export class PersistentStore {
   //   });
   // }
 
-  public async init(password?: string): Promise<Store> {
+  public async init(isClaimer: boolean, password?: string): Promise<Store> {
     let persistedState = {} as any;
     if (password) {
       persistedState = await PersistentStore.decryptAndDeserialize(password);
       persistedState.application = applicationInitialState;
-      persistedState.wallet.currentIdentity = null;
+      if (isClaimer) {
+        persistedState.wallet.currentIdentity =
+          persistedState.wallet.claimers[0] || null;
+      } else {
+        persistedState.wallet.currentIdentity =
+          persistedState.wallet.attesters[0] || null;
+      }
+
       console.log(666111, 111166, persistedState);
     }
 

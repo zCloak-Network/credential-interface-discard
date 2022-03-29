@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-21 20:33:23
- * @LastEditTime: 2022-03-28 22:23:33
+ * @LastEditTime: 2022-03-29 14:03:34
  */
 import React from "react";
 import Button from "../Button";
@@ -24,7 +24,10 @@ const Register: React.FC = () => {
 
   const children = (
     <div>
-      <div className="title">Welcome to zCloak Credential Center</div>
+      <div className="title">
+        Welcome to <br />
+        zCloak Credential Center
+      </div>
       <div className="sub-title">Create a New Credential account.</div>
       <Button type="primary" className="login-btn" onClick={handleSubmit}>
         Create account
