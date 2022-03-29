@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-03-29 14:46:49
+ * @LastEditTime: 2022-03-29 18:41:16
  */
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
@@ -32,7 +32,10 @@ const MODOLE = [
   },
 ];
 
-const Attester: React.FC = () => {
+type Props = {
+  resetPassword: () => void;
+};
+const Attester: React.FC<Props> = ({ resetPassword }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [module, setModule] = useState(MENU[0].key);
@@ -51,7 +54,7 @@ const Attester: React.FC = () => {
 
   return (
     <ContentLayout menu={MODOLE}>
-      <AttesterGate>
+      <AttesterGate resetPassword={resetPassword}>
         <div className="attester">
           <div className="attester-header">
             <ul className="menu" onClick={handleClick}>

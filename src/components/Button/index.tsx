@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-29 16:15:23
- * @LastEditTime: 2022-03-23 23:08:02
+ * @LastEditTime: 2022-03-29 20:09:41
  */
 import React from "react";
 import classNames from "classnames";
@@ -13,6 +13,7 @@ import "./index.scss";
 
 interface Props {
   type?: any;
+  danger?: boolean;
   disabled?: boolean;
   loading?: boolean;
   children?: React.ReactNode;
@@ -34,12 +35,14 @@ export default function Button({
   className,
   children,
   style,
+  danger = false,
 }: Props): JSX.Element {
   const classes = classNames(
     "button-components",
     {
       disabled: disabled,
       [`button-components-${type}`]: type,
+      "button-components-danger": danger,
     },
     className
   );
@@ -57,7 +60,7 @@ export default function Button({
         className={classNames("button-components", "loading", className)}
         style={style}
       >
-        Loading
+        {children ? children : "Loading"}
         <img src={Loading} />
       </div>
     );

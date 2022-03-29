@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-29 13:55:08
- * @LastEditTime: 2022-03-29 17:08:19
+ * @LastEditTime: 2022-03-29 20:11:35
  */
 import React, { useEffect, useState } from "react";
 import * as Kilt from "@kiltprotocol/sdk-js";
@@ -19,18 +19,22 @@ import {
   useUpdateAttesters,
   useGetCurrIdentity,
 } from "../../state/wallet/hooks";
+import EnterPasswordModal from "../../components/EnterPasswordModal";
 
 type Props = {
+  resetPassword: () => void;
   children: React.ReactElement;
 };
 
-const AttesterGate: React.FC<Props> = ({ children }) => {
+const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
   const addPopup = useAddPopup();
   const currAccount = useGetCurrIdentity();
   const updateAttesters = useUpdateAttesters();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [balance, setBalance] = useState(null);
-  const [createLoading, setCreateLoading] = useState(false);
+  const [createLoading, setCreateLoading] = useState<boolean>(false);
+  const [enterPasswordStatus, setEnterPasswordStatus] =
+    useState<boolean>(false);
 
   const getMyBalance = async () => {
     if (currAccount?.account?.address) {
@@ -64,10 +68,15 @@ const AttesterGate: React.FC<Props> = ({ children }) => {
           },
         });
         await setCreateLoading(false);
+        await setEnterPasswordStatus(false);
       } catch (error) {
         throw error;
       }
     }
+  };
+
+  const handleCreate = () => {
+    setEnterPasswordStatus(true);
   };
 
   const getDid = async () => {
@@ -79,8 +88,6 @@ const AttesterGate: React.FC<Props> = ({ children }) => {
       await updateAttesters(newAccount);
     }
   };
-
-  console.log(444434343, balance);
 
   useEffect(() => {
     setLoading(true);
@@ -97,11 +104,18 @@ const AttesterGate: React.FC<Props> = ({ children }) => {
   }
 
   return (
-    <CreateDid
-      balance={balance}
-      createLoading={createLoading}
-      handleGenerateFullDid={handleGenerateFullDid}
-    />
+    <>
+      <CreateDid balance={balance} handleCreate={handleCreate} />
+      <EnterPasswordModal
+        handleCancel={() => {
+          setEnterPasswordStatus(false);
+        }}
+        createLoading={createLoading}
+        visible={enterPasswordStatus}
+        resetPassword={resetPassword}
+        handleSubmit={handleGenerateFullDid}
+      />
+    </>
   );
 };
 export default AttesterGate;

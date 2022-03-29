@@ -45,6 +45,14 @@
   &.button-components-primary:hover {
     background: $primary-8;
   }
+
+  &.button-components-danger {
+    background: $status-error-color;
+  }
+
+  &.button-components-danger:hover {
+    background: rgba(213, 99, 134, 0.8);
+  }
 }
 
 @media (max-width: $screen-md) {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-03-29 17:11:30
+ * @LastEditTime: 2022-03-29 18:36:46
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -99,7 +99,17 @@ export default function App(): JSX.Element {
             path="/attester/attestations/ctypes/new"
             element={<NewCtype />}
           />
-          <Route path="/attester/attestations" element={<Attester />}>
+          <Route
+            path="/attester/attestations"
+            element={
+              <Attester
+                resetPassword={() => {
+                  setPassword("");
+                  navigateTo();
+                }}
+              />
+            }
+          >
             <Route index element={<AttesterContent />} />
             <Route path="/attester/attestations/ctypes" element={<Ctypes />} />
           </Route>
