@@ -30,7 +30,6 @@ const ConfirmItem = ({ data, aimData }: PropsItem) => {
       rules={[
         {
           validator: async (_, value) => {
-            console.log(3333, value, aimData);
             if (value !== aimData) {
               return Promise.reject(new Error("Incorrect answer"));
             }
@@ -64,8 +63,7 @@ const Confirm: React.FC<Props> = ({ handleBack, handleClick, mnemonic }) => {
 
   const handleContinue = async () => {
     try {
-      const values = await form.validateFields();
-      console.log("Success:", values);
+      await form.validateFields();
       handleClick();
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:49:25
- * @LastEditTime: 2022-03-28 22:28:59
+ * @LastEditTime: 2022-03-31 16:15:30
  */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -102,7 +102,7 @@ const NewCtype: React.FC = () => {
     // Load DID
     const keystore = new Kilt.Did.DemoKeystore();
     await generateFullKeypairs(keystore, currIdentity.mnemonic);
-    console.log(4545454, format());
+
     // get the CTYPE and see if it's stored, if yes return it
     const ctype = Kilt.CType.fromSchema(format());
 
