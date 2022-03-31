@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-29 17:29:52
- * @LastEditTime: 2022-03-29 20:09:01
+ * @LastEditTime: 2022-03-30 18:33:28
  */
 import React, { useEffect, useState } from "react";
 import Modal from "../Modal";
@@ -15,9 +15,9 @@ import "./index.scss";
 type Props = {
   visible: boolean;
   handleCancel: () => void;
-  handleSubmit: () => void;
+  handleSubmit: (e?: any) => void;
   resetPassword: () => void;
-  createLoading: boolean;
+  createLoading?: boolean;
 };
 
 const EnterPasswordModal: React.FC<Props> = ({
@@ -25,7 +25,7 @@ const EnterPasswordModal: React.FC<Props> = ({
   resetPassword,
   handleSubmit,
   handleCancel,
-  createLoading,
+  createLoading = false,
 }) => {
   const [form] = Form.useForm();
   const [error, setError] = useState(false);
@@ -89,7 +89,6 @@ const EnterPasswordModal: React.FC<Props> = ({
         >
           <Input.Password className="login-pwd-input" />
         </Form.Item>
-
         <Button
           type="primary"
           className="submit-btn"
