@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-07 15:19:54
- * @LastEditTime: 2022-03-24 11:37:44
+ * @LastEditTime: 2022-03-31 16:53:20
  */
 
 export default {
@@ -58,8 +58,8 @@ export default {
             title: "Type",
             type: "string",
             format: "select",
-            enum: ["string", "integer", "number", "boolean"],
-            enumTitles: ["Text", "Number", "Decimal", "Yes/No"],
+            enum: ["string", "integer", "boolean"],
+            enumTitles: ["Text", "Number", "Yes/No"],
           },
           // format: {
           //   title: "Format",
