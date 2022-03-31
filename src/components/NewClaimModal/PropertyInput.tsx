@@ -2,10 +2,10 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-25 16:03:32
- * @LastEditTime: 2022-03-24 14:13:47
+ * @LastEditTime: 2022-03-31 17:00:03
  */
 import React from "react";
-import { Form, Input, InputNumber } from "antd";
+import { Form, Input, Radio, InputNumber } from "antd";
 import { ICTypeInputProperty } from "../../types/ctypes";
 
 import "./PropertyInput.scss";
@@ -16,6 +16,23 @@ interface Props {
 
 const PropertyInput: React.FC<Props> = ({ data }) => {
   const title = data.title;
+
+  const returnComponent = () => {
+    if (data.type === "integer") {
+      return <InputNumber />;
+    }
+
+    if (data.type === "boolean") {
+      return (
+        <Radio.Group>
+          <Radio value={true}>Yes</Radio>
+          <Radio value={false}>No</Radio>
+        </Radio.Group>
+      );
+    }
+
+    return <Input />;
+  };
 
   return (
     <Form.Item
@@ -29,7 +46,7 @@ const PropertyInput: React.FC<Props> = ({ data }) => {
         },
       ]}
     >
-      {data.type === "integer" ? <InputNumber /> : <Input />}
+      {returnComponent()}
     </Form.Item>
   );
 };

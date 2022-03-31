@@ -77,6 +77,15 @@
   box-shadow: none !important;
 }
 
+//radio
+.ant-radio-checked .ant-radio-inner {
+  border-color: #6768ac;
+}
+
+.ant-radio-inner::after {
+  background-color: #6768ac;
+}
+
 @import "./font.scss";
 @import "./reset.css";
 @import "./fontIcon/iconfont.css";

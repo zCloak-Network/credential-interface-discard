@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-02 11:07:37
- * @LastEditTime: 2022-03-29 17:09:23
+ * @LastEditTime: 2022-03-31 16:35:32
  */
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -66,53 +66,6 @@ export default function Header({ menu }: Props): React.ReactElement {
       await setBalance(balanceString);
     }
   };
-
-  // const validate = async () => {
-  //   const balance = await getMyBalance();
-  //   if (currAccount.fullDid && currAccount.fullDid.did) {
-  //     return true;
-  //   } else if (balance === "0") {
-  //     addPopup({
-  //       txn: {
-  //         hash: "",
-  //         success: false,
-  //         title: "Account balance too low",
-  //         summary: "Invalid Transaction: Inability to pay some fees.",
-  //       },
-  //     });
-  //   } else {
-  //     await handleGenerateFullDid();
-  //   }
-  // };
-
-  // const handleSwitch = async () => {
-  //   if (isClaimer) {
-  //     await validate();
-
-  //     await navigate("/attester");
-  //   } else {
-  //     navigate("/claimer");
-  //   }
-  // };
-
-  // const switchBtn = (
-  //   <span className="switchBtn" onClick={handleSwitch}>
-  //     <span
-  //       className={classNames({
-  //         active: isClaimer,
-  //       })}
-  //     >
-  //       Claimer
-  //     </span>
-  //     <span
-  //       className={classNames({
-  //         active: !isClaimer,
-  //       })}
-  //     >
-  //       Attester
-  //     </span>
-  //   </span>
-  // );
 
   useEffect(() => {
     getMyBalanceString();
