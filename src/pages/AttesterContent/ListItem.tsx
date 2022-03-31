@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-30 16:51:36
- * @LastEditTime: 2022-03-20 13:35:53
+ * @LastEditTime: 2022-03-31 11:31:04
  */
 import React from "react";
 import dayjs from "dayjs";
@@ -16,12 +16,7 @@ import "./ListItem.scss";
 interface Props {
   index: number;
   handleClick: (data) => void;
-  data: {
-    sender: string;
-    body: any;
-    createdAt: any;
-    status: string;
-  };
+  data: any;
 }
 
 export default function ListItem({
@@ -29,8 +24,6 @@ export default function ListItem({
   index,
   handleClick,
 }: Props): JSX.Element {
-  console.log(545454888, data);
-
   return (
     <div className="attestion-list-item">
       <span>{index}</span>

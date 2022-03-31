@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-29 13:55:08
- * @LastEditTime: 2022-03-29 20:11:35
+ * @LastEditTime: 2022-03-31 10:26:34
  */
 import React, { useEffect, useState } from "react";
 import * as Kilt from "@kiltprotocol/sdk-js";
@@ -20,6 +20,7 @@ import {
   useGetCurrIdentity,
 } from "../../state/wallet/hooks";
 import EnterPasswordModal from "../../components/EnterPasswordModal";
+import { addAttester } from "../../services/api";
 
 type Props = {
   resetPassword: () => void;
@@ -48,6 +49,7 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
 
   const handleGenerateFullDid = async () => {
     if (currAccount.account.address) {
+      setLoading(true);
       await setCreateLoading(true);
       const keystore = new Kilt.Did.DemoKeystore();
 
@@ -68,6 +70,10 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
           },
         });
         await setCreateLoading(false);
+        await addAttester({
+          address: currAccount.account.address,
+          did: fullDid.did,
+        });
         await setEnterPasswordStatus(false);
       } catch (error) {
         throw error;
@@ -81,16 +87,17 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
 
   const getDid = async () => {
     // 先去链上查询，确认是否真的没有；因为可能生成fullDid的时候，用户关闭页面，导致fullDid没有存在本地
-    const fullDid = await getFullDid(currAccount.account?.address);
-    if (fullDid) {
-      // 更新fullDid
-      const newAccount = { ...currAccount, fullDid: fullDid };
-      await updateAttesters(newAccount);
+    if (currAccount?.account) {
+      const fullDid = await getFullDid(currAccount?.account?.address);
+      if (fullDid) {
+        // 更新fullDid
+        const newAccount = { ...currAccount, fullDid: fullDid };
+        await updateAttesters(newAccount);
+      }
     }
   };
 
   useEffect(() => {
-    setLoading(true);
     getMyBalance();
     getDid();
   }, [currAccount]);

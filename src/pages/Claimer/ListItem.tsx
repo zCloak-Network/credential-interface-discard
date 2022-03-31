@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-30 16:51:36
- * @LastEditTime: 2022-03-23 22:57:54
+ * @LastEditTime: 2022-03-31 11:33:35
  */
 import React from "react";
 import dayjs from "dayjs";
@@ -51,22 +51,6 @@ export default function ListItem({
   const isTested = !!attestation;
 
   const download = async () => {
-    // const request = Kilt.RequestForAttestation.fromClaim(data.claim);
-
-    // const keystore = new Kilt.Did.DemoKeystore();
-
-    // const lightKeypairs = await generateLightKeypairs(
-    //   keystore,
-    //   currIdentity.mnemonic
-    // );
-    // const lightDid = await generateLightDid(lightKeypairs);
-
-    // await request.signWithDidKey(
-    //   keystore,
-    //   lightDid,
-    //   lightDid.authenticationKey.id
-    // );
-
     const blob = await new Blob(
       [JSON.stringify(attestation.requestforAttestation)],
       {
@@ -74,7 +58,7 @@ export default function ListItem({
       }
     );
 
-    await FileSaver.saveAs(blob, "credential.txt");
+    await FileSaver.saveAs(blob, "credential.json");
   };
 
   return (

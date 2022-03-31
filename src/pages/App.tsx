@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-03-29 18:36:46
+ * @LastEditTime: 2022-03-30 18:34:05
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -114,7 +114,12 @@ export default function App(): JSX.Element {
             <Route path="/attester/attestations/ctypes" element={<Ctypes />} />
           </Route>
         </Routes>
-        <Modals />
+        <Modals
+          resetPassword={() => {
+            setPassword("");
+            navigateTo();
+          }}
+        />
         <ErrorModal
           resetPassword={() => {
             setPassword("");

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-24 15:55:51
- * @LastEditTime: 2022-03-23 23:14:22
+ * @LastEditTime: 2022-03-30 18:17:20
  */
 import React from "react";
 import Modal from "../../components/Modal";
@@ -12,7 +12,6 @@ import {
 } from "../../state/application/hooks";
 import { ApplicationModal } from "../../state/application/reducer";
 import ClaimDetail from "../../components/ClaimDetail";
-import Button from "../../components/Button";
 
 interface Props {
   // TODO

@@ -2,14 +2,9 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-26 16:38:18
- * @LastEditTime: 2022-03-29 17:05:47
+ * @LastEditTime: 2022-03-31 11:27:21
  */
-// /*
-//  * @Description:
-//  * @Author: lixin
-//  * @Date: 2022-01-26 16:38:18
-//  * @LastEditTime: 2022-01-26 16:39:35
-//  */
+
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { Store } from "redux";
@@ -31,7 +26,7 @@ const StoreGate: React.FC<props> = ({ password, children, isClaimer }) => {
     };
 
     initStore();
-  }, [password]);
+  }, [password, isClaimer]);
 
   if (!store) return null;
 
