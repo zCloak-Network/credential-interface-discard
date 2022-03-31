@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:20:49
- * @LastEditTime: 2022-03-31 16:13:00
+ * @LastEditTime: 2022-03-31 16:23:23
  */
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
@@ -79,8 +79,8 @@ const Content: React.FC = () => {
 
   const queryMessage = async () => {
     if (currIdentity?.fullDid?.did) {
-      const receiverFullDid = await getFullDid(currIdentity.account.address);
       await setLoading(true);
+      const receiverFullDid = await getFullDid(currIdentity.account.address);
 
       const res = await getMessage({
         receiverKeyId: `${currIdentity.fullDid.did}#${
