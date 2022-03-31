@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 
 export default function useRole() {
   const location = useLocation();
-  const isClaimer = location.pathname.startsWith("/claimer");
+  const isClaimer = !location.pathname.startsWith("/attester");
 
   return isClaimer;
 }

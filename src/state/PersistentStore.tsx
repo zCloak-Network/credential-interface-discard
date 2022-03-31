@@ -164,7 +164,7 @@ export class PersistentStore {
     });
 
     this.storeInternal.subscribe(async () => {
-      console.log("state", this.storeInternal?.getState());
+      // console.log("state", this.storeInternal?.getState());
 
       const {
         wallet: { password },

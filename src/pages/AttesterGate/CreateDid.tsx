@@ -37,7 +37,7 @@ const CreateDid: React.FC<Props> = ({ balance, handleCreate }) => {
       )}
 
       <div className="sub-title">
-        This will initiate a transaction to kilt and stake your 2 tokens.
+        This will initiate a transaction to kilt and stake your tokens.
       </div>
     </div>
   );
