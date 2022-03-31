@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-16 14:20:58
- * @LastEditTime: 2021-12-17 16:41:05
+ * @LastEditTime: 2022-03-31 16:18:06
  */
 import React, { useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -35,7 +35,6 @@ export default function Web3ReactManager({
 
   // when there's no account connected, react to logins (broadly speaking) on the injected provider, if it exists
   useInactiveListener(!triedEager);
-  console.log(888999555, triedEager, active, networkError);
   // if the account context isn't active, and there's an error on the network context, it's an irrecoverable error
   if (triedEager && !active && networkError) {
     return (

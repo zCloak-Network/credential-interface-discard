@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-24 11:06:55
- * @LastEditTime: 2022-03-10 18:18:08
+ * @LastEditTime: 2022-03-31 16:16:54
  */
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -65,7 +65,6 @@ const transactionSlice = createSlice({
         },
       }
     ) => {
-      console.log(22222, transactions, chainId, transactions[chainId]);
       if (transactions[chainId]?.[hash]) {
         throw Error("Attempted to add existing transaction.");
       }

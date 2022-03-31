@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-15 11:36:33
- * @LastEditTime: 2022-03-21 16:44:57
+ * @LastEditTime: 2022-03-31 16:16:45
  */
 import * as Kilt from "@kiltprotocol/sdk-js";
 import { WSSURL } from "../constants";
@@ -119,13 +119,11 @@ export async function generateFullDid(
   await Kilt.init({ address: WSSURL });
   const { api } = await Kilt.connect();
 
-  console.log(766766767, api);
   return new Kilt.Did.FullDidCreationBuilder(api, fullKeypairs.authentication)
     .addEncryptionKey(fullKeypairs.keyAgreement)
     .setAttestationKey(fullKeypairs.assertionMethod)
     .setDelegationKey(fullKeypairs.capabilityDelegation)
     .consumeWithHandler(keystore, account.address, async (creationTx) => {
-      console.log(444444, account);
       await Kilt.BlockchainUtils.signAndSubmitTx(creationTx, account, {
         reSign: true,
         resolveOn: Kilt.BlockchainUtils.IS_FINALIZED,

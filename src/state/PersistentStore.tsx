@@ -105,11 +105,9 @@ export class PersistentStore {
   ): Promise<Partial<AppState>> {
     const decryptedState = await PersistentStore.decrypt(password);
 
-    console.log(121212, decryptedState);
     if (!decryptedState) throw new Error("Store could not be decrypted");
     const persistedState = PersistentStore.deserialize(decryptedState);
 
-    console.log(121212000, decryptedState);
     return persistedState;
   }
 
@@ -147,7 +145,7 @@ export class PersistentStore {
           persistedState.wallet.attesters[0] || null;
       }
 
-      console.log(666111, 111166, persistedState);
+      console.log("state----", persistedState);
     }
 
     this.storeInternal = configureStore({
@@ -166,7 +164,7 @@ export class PersistentStore {
     });
 
     this.storeInternal.subscribe(async () => {
-      console.log(6666666, 6666666, this.storeInternal?.getState());
+      console.log("state", this.storeInternal?.getState());
 
       const {
         wallet: { password },
