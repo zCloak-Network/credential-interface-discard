@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:20:49
- * @LastEditTime: 2022-03-28 23:44:18
+ * @LastEditTime: 2022-03-31 16:13:00
  */
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
@@ -10,19 +10,20 @@ import { Select } from "antd";
 import DetailModal from "../DetailModal";
 import * as Kilt from "@kiltprotocol/sdk-js";
 import { useToggleDetailModal } from "../../state/application/hooks";
-import { getMessage } from "../../services/api";
+import { getMessage, sendAttestation } from "../../services/api";
 import { useGetCurrIdentity } from "../../state/wallet/hooks";
 import {
   getFullDid,
   generateLightDid,
   generateAccount,
   generateLightKeypairs,
+  generateFullKeypairs,
 } from "../../utils/accountUtils";
 import Empty from "../../components/Empty";
 import Loading from "../../components/Loading";
 import Button from "../../components/Button";
 import { useAddPopup } from "../../state/application/hooks";
-import { useSaveAttestation } from "../../state/attestations/hooks";
+import type { MessageBody } from "@kiltprotocol/sdk-js";
 
 import "./index.scss";
 
@@ -36,23 +37,60 @@ const Content: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [attestLoading, setAttestLoading] = useState(false);
   const addPopup = useAddPopup();
-  const saveAttestation = useSaveAttestation();
+
   const toggleModal = useToggleDetailModal();
   const currIdentity = useGetCurrIdentity();
 
-  const handleTypeChange = () => {};
+  const handleTypeChange = () => {
+    // TODO
+  };
 
   const handleClick = (data) => {
     setSelectItem(data);
     toggleModal();
   };
 
+  const decrypt = async (data) => {
+    const keystore = new Kilt.Did.DemoKeystore();
+    await generateFullKeypairs(keystore, currIdentity.mnemonic);
+
+    const receiverFullDid = await getFullDid(currIdentity.account.address);
+
+    const decryptedRequestForAttestationMessage = await Kilt.Message.decrypt(
+      data,
+      keystore,
+      receiverFullDid
+    );
+
+    return decryptedRequestForAttestationMessage;
+  };
+
+  const decryptMessage = async (data) => {
+    const dataAll = [];
+
+    await data.map((it) => {
+      dataAll.push(decrypt(it));
+    });
+
+    return Promise.all(dataAll).then((res) => {
+      return res;
+    });
+  };
+
   const queryMessage = async () => {
     if (currIdentity?.fullDid?.did) {
+      const receiverFullDid = await getFullDid(currIdentity.account.address);
       await setLoading(true);
-      const res = await getMessage({ receiver: currIdentity.fullDid.did });
+
+      const res = await getMessage({
+        receiverKeyId: `${currIdentity.fullDid.did}#${
+          receiverFullDid.encryptionKey!.id
+        }`,
+      });
       if (res.data.code === 200) {
-        await setMessage(res.data.data);
+        const decryptMessages = await decryptMessage(res.data.data);
+
+        await setMessage(decryptMessages);
         await setLoading(false);
       }
     }
@@ -63,18 +101,14 @@ const Content: React.FC = () => {
   }, []);
 
   const handleSubmit = async () => {
-    // /* Therefore, **during decryption** both the **sender account and the validity of the message are checked automatically**. */
-    // const decrypted = await Kilt.Message.decrypt(encryptedMessage, keystore)
-    // /* At this point the Attester has the original request for attestation object: */
     if (selectItem.body.type === Kilt.Message.BodyType.REQUEST_ATTESTATION) {
-      // //   /* The Attester creates the attestation based on the IRequestForAttestation object she received: */
-      // build the attestation object
       setAttestLoading(true);
       try {
         const request = Kilt.RequestForAttestation.fromClaim(
           selectItem.body.content.requestForAttestation.claim
         );
         const keystore = new Kilt.Did.DemoKeystore();
+        const keystore2 = new Kilt.Did.DemoKeystore();
 
         const lightKeypairs = await generateLightKeypairs(
           keystore,
@@ -92,6 +126,7 @@ const Content: React.FC = () => {
           request,
           currIdentity.fullDid.did
         );
+
         const fullDid = await getFullDid(currIdentity.fullDid.identifier);
         const account = await generateAccount(currIdentity.mnemonic);
 
@@ -106,7 +141,29 @@ const Content: React.FC = () => {
           reSign: true,
         });
 
-        await saveAttestation(request, attestation);
+        const messageBody: MessageBody = {
+          content: { attestation },
+          type: Kilt.Message.BodyType.SUBMIT_ATTESTATION,
+        };
+
+        const messageBack = new Kilt.Message(
+          messageBody,
+          currIdentity.fullDid.did,
+          selectItem.sender
+        );
+
+        await generateFullKeypairs(keystore2, currIdentity.mnemonic);
+
+        const receiver = Kilt.Did.LightDidDetails.fromUri(selectItem.sender);
+
+        const encryptedPresentationMessage = await messageBack.encrypt(
+          fullDid.encryptionKey!.id,
+          fullDid,
+          keystore2,
+          receiver.assembleKeyId(receiver.encryptionKey!.id)
+        );
+
+        await sendAttestation({ ...encryptedPresentationMessage });
 
         await addPopup({
           txn: {
@@ -119,53 +176,11 @@ const Content: React.FC = () => {
         toggleModal();
 
         console.log("Attester -> submit attestation...");
-
-        console.log("Attester -> submit attestation111...", attestation);
       } catch (error) {
         throw error;
       }
       setAttestLoading(false);
-      // //   /* The complete `attestation` object looks as follows: */
-      // console.log(attestation);
-      // //   /* Now the Attester can store and authorize the attestation on the blockchain, which also costs tokens: */
-      // const tx = await attestation.store();
-      // const didResolver = await getFullDid(currIdentity.fullDid.did);
-      // const authorizedTx = await didResolver.authorizeExtrinsic(
-      //   tx,
-      //   keystore,
-      //   currIdentity.account.address
-      // );
-
-      // await Kilt.BlockchainUtils.signAndSubmitTx(
-      //   authorizedTx,
-      //   currIdentity.account,
-      //   {
-      //     resolveOn: Kilt.BlockchainUtils.IS_IN_BLOCK,
-      //     reSign: true,
-      //   }
-      // );
-      // //   /* The request for attestation is fulfilled with the attestation, but it needs to be combined into the `Credential` object before sending it back to the Claimer: */
-      // const credential = Kilt.Credential.fromRequestAndAttestation(
-      //   extractedRequestForAttestation,
-      //   attestation
-      // );
-      // //   /* The complete `credential` object looks as follows: */
-      // console.log(credential);
-      // //   /* The Attester has to send the `credential` object back to the Claimer in the following message: */
-      // const messageBodyBack: MessageBody = {
-      //   content: credential,
-      //   type: Kilt.Message.BodyType.SUBMIT_ATTESTATION,
-      // };
-      // const messageBack = new Kilt.Message(
-      //   messageBodyBack,
-      //   attesterFullDid.did,
-      //   claimerLightDid.did
-      // );
     }
-    //   /* The complete `messageBack` message then looks as follows: */
-    //   console.log(messageBack)
-
-    // store attestation locally
   };
 
   return (

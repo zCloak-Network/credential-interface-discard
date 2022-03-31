@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-30 16:51:36
- * @LastEditTime: 2022-03-31 11:33:35
+ * @LastEditTime: 2022-03-31 16:09:40
  */
 import React from "react";
 import dayjs from "dayjs";
@@ -16,12 +16,14 @@ import FileSaver from "file-saver";
 import detailImg from "../../images/icon_detials.svg";
 import forwardImg from "../../images/icon_forward.svg";
 import downloadImg from "../../images/icon_download.svg";
+import loading from "../../images/loading_1.gif";
 
 import "./ListItem.scss";
 
 interface Props {
   index: number;
   attestation: any;
+  attestationLoading: boolean;
   setSelectItem: (value) => void;
   data: {
     requestForAttestations: {
@@ -44,6 +46,7 @@ export default function ListItem({
   index,
   attestation,
   setSelectItem,
+  attestationLoading,
 }: Props): JSX.Element {
   const toggleModal = useToggleRequestModal();
   const toggleDetailModal = useToggleDetailModal();
@@ -52,7 +55,7 @@ export default function ListItem({
 
   const download = async () => {
     const blob = await new Blob(
-      [JSON.stringify(attestation.requestforAttestation)],
+      [JSON.stringify(attestation?.body?.content?.attestation)],
       {
         type: "text/plain;charset=utf-8",
       }
@@ -66,14 +69,18 @@ export default function ListItem({
       <span>{index}</span>
       <span>{data.meta?.alias || "-"}</span>
       <span>
-        {isTested ? shortenHash(attestation.attestation?.claimHash) : "-"}
+        {isTested
+          ? shortenHash(attestation?.body?.content?.attestation?.claimHash)
+          : "-"}
       </span>
       <span>{shortenHash(data.claim?.cTypeHash) || "-"}</span>
       <span>
-        {isTested ? (
-          <i className="iconfont icon_success2"></i>
-        ) : (
-          <i className="iconfont icon_empty"></i>
+        {attestationLoading && <img src={loading} className="loading" />}
+        {isTested && !attestationLoading && (
+          <i className="iconfont icon_success2" />
+        )}
+        {!isTested && !attestationLoading && (
+          <i className="iconfont icon_empty" />
         )}
       </span>
       <span>

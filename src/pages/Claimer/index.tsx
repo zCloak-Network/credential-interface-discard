@@ -2,18 +2,24 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-03-28 22:16:28
+ * @LastEditTime: 2022-03-31 16:13:36
  */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
 import Button from "../../components/Button";
 import { useGetClaims } from "../../state/claim/hooks";
-import { useGetAttestations } from "../../state/attestations/hooks";
 import { useToggleCreateClaimModal } from "../../state/application/hooks";
 import DetailModal from "../DetailModal";
 import RequestAttestationModal from "../RequestAttestationModal";
 import Empty from "../../components/Empty";
 import ContentLayout from "../../components/ContentLayout";
+import * as Kilt from "@kiltprotocol/sdk-js";
+import { getAttestation } from "../../services/api";
+import {
+  generateLightKeypairs,
+  generateLightDid,
+} from "../../utils/accountUtils";
+import { useGetCurrIdentity } from "../../state/wallet/hooks";
 
 import "./index.scss";
 
@@ -26,14 +32,75 @@ const MODOLE = [
 ];
 
 export default function Claimer(): JSX.Element {
-  const data = useGetClaims();
-  const attestations = useGetAttestations();
+  const allClaims = useGetClaims();
+  const currAccount = useGetCurrIdentity();
+  const [attestationLoading, setAttestationLoading] = useState<boolean>(false);
   const [selectItem, setSelectItem] = useState();
+  const [attestations, setAttestations] = useState([]);
   const toggleConnectWalletModal = useToggleCreateClaimModal();
 
   const handleCreateClaim = () => {
     toggleConnectWalletModal();
   };
+
+  const decryptAttestation = async (data) => {
+    const dataAll = [];
+
+    await data.map((it) => {
+      dataAll.push(decrypt(it));
+    });
+
+    return Promise.all(dataAll).then((res) => {
+      return res;
+    });
+  };
+
+  const decrypt = async (data) => {
+    const keystore = new Kilt.Did.DemoKeystore();
+    const lightKeypairs = await generateLightKeypairs(
+      keystore,
+      currAccount.mnemonic
+    );
+    const lightDid = await generateLightDid(lightKeypairs);
+
+    const decryptedRequestForAttestationMessage = await Kilt.Message.decrypt(
+      data,
+      keystore,
+      lightDid
+    );
+
+    return decryptedRequestForAttestationMessage;
+  };
+
+  const queryAttestations = async () => {
+    await setAttestationLoading(true);
+    const lightDid = Kilt.Did.LightDidDetails.fromUri(
+      currAccount.lightDidDetails.did
+    );
+
+    const res = await getAttestation({
+      receiverKeyId: `${currAccount?.lightDidDetails.did}#${
+        lightDid.encryptionKey!.id
+      }`,
+    });
+
+    if (res.data.code === 200) {
+      const decryptAttestations = await decryptAttestation(res.data.data);
+
+      await setAttestations(decryptAttestations);
+      await setAttestationLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (currAccount && currAccount.mnemonic) {
+      queryAttestations();
+    }
+  }, [currAccount]);
+
+  const data = allClaims.filter(
+    (it) => it?.claim.owner === currAccount?.lightDidDetails?.did
+  );
 
   return (
     <ContentLayout menu={MODOLE}>
@@ -62,13 +129,16 @@ export default function Claimer(): JSX.Element {
                 </div>
                 {data?.map((item, index) => {
                   const attestation = attestations.find(
-                    (it) => it.attestation.cTypeHash == item.claim?.cTypeHash
+                    (it) =>
+                      it?.body?.content?.attestation?.cTypeHash ==
+                      item.claim?.cTypeHash
                   );
 
                   return (
                     <div key={`${item.id}-${index}`} className="claimer-list">
                       <ListItem
                         data={item}
+                        attestationLoading={attestationLoading}
                         attestation={attestation}
                         index={index + 1}
                         setSelectItem={(value) => {

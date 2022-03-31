@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-03-24 14:25:06
+ * @LastEditTime: 2022-03-31 16:12:38
  */
 import React, { useState, useEffect } from "react";
 import omit from "omit.js";
@@ -19,9 +19,8 @@ import {
 import { ApplicationModal } from "../../state/application/reducer";
 import Loading from "../Loading";
 import PropertyInput from "./PropertyInput";
-import { useSaveClaim } from "../../state/claim/hooks";
+import { useSaveClaim, useGetClaims } from "../../state/claim/hooks";
 import { useGetCurrIdentity } from "../../state/wallet/hooks";
-import { useGetAttestations } from "../../state/attestations/hooks";
 
 import "./index.scss";
 
@@ -32,16 +31,19 @@ export default function NewClaimModal(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [selectCtype, setSelectCtype] = useState(null);
   const saveClaim = useSaveClaim();
+  const allClaims = useGetClaims();
   const toggleModal = useToggleCreateClaimModal();
   const currAccount = useGetCurrIdentity();
-  const attestations = useGetAttestations();
   const modalOpen = useModalOpen(ApplicationModal.CREATE_CLAIM);
 
   const getData = async () => {
     const res = await queryCtypes();
 
-    const isTestedCtype =
-      attestations.map((it) => it.attestation.cTypeHash) || [];
+    // 已经生成过claim的ctype 不可选
+    const allClaimsCurr = allClaims.filter(
+      (it) => it?.claim.owner === currAccount?.lightDidDetails?.did
+    );
+    const isTestedCtype = allClaimsCurr.map((it) => it.claim.cTypeHash) || [];
 
     const formatData = res.data.data?.filter(
       (it) => !isTestedCtype.includes(it.ctypeHash)
@@ -52,8 +54,6 @@ export default function NewClaimModal(): JSX.Element {
   };
 
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
-
     const find = ctypes.find((it) => it.ctypeHash === value);
 
     setSelectCtype(find);

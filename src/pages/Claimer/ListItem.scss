@@ -33,6 +33,12 @@
   &:hover {
     background: #eaecf2;
   }
+
+  .loading {
+    width: 26px;
+    vertical-align: middle;
+  }
+
   .icon_success2 {
     font-size: 16px;
     color: $status-success-color;
