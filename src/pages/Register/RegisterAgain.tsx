@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 10:45:21
- * @LastEditTime: 2022-03-31 10:34:22
+ * @LastEditTime: 2022-03-31 17:31:08
  */
 import React, { useState, useEffect } from "react";
 import LogoBanner from "../../components/LogoBanner";
@@ -15,8 +15,6 @@ import { mnemonicGenerate } from "@polkadot/util-crypto";
 import {
   useSaveClaimer,
   useSaveAttester,
-  useGetClaimers,
-  useGetAttesters,
   useSaveCurrIdentity,
 } from "../../state/wallet/hooks";
 import * as Kilt from "@kiltprotocol/sdk-js";
@@ -51,8 +49,6 @@ const RegisterAgain: React.FC<Props> = ({ password }) => {
   const isClaimer = useRole();
   const saveClaimer = useSaveClaimer();
   const saveAttester = useSaveAttester();
-  const claimers = useGetClaimers();
-  const attesters = useGetAttesters();
   const saveCurrIdentity = useSaveCurrIdentity();
   const [current, setCurrent] = useState<number>(0);
   const [mnemonic, setMnemonic] = useState<string[]>([]);
@@ -89,15 +85,13 @@ const RegisterAgain: React.FC<Props> = ({ password }) => {
 
     if (isClaimer) {
       await saveClaimer(newIdentity);
-      if (claimers.length === 0) {
-        await saveCurrIdentity(newIdentity);
-      }
+
+      await saveCurrIdentity(newIdentity);
       await handleBack();
     } else {
       await saveAttester(newIdentity);
-      if (attesters.length === 0) {
-        await saveCurrIdentity(newIdentity);
-      }
+
+      await saveCurrIdentity(newIdentity);
       await navigate("/attester/attestations");
     }
   };
