@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-03-31 16:12:38
+ * @LastEditTime: 2022-04-01 11:21:01
  */
 import React, { useState, useEffect } from "react";
 import omit from "omit.js";
@@ -73,12 +73,15 @@ export default function NewClaimModal(): JSX.Element {
       };
     });
 
-    const ctype = CType.fromSchema({
-      $schema: "http://kilt-protocol.org/draft-01/ctype#",
-      title: selectCtype?.metadata?.title,
-      properties: newPro,
-      type: "object",
-    });
+    const ctype = CType.fromSchema(
+      {
+        $schema: "http://kilt-protocol.org/draft-01/ctype#",
+        title: selectCtype?.metadata?.title,
+        properties: newPro,
+        type: "object",
+      },
+      selectCtype.owner
+    );
 
     const claim = Claim.fromCTypeAndClaimContents(
       ctype,

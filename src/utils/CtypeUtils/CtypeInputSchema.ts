@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-07 15:19:54
- * @LastEditTime: 2022-03-31 16:53:20
+ * @LastEditTime: 2022-04-01 10:57:45
  */
 
 export default {
@@ -27,8 +27,8 @@ export default {
       minLength: 1,
       className: "schema-title",
     },
-    description: { type: "string", className: "schema-des" },
-    owner: { type: "string", className: "schema-owner" },
+    // description: { type: "string", className: "schema-des" },
+    // owner: { type: "string", className: "schema-owner" },
     properties: {
       title: "Data",
       type: "array",

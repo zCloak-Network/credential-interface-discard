@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:49:25
- * @LastEditTime: 2022-03-31 16:15:30
+ * @LastEditTime: 2022-04-01 11:10:51
  */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ import Button from "../../components/Button";
 import { useGetCurrIdentity } from "../../state/wallet/hooks";
 import { useAddPopup } from "../../state/application/hooks";
 import arrowDownInactiveImg from "../../images/icon_arrow_inactive.png";
+import { ICTypeSchema } from "@kiltprotocol/types";
 
 import "./index.scss";
 
@@ -73,11 +74,11 @@ const NewCtype: React.FC = () => {
   //   // connect();
   // }, []);
 
-  const cancel = () => {
-    // const { history } = this.props
-    // // TODO: goto CTYPE list or previous screen?
-    // history.push('/cType')
-  };
+  // const cancel = () => {
+  //   // const { history } = this.props
+  //   // // TODO: goto CTYPE list or previous screen?
+  //   // history.push('/cType')
+  // };
 
   const format = () => {
     const newProperties = {};
@@ -86,8 +87,10 @@ const NewCtype: React.FC = () => {
     });
 
     const newData = {
-      ...cType,
+      $schema: cType.$schema,
+      title: cType.title,
       properties: newProperties,
+      type: "object",
     };
 
     return newData;
@@ -103,17 +106,18 @@ const NewCtype: React.FC = () => {
     const keystore = new Kilt.Did.DemoKeystore();
     await generateFullKeypairs(keystore, currIdentity.mnemonic);
 
-    // get the CTYPE and see if it's stored, if yes return it
-    const ctype = Kilt.CType.fromSchema(format());
-
-    const isStored = await ctype.verifyStored();
-    if (isStored) {
-      console.log("Ctype already stored. Skipping creation");
-      return ctype;
-    }
-
-    // authorize the extrinsic
     try {
+      const ctype = Kilt.CType.fromSchema(
+        format() as ICTypeSchema,
+        currIdentity.fullDid.did
+      );
+
+      const isStored = await ctype.verifyStored();
+      if (isStored) {
+        console.log("Ctype already stored. Skipping creation");
+        return ctype;
+      }
+
       const tx = await ctype.getStoreTx();
       const extrinsic = await fullDid.authorizeExtrinsic(
         tx,
@@ -134,12 +138,22 @@ const NewCtype: React.FC = () => {
         },
       });
       await addCtype({
+        owner: ctype.owner,
         ctypeHash: ctype.hash,
         metadata: ctype.schema,
       });
       await setLoading(false);
       await handleBack();
     } catch (error) {
+      addPopup({
+        txn: {
+          hash: "",
+          success: false,
+          title: `Failed to create CTYPE ${cType.title}.`,
+          summary: error.message,
+        },
+      });
+      await setLoading(false);
       throw error;
     }
   };
