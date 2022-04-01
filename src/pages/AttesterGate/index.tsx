@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-29 13:55:08
- * @LastEditTime: 2022-04-01 14:29:32
+ * @LastEditTime: 2022-04-01 15:18:47
  */
 import React, { useEffect, useState } from "react";
 import * as Kilt from "@kiltprotocol/sdk-js";
@@ -16,12 +16,16 @@ import {
   generateFullKeypairs,
 } from "../../utils/accountUtils";
 import {
+  useGetAttesters,
   useUpdateAttesters,
   useGetCurrIdentity,
   useSaveCurrIdentity,
 } from "../../state/wallet/hooks";
 import EnterPasswordModal from "../../components/EnterPasswordModal";
 import { addAttester } from "../../services/api";
+import Empty from "../../components/Empty";
+import Button from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   resetPassword: () => void;
@@ -30,6 +34,8 @@ type Props = {
 
 const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
   const addPopup = useAddPopup();
+  const navigate = useNavigate();
+  const attesters = useGetAttesters();
   const currAccount = useGetCurrIdentity();
   const updateAttesters = useUpdateAttesters();
   const saveCurrIdentity = useSaveCurrIdentity();
@@ -100,10 +106,30 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
     }
   };
 
+  const handleCreateAccount = () => {
+    navigate("/attester/register-again");
+  };
+
   useEffect(() => {
     getMyBalance();
     getDid();
   }, [currAccount]);
+
+  if (attesters.length === 0) {
+    return (
+      <Empty
+        description={
+          <Button
+            onClick={handleCreateAccount}
+            type="primary"
+            style={{ width: "450px", height: "40px" }}
+          >
+            Create A New Account
+          </Button>
+        }
+      ></Empty>
+    );
+  }
 
   if (currAccount?.fullDid?.did) {
     return children;

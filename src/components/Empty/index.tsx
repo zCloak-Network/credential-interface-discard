@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-07 10:15:41
- * @LastEditTime: 2022-01-11 16:33:36
+ * @LastEditTime: 2022-04-01 15:12:06
  */
 import React from "react";
 import classNames from "classnames";
@@ -14,7 +14,7 @@ import "./index.scss";
 interface Props {
   image?: string;
   type?: string;
-  description?: string;
+  description?: string | React.ReactElement;
   className?: string;
   handleConnect?: () => void;
 }
