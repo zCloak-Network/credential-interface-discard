@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-16 21:31:30
- * @LastEditTime: 2022-03-16 21:35:42
+ * @LastEditTime: 2022-04-01 18:12:00
  */
 import React from "react";
 import Code from "../../components/Code";
@@ -22,6 +22,12 @@ const ClaimDetail: React.FC<Props> = ({ data }) => {
           <span className="detail-item-label">Ctype</span>
           <span className="detail-item-value">
             {shortenHash(data?.claim.cTypeHash)}
+          </span>
+        </div>
+        <div className="detail-item">
+          <span className="detail-item-label">Attester</span>
+          <span className="detail-item-value">
+            {shortenHash(data?.meta?.ctype?.owner, 18)}
           </span>
         </div>
         <div className="detail-item">

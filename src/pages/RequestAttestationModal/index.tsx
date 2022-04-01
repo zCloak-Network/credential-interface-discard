@@ -2,27 +2,22 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-24 15:55:51
- * @LastEditTime: 2022-03-31 16:14:23
+ * @LastEditTime: 2022-04-01 18:14:42
  */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "../../components/Modal";
 import {
   useModalOpen,
   useToggleRequestModal,
 } from "../../state/application/hooks";
-import {
-  useGetCurrIdentity,
-  useGetClaimers,
-  useGetAttesters,
-} from "../../state/wallet/hooks";
-import { Select } from "antd";
+import { useGetCurrIdentity } from "../../state/wallet/hooks";
 import { ApplicationModal } from "../../state/application/reducer";
-import { shortenHash } from "../../utils";
 import Button from "../../components/Button";
 import ClaimDetail from "../../components/ClaimDetail";
-import { sendMessage, getAttester } from "../../services/api";
+import { sendMessage } from "../../services/api";
 import * as Kilt from "@kiltprotocol/sdk-js";
 import type { MessageBody } from "@kiltprotocol/sdk-js";
+import { useAddPopup } from "../../state/application/hooks";
 import {
   getFullDid,
   generateLightDid,
@@ -36,71 +31,68 @@ type Props = {
   detail: any;
 };
 
-const { Option } = Select;
-
 const RequestAttestationModal: React.FC<Props> = ({ detail }) => {
-  const currAccount = useGetCurrIdentity();
   const [loading, setLoading] = useState(false);
+  const addPopup = useAddPopup();
+  const currAccount = useGetCurrIdentity();
   const toggleModal = useToggleRequestModal();
-  const [receiver, setReceiver] = useState("");
-  const [attesters, setAttesters] = useState([]);
   const modalOpen = useModalOpen(ApplicationModal.REQUEST_ATTESTATION);
-
-  const handleChange = (value) => {
-    setReceiver(value);
-  };
 
   const handleSendMessage = async () => {
     await setLoading(true);
-    const keystoreClaimer = new Kilt.Did.DemoKeystore();
-    const keystoreAttester = new Kilt.Did.DemoKeystore();
-    const receiverFullDid = await getFullDid(receiver);
+    try {
+      const keystoreClaimer = new Kilt.Did.DemoKeystore();
+      const keystoreAttester = new Kilt.Did.DemoKeystore();
 
-    const requestForAttestation = Kilt.RequestForAttestation.fromClaim(
-      detail.claim
-    );
+      const receiverFullDid = await getFullDid(
+        Kilt.Did.DidUtils.getIdentifierFromKiltDid(detail.meta?.ctype?.owner)
+      );
 
-    const lightKeypairs = await generateLightKeypairs(
-      keystoreClaimer,
-      currAccount.mnemonic
-    );
-    const lightDid = await generateLightDid(lightKeypairs);
+      const requestForAttestation = Kilt.RequestForAttestation.fromClaim(
+        detail.claim
+      );
 
-    const messageBody: MessageBody = {
-      content: { requestForAttestation },
-      type: Kilt.Message.BodyType.REQUEST_ATTESTATION,
-    };
+      const lightKeypairs = await generateLightKeypairs(
+        keystoreClaimer,
+        currAccount.mnemonic
+      );
+      const lightDid = await generateLightDid(lightKeypairs);
 
-    const message = new Kilt.Message(
-      messageBody,
-      currAccount?.lightDidDetails?.did,
-      receiverFullDid.did
-    );
+      const messageBody: MessageBody = {
+        content: { requestForAttestation },
+        type: Kilt.Message.BodyType.REQUEST_ATTESTATION,
+      };
 
-    await generateFullKeypairs(keystoreAttester, currAccount.mnemonic);
+      const message = new Kilt.Message(
+        messageBody,
+        currAccount?.lightDidDetails?.did,
+        receiverFullDid.did
+      );
 
-    const encryptedPresentationMessage = await message.encrypt(
-      lightDid.encryptionKey!.id,
-      lightDid,
-      keystoreAttester,
-      receiverFullDid.assembleKeyId(receiverFullDid.encryptionKey!.id)
-    );
+      await generateFullKeypairs(keystoreAttester, currAccount.mnemonic);
 
-    await setLoading(false);
-    await sendMessage({ ...encryptedPresentationMessage });
-    await toggleModal();
-  };
-
-  const queryAttester = async () => {
-    const res = await getAttester();
-    if (res?.data.code === 200) {
-      setAttesters(res.data.data);
+      const encryptedPresentationMessage = await message.encrypt(
+        lightDid.encryptionKey!.id,
+        lightDid,
+        keystoreAttester,
+        receiverFullDid.assembleKeyId(receiverFullDid.encryptionKey!.id)
+      );
+      await sendMessage({ ...encryptedPresentationMessage });
+      await toggleModal();
+      await setLoading(false);
+    } catch (error) {
+      addPopup({
+        txn: {
+          hash: "",
+          success: false,
+          title: error.name,
+          summary: error.message,
+        },
+      });
+      await setLoading(false);
+      throw error;
     }
   };
-
-  useEffect(() => {
-    queryAttester();
-  }, []);
 
   return (
     <Modal
@@ -109,30 +101,15 @@ const RequestAttestationModal: React.FC<Props> = ({ detail }) => {
       title="Request attestation"
       onCancel={() => {
         toggleModal();
-        setReceiver("");
       }}
       wrapClassName="request-modal"
     >
-      <Select
-        style={{ width: "100%", marginBottom: 10 }}
-        onChange={handleChange}
-        dropdownClassName="request-select"
-      >
-        {attesters.map((it) => {
-          return (
-            <Option value={it.address} key={it.address}>
-              {shortenHash(it.address)}
-            </Option>
-          );
-        })}
-      </Select>
       <div className="detail-wrapper">
         <ClaimDetail data={detail} />
       </div>
       <Button
         type="primary"
         loading={loading}
-        disabled={!receiver}
         className="request-btn"
         onClick={handleSendMessage}
       >

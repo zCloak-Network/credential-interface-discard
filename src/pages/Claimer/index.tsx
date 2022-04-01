@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-04-01 15:29:33
+ * @LastEditTime: 2022-04-01 18:12:33
  */
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
@@ -147,7 +147,7 @@ export default function Claimer(): JSX.Element {
                   <span>Claim alias</span>
                   <span>Claim hash</span>
                   <span>Ctype hash</span>
-                  <span>Status</span>
+                  <span>Attested</span>
                   <span>Time</span>
                   <span />
                 </div>
