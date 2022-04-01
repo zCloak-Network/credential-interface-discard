@@ -24,7 +24,7 @@ const LoginGate: React.FC<Props> = ({ handlePassword }) => {
   const login = async (newPassword: string): Promise<void> => {
     handlePassword(newPassword);
     if (isClaimer) {
-      navigate("/claimer/claims");
+      navigate("/user/claims");
     } else {
       navigate("/attester/attestations");
     }

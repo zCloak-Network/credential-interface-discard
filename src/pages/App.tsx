@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-03-30 18:34:05
+ * @LastEditTime: 2022-04-01 18:25:48
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -30,7 +30,7 @@ export default function App(): JSX.Element {
 
   const navigateTo = () => {
     if (isClaimer) {
-      navigate("/claimer/login");
+      navigate("/user/login");
     } else {
       navigate("/attester/login");
     }
@@ -53,14 +53,11 @@ export default function App(): JSX.Element {
       <>
         <Popups />
         <Routes>
-          <Route
-            path="/claimer"
-            element={<Navigate replace to="/claimer/login" />}
-          />
+          <Route path="/user" element={<Navigate replace to="/user/login" />} />
 
           {/* TODO  refactor route */}
           <Route
-            path="/claimer/login"
+            path="/user/login"
             // path="/:role/login"
             element={
               <LoginGate
@@ -84,17 +81,17 @@ export default function App(): JSX.Element {
               />
             }
           />
-          <Route path="/claimer/register" element={<Register />} />
+          <Route path="/user/register" element={<Register />} />
           <Route path="/attester/register" element={<Register />} />
           <Route
-            path="/claimer/register-again"
+            path="/user/register-again"
             element={<RegisterAgain password={password} />}
           />
           <Route
             path="/attester/register-again"
             element={<RegisterAgain password={password} />}
           />
-          <Route path="/claimer/claims" element={<Claimer />} />
+          <Route path="/user/claims" element={<Claimer />} />
           <Route
             path="/attester/attestations/ctypes/new"
             element={<NewCtype />}

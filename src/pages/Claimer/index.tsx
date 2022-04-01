@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-04-01 18:12:33
+ * @LastEditTime: 2022-04-01 18:23:45
  */
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
@@ -27,9 +27,9 @@ import "./index.scss";
 
 const MODOLE = [
   {
-    title: "Claimer",
-    key: "claimer",
-    url: "/claimer/claims",
+    title: "User",
+    key: "user",
+    url: "/user/claims",
   },
 ];
 
@@ -107,7 +107,7 @@ export default function Claimer(): JSX.Element {
   );
 
   const handleCreateAccount = () => {
-    navigate("/claimer/register-again");
+    navigate("/user/register-again");
   };
 
   if (claimers.length === 0) {

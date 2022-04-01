@@ -50,7 +50,7 @@ export default function Connect({ resetPassword }: Props): ReactElement {
 
   const handleCreate = () => {
     if (isClaimer) {
-      navigate("/claimer/register-again");
+      navigate("/user/register-again");
     } else {
       navigate("/attester/register-again");
     }

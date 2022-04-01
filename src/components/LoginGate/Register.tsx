@@ -16,7 +16,7 @@ const Register: React.FC = () => {
 
   const handleSubmit = () => {
     if (isClaimer) {
-      navigate("/claimer/register");
+      navigate("/user/register");
     } else {
       navigate("/attester/register");
     }

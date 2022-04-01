@@ -98,7 +98,7 @@ const Register: React.FC = () => {
     await savePassword(password);
     if (isClaimer) {
       await saveClaimer(newIdentity);
-      await navigate("/claimer/claims");
+      await navigate("/user/claims");
     } else {
       await saveAttester(newIdentity);
       await navigate("/attester/attestations");
