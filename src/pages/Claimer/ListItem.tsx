@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-30 16:51:36
- * @LastEditTime: 2022-03-31 16:09:40
+ * @LastEditTime: 2022-04-01 14:55:14
  */
 import React from "react";
 import dayjs from "dayjs";
@@ -17,6 +17,7 @@ import detailImg from "../../images/icon_detials.svg";
 import forwardImg from "../../images/icon_forward.svg";
 import downloadImg from "../../images/icon_download.svg";
 import loading from "../../images/loading_1.gif";
+import * as Kilt from "@kiltprotocol/sdk-js";
 
 import "./ListItem.scss";
 
@@ -54,12 +55,18 @@ export default function ListItem({
   const isTested = !!attestation;
 
   const download = async () => {
-    const blob = await new Blob(
-      [JSON.stringify(attestation?.body?.content?.attestation)],
-      {
-        type: "text/plain;charset=utf-8",
-      }
+    const requestForAttestation = Kilt.RequestForAttestation.fromClaim(
+      data.claim
     );
+
+    const credentials = {
+      request: requestForAttestation,
+      attestation: attestation?.body?.content?.attestation,
+    };
+
+    const blob = await new Blob([JSON.stringify(credentials)], {
+      type: "text/plain;charset=utf-8",
+    });
 
     await FileSaver.saveAs(blob, "credential.json");
   };
