@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 13:53:47
- * @LastEditTime: 2022-03-21 18:48:41
+ * @LastEditTime: 2022-04-01 11:38:49
  */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import { queryCtypes } from "../../services/api";
 import ListItem from "./ListItem";
 import Loading from "../../components/Loading";
 import Empty from "../../components/Empty";
-
+import CtypeDetailModal from "../../components/CtypeDetailModal";
 import Button from "../../components/Button";
 
 import "./index.scss";
@@ -19,6 +19,8 @@ const Ctypes: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [ctypes, setCtypes] = useState(null);
+  const [detail, setDetail] = useState(null);
+  const [detailVisible, setDetailVisible] = useState(false);
 
   const handleJump = () => {
     navigate("/attester/attestations/ctypes/new");
@@ -31,6 +33,11 @@ const Ctypes: React.FC = () => {
       await setCtypes(res.data.data);
       await setLoading(false);
     }
+  };
+
+  const handleDetail = (data) => {
+    setDetail(data);
+    setDetailVisible(true);
   };
 
   useEffect(() => {
@@ -50,10 +57,16 @@ const Ctypes: React.FC = () => {
             <span />
             <span>Create CTYPE</span>
             <span>ctypeHash</span>
+            <span />
           </div>
           <ul>
             {ctypes.map((it, index) => (
-              <ListItem data={it} key={index} index={index} />
+              <ListItem
+                data={it}
+                key={index}
+                index={index}
+                handleDetail={handleDetail}
+              />
             ))}
           </ul>
         </>
@@ -62,6 +75,13 @@ const Ctypes: React.FC = () => {
         <Empty description="Your ctype will appear here." />
       )}
       {loading && <Loading />}
+      <CtypeDetailModal
+        data={detail}
+        visible={detailVisible}
+        onCancel={() => {
+          setDetailVisible(false);
+        }}
+      />
     </div>
   );
 };

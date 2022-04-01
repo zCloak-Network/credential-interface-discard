@@ -2,20 +2,36 @@
   width: 100%;
   display: grid;
   gap: 10px;
-  padding: 20px;
-  grid-template-columns: 60px 1fr 2fr;
+  padding: 0 20px;
+  grid-template-columns: 60px 1fr 2fr 60px;
   height: 60px;
   background: #ffffff;
   opacity: 1;
   border-radius: 10px;
   cursor: pointer;
   margin-bottom: 6px;
-
+  align-items: center;
   .index {
     color: #333333;
   }
   .owner {
     color: #666666;
+  }
+
+  .op-btn {
+    width: 36px;
+    height: 36px;
+    background: #f4f6fd;
+    opacity: 1;
+    border-radius: 10px;
+    display: inline-block;
+    line-height: 36px;
+    text-align: center;
+    cursor: pointer;
+    > img {
+      width: 12px;
+      height: 12px;
+    }
   }
 }
 
