@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-15 11:36:33
- * @LastEditTime: 2022-03-31 16:16:45
+ * @LastEditTime: 2022-04-01 14:28:05
  */
 import * as Kilt from "@kiltprotocol/sdk-js";
 import { WSSURL } from "../constants";
@@ -136,7 +136,7 @@ export async function getFullDid(
 ): Promise<Kilt.Did.FullDidDetails> {
   // make sure the did is already on chain
   const onChain = await Kilt.Did.FullDidDetails.fromChainInfo(didIdentifier);
-  if (!onChain)
-    throw Error(`failed to find on chain did: did:kilt:${didIdentifier}`);
+  // if (!onChain)
+  //   throw Error(`failed to find on chain did: did:kilt:${didIdentifier}`);
   return onChain;
 }

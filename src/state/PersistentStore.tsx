@@ -145,7 +145,7 @@ export class PersistentStore {
           persistedState.wallet.attesters[0] || null;
       }
 
-      console.log("state----", persistedState);
+      // console.log("state----", persistedState);
     }
 
     this.storeInternal = configureStore({

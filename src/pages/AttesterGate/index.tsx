@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-29 13:55:08
- * @LastEditTime: 2022-03-31 10:26:34
+ * @LastEditTime: 2022-04-01 14:29:32
  */
 import React, { useEffect, useState } from "react";
 import * as Kilt from "@kiltprotocol/sdk-js";
@@ -18,6 +18,7 @@ import {
 import {
   useUpdateAttesters,
   useGetCurrIdentity,
+  useSaveCurrIdentity,
 } from "../../state/wallet/hooks";
 import EnterPasswordModal from "../../components/EnterPasswordModal";
 import { addAttester } from "../../services/api";
@@ -31,6 +32,7 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
   const addPopup = useAddPopup();
   const currAccount = useGetCurrIdentity();
   const updateAttesters = useUpdateAttesters();
+  const saveCurrIdentity = useSaveCurrIdentity();
   const [loading, setLoading] = useState<boolean>(false);
   const [balance, setBalance] = useState(null);
   const [createLoading, setCreateLoading] = useState<boolean>(false);
@@ -39,6 +41,7 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
 
   const getMyBalance = async () => {
     if (currAccount?.account?.address) {
+      await setLoading(true);
       const balance = await Kilt.Balance.getBalances(
         currAccount.account.address
       );
@@ -49,7 +52,6 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
 
   const handleGenerateFullDid = async () => {
     if (currAccount.account.address) {
-      setLoading(true);
       await setCreateLoading(true);
       const keystore = new Kilt.Did.DemoKeystore();
 
@@ -74,6 +76,7 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
           address: currAccount.account.address,
           did: fullDid.did,
         });
+        await saveCurrIdentity(newAccount);
         await setEnterPasswordStatus(false);
       } catch (error) {
         throw error;
