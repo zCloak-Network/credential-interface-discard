@@ -2,12 +2,13 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-03-31 16:13:36
+ * @LastEditTime: 2022-04-01 15:29:33
  */
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
 import Button from "../../components/Button";
 import { useGetClaims } from "../../state/claim/hooks";
+import { useGetClaimers } from "../../state/wallet/hooks";
 import { useToggleCreateClaimModal } from "../../state/application/hooks";
 import DetailModal from "../DetailModal";
 import RequestAttestationModal from "../RequestAttestationModal";
@@ -19,6 +20,7 @@ import {
   generateLightKeypairs,
   generateLightDid,
 } from "../../utils/accountUtils";
+import { useNavigate } from "react-router-dom";
 import { useGetCurrIdentity } from "../../state/wallet/hooks";
 
 import "./index.scss";
@@ -33,11 +35,13 @@ const MODOLE = [
 
 export default function Claimer(): JSX.Element {
   const allClaims = useGetClaims();
+  const claimers = useGetClaimers();
   const currAccount = useGetCurrIdentity();
   const [attestationLoading, setAttestationLoading] = useState<boolean>(false);
   const [selectItem, setSelectItem] = useState();
   const [attestations, setAttestations] = useState([]);
   const toggleConnectWalletModal = useToggleCreateClaimModal();
+  const navigate = useNavigate();
 
   const handleCreateClaim = () => {
     toggleConnectWalletModal();
@@ -101,6 +105,26 @@ export default function Claimer(): JSX.Element {
   const data = allClaims.filter(
     (it) => it?.claim.owner === currAccount?.lightDidDetails?.did
   );
+
+  const handleCreateAccount = () => {
+    navigate("/claimer/register-again");
+  };
+
+  if (claimers.length === 0) {
+    return (
+      <Empty
+        description={
+          <Button
+            onClick={handleCreateAccount}
+            type="primary"
+            style={{ width: "450px", height: "40px" }}
+          >
+            Create A New Account
+          </Button>
+        }
+      ></Empty>
+    );
+  }
 
   return (
     <ContentLayout menu={MODOLE}>
