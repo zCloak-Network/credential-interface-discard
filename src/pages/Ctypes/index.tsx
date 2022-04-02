@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 13:53:47
- * @LastEditTime: 2022-04-01 11:38:49
+ * @LastEditTime: 2022-04-02 11:31:55
  */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import Loading from "../../components/Loading";
 import Empty from "../../components/Empty";
 import CtypeDetailModal from "../../components/CtypeDetailModal";
 import Button from "../../components/Button";
+import { useGetCurrIdentity } from "../../state/wallet/hooks";
 
 import "./index.scss";
 
@@ -21,6 +22,7 @@ const Ctypes: React.FC = () => {
   const [ctypes, setCtypes] = useState(null);
   const [detail, setDetail] = useState(null);
   const [detailVisible, setDetailVisible] = useState(false);
+  const currAccount = useGetCurrIdentity();
 
   const handleJump = () => {
     navigate("/attester/attestations/ctypes/new");
@@ -28,7 +30,7 @@ const Ctypes: React.FC = () => {
 
   const getData = async () => {
     await setLoading(true);
-    const res = await queryCtypes();
+    const res = await queryCtypes({ owner: currAccount.fullDid.did });
     if (res.data.code === 200) {
       await setCtypes(res.data.data);
       await setLoading(false);
@@ -41,8 +43,10 @@ const Ctypes: React.FC = () => {
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    if (currAccount.fullDid.did) {
+      getData();
+    }
+  }, [currAccount]);
 
   return (
     <div className="ctypes">

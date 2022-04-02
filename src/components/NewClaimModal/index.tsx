@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-04-01 18:13:23
+ * @LastEditTime: 2022-04-02 11:28:44
  */
 import React, { useState, useEffect } from "react";
 import omit from "omit.js";
@@ -37,7 +37,7 @@ export default function NewClaimModal(): JSX.Element {
   const modalOpen = useModalOpen(ApplicationModal.CREATE_CLAIM);
 
   const getData = async () => {
-    const res = await queryCtypes();
+    const res = await queryCtypes({ owner: null });
 
     // 已经生成过claim的ctype 不可选
     const allClaimsCurr = allClaims.filter(
