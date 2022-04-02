@@ -39,7 +39,7 @@ export class PersistentStore {
   //   return this.storeInternal;
   // }
 
-  private static NAME = "zloakCredentialsData";
+  private static NAME = "zCloakCredentialsData";
   private static SALT = "credentialSalt";
 
   private static deserialize(encryptedState: string) {
@@ -137,6 +137,7 @@ export class PersistentStore {
     if (password) {
       persistedState = await PersistentStore.decryptAndDeserialize(password);
       persistedState.application = applicationInitialState;
+      persistedState.wallet.currentIdentityBalance = null;
       if (isClaimer) {
         persistedState.wallet.currentIdentity =
           persistedState.wallet.claimers[0] || null;

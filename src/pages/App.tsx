@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-04-01 18:25:48
+ * @LastEditTime: 2022-04-02 14:49:57
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -38,6 +38,7 @@ export default function App(): JSX.Element {
 
   useEffect(() => {
     navigateTo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const init = async () => {

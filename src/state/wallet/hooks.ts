@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:03:58
- * @LastEditTime: 2022-03-28 21:49:38
+ * @LastEditTime: 2022-04-02 14:35:03
  */
 import { useCallback } from "react";
 import { AppState } from "../PersistentStore";
@@ -14,6 +14,7 @@ import {
   saveCurrIdentity,
   updateClaimers,
   updateAttesters,
+  saveCurrIdentityBalance,
 } from "./reducer";
 
 export function useGetPassword(): AppState["wallet"]["password"] {
@@ -33,6 +34,13 @@ export function useGetAttesters(): AppState["wallet"]["attesters"] {
 
 export function useGetCurrIdentity(): AppState["wallet"]["currentIdentity"] {
   const data = useSelector((state: AppState) => state.wallet.currentIdentity);
+  return data;
+}
+
+export function useGetCurrIdentityBalance(): AppState["wallet"]["currentIdentityBalance"] {
+  const data = useSelector(
+    (state: AppState) => state.wallet.currentIdentityBalance
+  );
   return data;
 }
 
@@ -74,6 +82,21 @@ export function useSaveAttester(): (identity) => void {
       dispatch(
         saveAttesters({
           identity,
+        })
+      );
+    },
+    [dispatch]
+  );
+}
+
+export function useSaveCurrIdentityBalance(): (balance) => void {
+  const dispatch = useDispatch();
+
+  return useCallback(
+    (balance) => {
+      dispatch(
+        saveCurrIdentityBalance({
+          balance,
         })
       );
     },

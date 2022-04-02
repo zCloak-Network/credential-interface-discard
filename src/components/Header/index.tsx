@@ -2,11 +2,15 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-02 11:07:37
- * @LastEditTime: 2022-03-31 16:35:32
+ * @LastEditTime: 2022-04-02 17:30:03
  */
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetCurrIdentity } from "../../state/wallet/hooks";
+import {
+  useGetCurrIdentity,
+  useGetCurrIdentityBalance,
+  useSaveCurrIdentityBalance,
+} from "../../state/wallet/hooks";
 import { Image } from "@davatar/react";
 import classNames from "classnames";
 import { useClickAway } from "ahooks";
@@ -27,8 +31,9 @@ export default function Header({ menu }: Props): React.ReactElement {
   const navigate = useNavigate();
   const ref = useRef();
   const currAccount = useGetCurrIdentity();
+  const saveCurrIdentityBalance = useSaveCurrIdentityBalance();
+  const balance = useGetCurrIdentityBalance();
   const [menuStatus, setMenuStatus] = useState(true);
-  const [balance, setBalance] = useState("");
   const [balanceLoading, setBalanceLoading] = useState(false);
 
   const toggleConnectWalletModal = useToggleConnectWalletModal();
@@ -50,25 +55,21 @@ export default function Header({ menu }: Props): React.ReactElement {
     setMenuStatus(!menuStatus);
   };
 
-  const getMyBalanceString = async () => {
-    if (currAccount?.account?.address) {
-      await setBalanceLoading(true);
-      const balance = await Kilt.Balance.getBalances(
-        currAccount.account.address
-      );
-
-      const balanceString = await Kilt.BalanceUtils.formatKiltBalance(
-        balance.free
-      );
-
-      await setBalanceLoading(false);
-
-      await setBalance(balanceString);
-    }
+  const connectBalance = () => {
+    setBalanceLoading(true);
+    Kilt.Balance.listenToBalanceChanges(
+      currAccount.account.address,
+      (account, balance, change) => {
+        saveCurrIdentityBalance(balance.free);
+        setBalanceLoading(false);
+      }
+    );
   };
 
   useEffect(() => {
-    getMyBalanceString();
+    if (currAccount?.account?.address) {
+      connectBalance();
+    }
   }, [currAccount]);
 
   return (
@@ -87,10 +88,10 @@ export default function Header({ menu }: Props): React.ReactElement {
           <span className="balance">
             {balanceLoading ? (
               <img src={Loading} style={{ width: 20 }} />
-            ) : balance === "0" ? (
+            ) : balance?.isZero() ? (
               "0 KILT"
             ) : (
-              balance
+              Kilt.BalanceUtils.formatKiltBalance(balance)
             )}
           </span>
           <span className="address">

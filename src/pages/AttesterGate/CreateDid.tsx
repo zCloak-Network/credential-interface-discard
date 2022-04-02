@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-29 14:51:59
- * @LastEditTime: 2022-03-29 20:07:16
+ * @LastEditTime: 2022-04-02 17:28:29
  */
 import React from "react";
 import NotFound from "../../images/not_found.png";
@@ -11,7 +11,7 @@ import Button from "../../components/Button";
 import "./CreateDid.scss";
 
 type Props = {
-  balance: number | null;
+  balance: any;
   handleCreate: () => void;
 };
 
@@ -26,7 +26,7 @@ const CreateDid: React.FC<Props> = ({ balance, handleCreate }) => {
       <div className="title">
         Before becoming an official attester, you need to generate a DID.
       </div>
-      {balance === 0 ? (
+      {balance?.isZero() ? (
         <Button type="primary" className="faucet-btn" onClick={jumpTofaucet}>
           No token? Apply for some.
         </Button>

@@ -2,10 +2,10 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-07 21:58:29
- * @LastEditTime: 2022-03-15 18:20:08
+ * @LastEditTime: 2022-04-02 14:13:11
  */
 import React from "react";
-import login from "../../images/login.png";
+import login from "../../images/login.svg";
 import LogoBanner from "../LogoBanner";
 
 import "./index.scss";
