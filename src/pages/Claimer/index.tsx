@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-04-01 18:23:45
+ * @LastEditTime: 2022-04-06 17:29:57
  */
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
@@ -96,6 +96,18 @@ export default function Claimer(): JSX.Element {
     }
   };
 
+  const getLatestAttestation = (data) => {
+    const all = attestations.filter(
+      (it) => it?.body?.content?.attestation?.cTypeHash == data.claim?.cTypeHash
+    );
+
+    const dataSort = all.sort((a, b) => {
+      return b.createdAt < a.createdAt ? -1 : 1;
+    });
+
+    return dataSort[0];
+  };
+
   useEffect(() => {
     if (currAccount && currAccount.mnemonic) {
       queryAttestations();
@@ -152,11 +164,7 @@ export default function Claimer(): JSX.Element {
                   <span />
                 </div>
                 {data?.map((item, index) => {
-                  const attestation = attestations.find(
-                    (it) =>
-                      it?.body?.content?.attestation?.cTypeHash ==
-                      item.claim?.cTypeHash
-                  );
+                  const attestation = getLatestAttestation(item);
 
                   return (
                     <div key={`${item.id}-${index}`} className="claimer-list">

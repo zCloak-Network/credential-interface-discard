@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-30 16:51:36
- * @LastEditTime: 2022-04-01 14:55:14
+ * @LastEditTime: 2022-04-06 17:31:00
  */
 import React from "react";
 import dayjs from "dayjs";
@@ -17,7 +17,6 @@ import detailImg from "../../images/icon_detials.svg";
 import forwardImg from "../../images/icon_forward.svg";
 import downloadImg from "../../images/icon_download.svg";
 import loading from "../../images/loading_1.gif";
-import * as Kilt from "@kiltprotocol/sdk-js";
 
 import "./ListItem.scss";
 
@@ -55,12 +54,8 @@ export default function ListItem({
   const isTested = !!attestation;
 
   const download = async () => {
-    const requestForAttestation = Kilt.RequestForAttestation.fromClaim(
-      data.claim
-    );
-
     const credentials = {
-      request: requestForAttestation,
+      request: attestation?.body?.content?.request,
       attestation: attestation?.body?.content?.attestation,
     };
 

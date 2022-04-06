@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-29 13:55:08
- * @LastEditTime: 2022-04-02 17:31:15
+ * @LastEditTime: 2022-04-06 16:26:53
  */
 import React, { useEffect, useState } from "react";
 import * as Kilt from "@kiltprotocol/sdk-js";
@@ -74,6 +74,14 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
         await saveCurrIdentity(newAccount);
         await setEnterPasswordStatus(false);
       } catch (error) {
+        addPopup({
+          txn: {
+            hash: "",
+            success: false,
+            title: error.name,
+            summary: error.message,
+          },
+        });
         throw error;
       }
     }

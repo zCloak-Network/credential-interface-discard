@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:20:49
- * @LastEditTime: 2022-03-31 16:23:23
+ * @LastEditTime: 2022-04-06 17:29:33
  */
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
@@ -104,9 +104,10 @@ const Content: React.FC = () => {
     if (selectItem.body.type === Kilt.Message.BodyType.REQUEST_ATTESTATION) {
       setAttestLoading(true);
       try {
-        const request = Kilt.RequestForAttestation.fromClaim(
-          selectItem.body.content.requestForAttestation.claim
-        );
+        // const request = Kilt.RequestForAttestation.fromClaim(
+        //   selectItem.body.content.requestForAttestation.claim
+        // );
+        const request = selectItem.body.content.requestForAttestation;
         const keystore = new Kilt.Did.DemoKeystore();
         const keystore2 = new Kilt.Did.DemoKeystore();
 
@@ -114,13 +115,13 @@ const Content: React.FC = () => {
           keystore,
           currIdentity.mnemonic
         );
-        const lightDid = await generateLightDid(lightKeypairs);
+        await generateLightDid(lightKeypairs);
 
-        await request.signWithDidKey(
-          keystore,
-          lightDid,
-          lightDid.authenticationKey.id
-        );
+        // await request.signWithDidKey(
+        //   keystore,
+        //   lightDid,
+        //   lightDid.authenticationKey.id
+        // );
 
         const attestation = Kilt.Attestation.fromRequestAndDid(
           request,
@@ -141,13 +142,17 @@ const Content: React.FC = () => {
           reSign: true,
         });
 
-        const messageBody: MessageBody = {
-          content: { attestation },
+        const messageBody = {
+          content: {
+            attestation: { ...attestation },
+            request: request,
+          },
           type: Kilt.Message.BodyType.SUBMIT_ATTESTATION,
         };
 
         const messageBack = new Kilt.Message(
-          messageBody,
+          // TODO 强行断言了messageBody
+          messageBody as MessageBody,
           currIdentity.fullDid.did,
           selectItem.sender
         );
@@ -177,6 +182,14 @@ const Content: React.FC = () => {
 
         console.log("Attester -> submit attestation...");
       } catch (error) {
+        addPopup({
+          txn: {
+            hash: "",
+            success: false,
+            title: error.name,
+            summary: error.message,
+          },
+        });
         throw error;
       }
       setAttestLoading(false);
