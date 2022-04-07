@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-04-02 11:28:44
+ * @LastEditTime: 2022-04-07 10:39:24
  */
 import React, { useState, useEffect } from "react";
 import omit from "omit.js";
@@ -38,18 +38,19 @@ export default function NewClaimModal(): JSX.Element {
 
   const getData = async () => {
     const res = await queryCtypes({ owner: null });
+    if (res.data.code === 200) {
+      // 已经生成过claim的ctype 不可选
+      const allClaimsCurr = allClaims.filter(
+        (it) => it?.claim.owner === currAccount?.lightDidDetails?.did
+      );
+      const isTestedCtype = allClaimsCurr.map((it) => it.claim.cTypeHash) || [];
 
-    // 已经生成过claim的ctype 不可选
-    const allClaimsCurr = allClaims.filter(
-      (it) => it?.claim.owner === currAccount?.lightDidDetails?.did
-    );
-    const isTestedCtype = allClaimsCurr.map((it) => it.claim.cTypeHash) || [];
+      const formatData = res.data.data?.filter(
+        (it) => !isTestedCtype.includes(it.ctypeHash)
+      );
 
-    const formatData = res.data.data?.filter(
-      (it) => !isTestedCtype.includes(it.ctypeHash)
-    );
-
-    await setCtypes(formatData);
+      await setCtypes(formatData);
+    }
     await setLoading(false);
   };
 
