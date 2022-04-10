@@ -1,0 +1,249 @@
+.guide-new {
+  background: url("../../images/bg.svg");
+  width: 100%;
+  min-height: 100%;
+  overflow: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .guide-new-container-wrapper {
+    width: 900px;
+    height: 671px;
+    box-shadow: 0px 0px 20px rgba(34, 13, 13, 0.42);
+    opacity: 1;
+    border-radius: 12px;
+    margin: auto;
+    margin-bottom: 112px;
+
+    .guide-new-container-bg {
+      backdrop-filter: blur(8px) brightness(120%);
+      width: 900px;
+      height: 671px;
+      border-radius: 12px;
+      position: absolute;
+      z-index: 1;
+    }
+
+    .guide-new-container {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      z-index: 2;
+      padding: 52px 186px;
+      width: 900px;
+      height: 671px;
+      align-items: center;
+
+      .steps-content {
+        // position: absolute;
+        // z-index: 2;
+      }
+    }
+  }
+
+  // 公共样式
+  .title {
+    font-size: 30px;
+    font-family: Kanit;
+    font-weight: 500;
+    margin-top: 40px;
+    line-height: 1.4;
+    color: #ffffff;
+    margin-bottom: 12px;
+  }
+
+  .sub-title {
+    font-size: 14px;
+    font-family: Kanit;
+    font-weight: 300;
+    line-height: 1.4;
+    color: #ffffff;
+    opacity: 0.8;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .btn + .btn {
+    margin-left: 24px;
+  }
+  .btn {
+    width: 128px;
+    height: 40px;
+    background: #ffffff;
+    box-shadow: 0px 3px 6px rgba(196, 203, 214, 0.1);
+    opacity: 1;
+    border-radius: 20px;
+    font-size: 16px;
+    font-family: Kanit;
+    font-weight: 400;
+    line-height: 11px;
+    color: #000000;
+    border: 0;
+    display: inline-block;
+  }
+
+  .btn:hover {
+    background: linear-gradient(221deg, #ba60f2 0%, #3434e6 100%, #6c59e0 100%);
+    box-shadow: 0px 3px 6px rgba(51, 51, 51, 0.3);
+  }
+
+  .step-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  // step 1
+
+  .install-bg {
+    width: 300px;
+    height: 288px;
+    margin-bottom: 44px;
+  }
+
+  // step 2 
+  .create-claim-form {
+    width: 100%;
+    text-align: center;
+    .ant-form-item-label {
+      > label{
+        font-size: 16px;
+        font-family: Kanit;
+        font-weight: 400;
+        line-height: 24px;
+        color: #FFFFFF;
+      }
+    }
+
+    .ant-form-item-control-input {
+      width: 536px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      opacity: 1;
+      border-radius: 10px;
+      .ant-input {
+        background: transparent;
+        border: 0;
+      }
+    }
+  }
+  
+
+  // step 3
+  .import-bg {
+    width: 300px;
+    height: 288px;
+    margin-bottom: 44px;
+    margin-top: 20px;
+  }
+
+  // step 4
+  .wallets {
+    margin-top: 78px;
+    margin-bottom: 102px;
+
+    &.has-account {
+      margin-bottom: 0px;
+    }
+
+    .wallet-item {
+      width: 152px;
+      height: 152px;
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0px 6px 58px rgba(121, 127, 173, 0.2);
+      opacity: 1;
+      border-radius: 20px;
+      padding: 22px 30px;
+      font-size: 20px;
+      font-family: Kanit;
+      font-weight: 400;
+      color: #333333;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      .wallet-img {
+        width: 76px;
+        height: 70px;
+      }
+    }
+  }
+
+  .connect-btn {
+    width: 152px;
+  }
+
+  .connect-tip {
+    font-size: 18px;
+    font-family: Kanit;
+    font-weight: 400;
+    line-height: 0px;
+    color: #FFFFFF;
+    margin-top: 16px;
+    margin-bottom: 58px;
+    line-height: 1.5;
+  }
+
+  // ant step 样式
+  .ant-steps-horizontal:not(.ant-steps-label-vertical) .ant-steps-item {
+    padding-left: 2px;
+  }
+
+  .ant-steps-item-title::after {
+    left: 2px;
+    background-color: #fff;
+  }
+
+  .ant-steps-item-process:not(.ant-steps-item-active)
+    > .ant-steps-item-container
+    > .ant-steps-item-content
+    > .ant-steps-item-title::after {
+    background-color: #fff;
+    height: 2px;
+  }
+  .ant-steps-item-process,
+  .ant-steps-item-finish {
+    .ant-steps-item-icon {
+      background: #ffffff;
+      border: 0;
+      margin: 0;
+      > .ant-steps-icon {
+        font-size: 16px;
+        font-family: Kanit;
+        font-weight: 500;
+        line-height: 0px;
+        color: #000000;
+      }
+    }
+  }
+  .ant-steps-item-wait {
+    .ant-steps-item-icon {
+      width: 32px;
+      height: 32px;
+      background: transparent;
+      border: 0;
+      margin: 0;
+
+      > .ant-steps-icon {
+        font-size: 16px;
+        font-family: Kanit;
+        font-weight: 500;
+        color: #ffffff;
+
+        &::after {
+          width: 32px;
+          height: 32px;
+          background: #fff;
+          border-radius: 50%;
+          position: absolute;
+          content: "";
+          left: -12px;
+          top: -4px;
+          opacity: 0.26;
+        }
+      }
+    }
+  }
+}

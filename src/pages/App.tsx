@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-04-02 14:49:57
+ * @LastEditTime: 2022-04-09 16:05:31
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -22,14 +22,20 @@ import * as Kilt from "@kiltprotocol/sdk-js";
 import { WSSURL } from "../constants";
 import ErrorModal from "../components/ErrorModal";
 import useRole from "../hooks/useRole";
+import useGuide from "../hooks/useGuide";
+import Guide from "./Guide";
+import GuideNew from "./GuideNew";
 
 export default function App(): JSX.Element {
   const navigate = useNavigate();
   const isClaimer = useRole();
+  const isGuide = useGuide();
   const [password, setPassword] = useState("");
 
   const navigateTo = () => {
-    if (isClaimer) {
+    if (isGuide) {
+      navigate("/guide/new");
+    } else if (isClaimer) {
       navigate("/user/login");
     } else {
       navigate("/attester/login");
@@ -54,8 +60,9 @@ export default function App(): JSX.Element {
       <>
         <Popups />
         <Routes>
+          <Route path="/guide" element={<Guide />} />
+          <Route path="/guide/new" element={<GuideNew />} />
           <Route path="/user" element={<Navigate replace to="/user/login" />} />
-
           {/* TODO  refactor route */}
           <Route
             path="/user/login"

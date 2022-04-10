@@ -1,0 +1,92 @@
+.guide-home {
+  background: url("../../images/bg_first.svg");
+  width: 100%;
+  min-height: 100%;
+  overflow: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+  .guide-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 64px;
+  }
+
+  .guide-home-left {
+    width: 544px;
+    margin-right: 142px;
+    .guide-home-left-title {
+      font-size: 55px;
+      font-weight: 500;
+      line-height: 74px;
+      color: #ffffff;
+    }
+
+    .guide-home-left-desc {
+      font-size: 16px;
+      font-weight: 400;
+      margin-top: 16px;
+      margin-bottom: 30px;
+      color: #ffffff;
+      opacity: 0.8;
+    }
+
+    .guide-home-btn {
+      width: 177px;
+      height: 48px;
+      background: #ffffff;
+      opacity: 1;
+      border-radius: 24px;
+      font-size: 18px;
+      font-weight: 400;
+      color: #000000;
+      border: 0;
+    }
+
+    .guide-home-left-icon {
+      position: relative;
+      padding-left: 20px;
+      .star-img {
+        right: -5px;
+        position: absolute;
+        top: 16px;
+      }
+    }
+  }
+
+  .guide-home-right {
+    width: 330px;
+    height: 471px;
+    background: rgba(255, 255, 255, 0.31);
+    border: 1px solid rgba(255, 255, 255, 0.7568627450980392);
+    opacity: 1;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    > img {
+      width: 328px;
+      height: 316px;
+    }
+    .guide-home-right-content {
+      padding: 20px 30px 38px 30px;
+
+      .guide-home-right-title {
+        font-size: 25px;
+        font-weight: 500;
+        color: #ffffff;
+        margin-bottom: 10px;
+        line-height: 1.5;
+      }
+
+      .guide-home-right-desc {
+        font-size: 16px;
+        font-family: Kanit;
+        font-weight: 400;
+        color: #ffffff;
+        line-height: 1.4;
+      }
+    }
+  }
+}
