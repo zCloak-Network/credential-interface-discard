@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-08 19:47:31
- * @LastEditTime: 2022-04-02 11:26:19
+ * @LastEditTime: 2022-04-11 17:42:44
  */
 import axios from "axios";
 import { HOSTPREFIX } from "../constants";
@@ -98,5 +98,30 @@ export async function getAttester() {
   return axios({
     method: "get",
     url: `${HOSTPREFIX}/attester/all`,
+  });
+}
+
+/** 获取attestation */
+export async function submitClaim(data: any, options?: { [key: string]: any }) {
+  return axios({
+    method: "post",
+    url: `${HOSTPREFIX}/admin-attester/submit-claim`,
+    data: {
+      ...data,
+    },
+  });
+}
+
+/** 获取attestation status */
+export async function getAttestationStatus(
+  params: { senderKeyId: string },
+  options?: { [key: string]: any }
+) {
+  return axios({
+    method: "get",
+    url: `${HOSTPREFIX}/admin-attester/attestation-status`,
+    params: {
+      ...params,
+    },
   });
 }

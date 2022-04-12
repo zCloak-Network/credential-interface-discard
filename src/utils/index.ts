@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-06 16:32:12
- * @LastEditTime: 2022-01-05 23:24:04
+ * @LastEditTime: 2022-04-12 18:25:37
  */
 import React from "react";
 import { getAddress } from "@ethersproject/address";
@@ -87,4 +87,42 @@ export function getStatus(
   }
 
   return STATUSING;
+}
+
+export function getRandom(min = 1, max = 10): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function getAge(year, month, date) {
+  let age;
+  const d = new Date();
+  const nowYear = d.getFullYear();
+  const nowMonth = d.getMonth() + 1;
+  const nowDay = d.getDate();
+  if (nowYear == year) {
+    age = 0; //同年 则为0岁
+  } else {
+    const ageDiff = nowYear - year; //年之差
+    if (ageDiff > 0) {
+      if (nowMonth == month) {
+        const dayDiff = nowDay - date; //日之差
+        if (dayDiff < 0) {
+          age = ageDiff - 1;
+        } else {
+          age = ageDiff;
+        }
+      } else {
+        const monthDiff = nowMonth - month; //月之差
+        if (monthDiff < 0) {
+          age = ageDiff - 1;
+        } else {
+          age = ageDiff;
+        }
+      }
+    } else {
+      age = -1;
+    }
+
+    return age;
+  }
 }

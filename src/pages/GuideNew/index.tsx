@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-10 22:20:49
+ * @LastEditTime: 2022-04-12 22:22:57
  */
 import React, { useState } from "react";
 import { Steps } from "antd";
@@ -14,13 +14,15 @@ import FourthStep from "./FourthStep";
 import FifthStep from "./FifthStep";
 import LastStep from "./LastStep";
 import GuideHeader from "../../components/GuideHeader";
+import classNames from "classnames";
 
 import "./index.scss";
 
 const { Step } = Steps;
 
 const GuideNew: React.FC = () => {
-  const [current, setCurrent] = useState(3);
+  const [current, setCurrent] = useState(1);
+  const [credentail, setCredentail] = useState(12222);
   const handleNext = () => {
     setCurrent(current + 1);
   };
@@ -32,7 +34,14 @@ const GuideNew: React.FC = () => {
     },
     {
       title: "Second",
-      content: <SecondStep />,
+      content: (
+        <SecondStep
+          handleNext={handleNext}
+          handleCredentail={(data) => {
+            setCredentail(data);
+          }}
+        />
+      ),
     },
     {
       title: "Third",
@@ -56,9 +65,14 @@ const GuideNew: React.FC = () => {
     <GuideGate>
       <div className="guide-new">
         <GuideHeader />
-        <div className="guide-new-container-wrapper">
-          <div className="guide-new-container-bg"></div>
-          <div className="guide-new-container">
+        <div
+          className={classNames("guide-new-container-wrapper", {
+            "get-credential": current === 1 && !credentail,
+            "credential-wrapper": current === 1 && !!credentail,
+          })}
+        >
+          {/* <div className="guide-new-container-bg"></div> */}
+          <div className="guide-new-container" id="content">
             <Steps current={current}>
               {steps.map((item, index) => (
                 <Step

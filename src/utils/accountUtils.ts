@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-15 11:36:33
- * @LastEditTime: 2022-04-01 14:28:05
+ * @LastEditTime: 2022-04-11 15:32:08
  */
 import * as Kilt from "@kiltprotocol/sdk-js";
 import { WSSURL } from "../constants";
@@ -14,6 +14,8 @@ const keyring = new Kilt.Utils.Keyring({
 export async function generateAccount(
   mnemonic: string
 ): Promise<Kilt.KeyringPair> {
+  await Kilt.init({ address: WSSURL });
+
   return keyring.addFromMnemonic(mnemonic);
 }
 

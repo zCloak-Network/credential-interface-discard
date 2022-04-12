@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-03-30 11:21:33
+ * @LastEditTime: 2022-04-12 11:22:25
  */
 import React from "react";
 import Modal from "../Modal";
@@ -39,9 +39,9 @@ export default function ErrorModal({ resetPassword }: Props): JSX.Element {
       wrapClassName="login-err-modal"
     >
       <p className="err-tip">
-        <span>Forget password</span>
-        will clear your local storage, this means you may lose some important
-        data, including your credentials, keystores and private keys.
+        <span>Forget password</span> &nbsp; will clear your local storage, this
+        means you may lose some important data, including your credentials,
+        keystores and private keys.
       </p>
       <div className="centerDiv">
         <Button onClick={clear} className="clear-btn">
