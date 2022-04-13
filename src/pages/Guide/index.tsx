@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-09 16:01:25
+ * @LastEditTime: 2022-04-13 17:27:33
  */
 import React from "react";
 import GuideHeader from "../../components/GuideHeader";
@@ -47,7 +47,7 @@ const Guide: React.FC = () => {
         <div className="guide-home-right">
           <img src={Img} alt="" />
           <div className="guide-home-right-content">
-            <p className="guide-home-right-title">zkID Poap NFT #1</p>
+            <p className="guide-home-right-title">zkID POAP</p>
             <p className="guide-home-right-desc">
               After completing the registration
               <br />
