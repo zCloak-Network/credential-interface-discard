@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-10 15:08:36
- * @LastEditTime: 2022-04-10 22:14:45
+ * @LastEditTime: 2022-04-13 21:19:17
  */
 import React, { useEffect, useState } from "react";
 // import useDecimals from "./useDecimals";
@@ -18,9 +18,8 @@ export default function useBalance(account, address) {
     const contract = getContract(abi, address);
     const tokenBalance = await contract.methods.balanceOf(account).call();
     const decimals = await contract.methods.decimals().call();
-    // if (decimals) {
+
     setBalance(tokenBalance / Math.pow(10, Number(decimals)));
-    // }
   };
 
   useEffect(() => {
