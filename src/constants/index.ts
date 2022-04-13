@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-08-27 11:52:05
- * @LastEditTime: 2022-03-31 10:12:43
+ * @LastEditTime: 2022-04-13 17:10:59
  *
  */
 
@@ -18,6 +18,7 @@ export const WSSURL = "wss://peregrine.kilt.io/parachain-public-ws/";
 // export const HOSTPREFIX = 'http://107.191.53.163:3009'
 // export const HOSTPREFIX = "https://api.credential.zcloak.network";
 export const HOSTPREFIX = "http://api.dev-credential.zcloak.network";
+// export const HOSTPREFIX = "http://192.168.31.198:7001";
 
 // export const HOSTPREFIX = "http://45.77.37.78:7001";
 // 日期格式配置

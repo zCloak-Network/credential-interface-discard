@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-13 11:43:00
+ * @LastEditTime: 2022-04-13 16:30:56
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -127,12 +127,13 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
 
   const onFinish = async (values: any) => {
     if (disabled && !random) return;
-    await setLoading(true);
-    await message.warning({
+    setLoading(true);
+
+    message.warning({
       content: "It may take you 30-60s",
       duration: 0,
     });
-    console.log("Success:", values);
+
     const year = dayjs(values.age).get("year");
     const month = dayjs(values.age).get("month") + 1;
     const date = dayjs(values.age).get("date");

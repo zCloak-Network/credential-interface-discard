@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-13 10:30:34
+ * @LastEditTime: 2022-04-13 16:59:40
  */
 import React, { useState } from "react";
 import { Steps } from "antd";
@@ -30,7 +30,7 @@ const GuideNew: React.FC = () => {
   const steps = [
     {
       title: "First",
-      content: <FirstStep />,
+      content: <FirstStep handleNext={handleNext} />,
     },
     {
       title: "Second",
