@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-09 17:43:36
+ * @LastEditTime: 2022-04-13 17:26:28
  */
 import React from "react";
 import bg from "../../images/step_import.svg";
@@ -16,7 +16,7 @@ const ThirdStep: React.FC = () => {
         Please open the extension and click the Import button
       </div>
       <img src={bg} alt="" className="import-bg" />
-      <Button className="btn">Install</Button>
+      <Button className="btn">Import Credential</Button>
     </div>
   );
 };
