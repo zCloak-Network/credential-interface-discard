@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-04-09 16:05:31
+ * @LastEditTime: 2022-04-13 12:22:43
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -34,7 +34,7 @@ export default function App(): JSX.Element {
 
   const navigateTo = () => {
     if (isGuide) {
-      navigate("/guide/new");
+      navigate("/guide");
     } else if (isClaimer) {
       navigate("/user/login");
     } else {
