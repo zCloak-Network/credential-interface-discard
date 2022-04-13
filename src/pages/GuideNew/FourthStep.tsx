@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-10 20:13:36
+ * @LastEditTime: 2022-04-13 17:41:50
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -45,8 +45,6 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
   const handleInstall = () => {
     window.open("https://metamask.io/");
   };
-
-  console.log(909090, balance);
 
   const handleSwitch = async () => {
     const { ethereum } = window;

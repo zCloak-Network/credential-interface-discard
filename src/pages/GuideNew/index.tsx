@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-13 16:59:40
+ * @LastEditTime: 2022-04-13 21:57:49
  */
 import React, { useState } from "react";
 import { Steps } from "antd";
@@ -21,8 +21,10 @@ import "./index.scss";
 const { Step } = Steps;
 
 const GuideNew: React.FC = () => {
-  const [current, setCurrent] = useState(1);
+  const [current, setCurrent] = useState(4);
   const [credentail, setCredentail] = useState();
+  const [proof, setProof] = useState();
+
   const handleNext = () => {
     setCurrent(current + 1);
   };
@@ -53,7 +55,14 @@ const GuideNew: React.FC = () => {
     },
     {
       title: "Fifth",
-      content: <FifthStep />,
+      content: (
+        <FifthStep
+          handleNext={handleNext}
+          handleProof={(data) => {
+            setProof(data);
+          }}
+        />
+      ),
     },
     {
       title: "Last",
@@ -69,7 +78,8 @@ const GuideNew: React.FC = () => {
           className={classNames("guide-new-container-wrapper", {
             "get-credential": current === 1 && !credentail,
             "credential-wrapper": current === 1 && !!credentail,
-            "upload-proof": current === 4,
+            "upload-proof": current === 4 && proof,
+            "has-proof": current === 4 && !proof,
           })}
         >
           {/* <div className="guide-new-container-bg"></div> */}

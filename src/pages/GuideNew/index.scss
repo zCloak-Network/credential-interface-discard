@@ -29,6 +29,9 @@
       height: 698px;
     }
 
+    &.has-proof {
+      height: 623px;
+    }
 
 
     // .guide-new-container-bg {
@@ -358,6 +361,30 @@
     margin-top: 16px;
     margin-bottom: 58px;
     line-height: 1.5;
+  }
+
+  // step 5
+  .upload-success{
+    text-align: center;
+    .upload-success-content {
+      width: 500px;
+      height: 149px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+      opacity: 1;
+      border-radius: 13px;
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 300;
+      color: #FFFFFF;
+      margin-bottom: 82px;
+
+      >img {
+        width: 190px;
+        height: 190px;
+      }
+    }
+   
   }
 
   // ant step 样式
