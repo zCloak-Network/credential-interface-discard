@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-12 22:22:57
+ * @LastEditTime: 2022-04-13 10:30:34
  */
 import React, { useState } from "react";
 import { Steps } from "antd";
@@ -22,7 +22,7 @@ const { Step } = Steps;
 
 const GuideNew: React.FC = () => {
   const [current, setCurrent] = useState(1);
-  const [credentail, setCredentail] = useState(12222);
+  const [credentail, setCredentail] = useState();
   const handleNext = () => {
     setCurrent(current + 1);
   };
@@ -69,6 +69,7 @@ const GuideNew: React.FC = () => {
           className={classNames("guide-new-container-wrapper", {
             "get-credential": current === 1 && !credentail,
             "credential-wrapper": current === 1 && !!credentail,
+            "upload-proof": current === 4,
           })}
         >
           {/* <div className="guide-new-container-bg"></div> */}

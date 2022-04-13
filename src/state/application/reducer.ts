@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:09:59
- * @LastEditTime: 2022-04-11 23:17:35
+ * @LastEditTime: 2022-04-12 22:57:50
  */
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { DEFAULT_TXN_DISMISS_MS } from "../../constants";
@@ -35,6 +35,7 @@ export enum ApplicationModal {
   REQUEST_ATTESTATION,
   ATTESTATION_DETAIL,
   GUIDE_MESSAGE,
+  GUIDE_RULE,
 }
 
 type PopupList = Array<{

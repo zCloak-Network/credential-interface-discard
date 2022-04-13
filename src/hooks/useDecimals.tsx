@@ -2,32 +2,29 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-10 15:08:36
- * @LastEditTime: 2021-12-13 21:54:34
+ * @LastEditTime: 2022-04-10 22:14:48
  */
-import React, { useEffect, useContext, useState } from "react";
-
-import MyContext from "../components/Context";
+import React, { useEffect, useState } from "react";
+import { getContract } from "../utils/web3Utils";
 import abi from "../constants/contract/contractAbi/SampleToken";
 // import { SampleTokenAdddress } from "../constants/contract/address";
 
-type Props = {
-  web3: any;
-};
-
 export default function useDecimals(address) {
-  const { web3 } = useContext(MyContext) as Props;
-  const [symbol, setSymbol] = useState(0);
+  const [decimals, setDecimals] = useState(0);
 
-  const contract = new web3.eth.Contract(abi, address);
   const getData = async () => {
-    const symbol = await contract.methods.decimals().call();
-    setSymbol(symbol);
+    const contract = getContract(abi, address);
+    const decimals = await contract.methods.decimals().call();
+    console.log(7777770000, decimals);
+    await setDecimals(decimals);
   };
+
+  console.log(777777, address, decimals);
 
   useEffect(() => {
     if (!address) return;
     getData();
-  }, [address]);
+  }, [address, decimals]);
 
-  return symbol;
+  return decimals;
 }

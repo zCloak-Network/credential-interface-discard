@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-29 16:15:23
- * @LastEditTime: 2022-03-29 20:09:41
+ * @LastEditTime: 2022-04-13 11:34:40
  */
 import React from "react";
 import classNames from "classnames";
@@ -13,6 +13,7 @@ import "./index.scss";
 
 interface Props {
   type?: any;
+  size?: "large" | "default" | "small";
   danger?: boolean;
   disabled?: boolean;
   loading?: boolean;
@@ -30,6 +31,7 @@ export default function Button({
   type = "default",
   disabled = false,
   loading = false,
+  size = "large",
   onClick,
   htmlType = "button",
   className,
@@ -60,7 +62,7 @@ export default function Button({
         className={classNames("button-components", "loading", className)}
         style={style}
       >
-        {children ? children : "Loading"}
+        {size === "large" && (children ? children : "Loading")}
         <img src={Loading} />
       </div>
     );

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:03:58
- * @LastEditTime: 2022-04-11 23:18:10
+ * @LastEditTime: 2022-04-12 22:57:58
  */
 import { useMemo, useCallback } from "react";
 import { AppState } from "../PersistentStore";
@@ -63,8 +63,12 @@ export function useToggleRequestModal(): () => void {
 export function useToggleDetailModal(): () => void {
   return useToggleModal(ApplicationModal.ATTESTATION_DETAIL);
 }
+
 export function useToggleGuideMessage(): () => void {
   return useToggleModal(ApplicationModal.GUIDE_MESSAGE);
+}
+export function useToggleGuideRule(): () => void {
+  return useToggleModal(ApplicationModal.GUIDE_RULE);
 }
 
 // returns a function that allows adding a popup

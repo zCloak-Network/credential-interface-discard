@@ -2,34 +2,31 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-10 15:08:36
- * @LastEditTime: 2021-12-13 21:54:09
+ * @LastEditTime: 2022-04-10 22:14:45
  */
-import React, { useEffect, useContext, useState } from "react";
-import useDecimals from "./useDecimals";
-
-import MyContext from "../components/Context";
+import React, { useEffect, useState } from "react";
+// import useDecimals from "./useDecimals";
+import { getContract } from "../utils/web3Utils";
 import abi from "../constants/contract/contractAbi/SampleToken";
 // import { SampleTokenAdddress } from "../constants/contract/address";
-type Props = {
-  web3: any;
-};
 
 export default function useBalance(account, address) {
-  const { web3 } = useContext(MyContext) as Props;
-  const decimals = useDecimals(address);
+  // const decimals = useDecimals(address);
   const [balance, setBalance] = useState(0);
 
-  const contract = new web3.eth.Contract(abi, address);
   const getData = async () => {
+    const contract = getContract(abi, address);
     const tokenBalance = await contract.methods.balanceOf(account).call();
-
+    const decimals = await contract.methods.decimals().call();
+    // if (decimals) {
     setBalance(tokenBalance / Math.pow(10, Number(decimals)));
+    // }
   };
 
   useEffect(() => {
-    if (!address) return;
+    if (!address || !account) return;
     getData();
-  }, [account, decimals, address]);
+  }, [account, address]);
 
   return balance;
 }

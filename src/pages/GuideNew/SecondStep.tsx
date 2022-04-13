@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-12 22:22:16
+ * @LastEditTime: 2022-04-13 11:43:00
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -32,8 +32,9 @@ import { getRandom, getAge } from "../../utils";
 import { credentialClass, ADMINATTESTER, CTYPE } from "../../constants/guide";
 import { useAddPopup } from "../../state/application/hooks";
 import type { MessageBody } from "@kiltprotocol/sdk-js";
-import { ICTypeSchema } from "@kiltprotocol/types";
+import { CTypeSchemaWithoutId } from "@kiltprotocol/types";
 import SecondStepCredential from "./SecondStepCredential";
+import classNames from "classnames";
 
 const { Option } = Select;
 
@@ -57,7 +58,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
   const [form] = Form.useForm();
   const addPopup = useAddPopup();
   const toggleModal = useToggleGuideMessage();
-  const [credentail, setCredentail] = useState<any>(12222);
+  const [credentail, setCredentail] = useState<any>();
   const [next, setNext] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [random, seRandom] = useState(false);
@@ -65,21 +66,6 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
   const [account, setAccount] = useState<any>();
   const [interval, setInterval] = useState(TIME);
   const [attestationStatus, setAttestationStatus] = useState<status>();
-
-  // generate claim
-  // const generateClaim = async (values) => {
-  //   // const ctype = CType.fromSchema(CTYPE);
-  //   // const claim = Claim.fromCTypeAndClaimContents(
-  //   //   ctype,
-  //   //   omit(values, ["ctype", "alias"]),
-  //   //   account?.lightDidDetails?.did
-  //   // );
-  //   // await saveClaim(claim, {
-  //   //   alias: values.alias,
-  //   //   time: Date.now(),
-  //   //   ctype: selectCtype,
-  //   // });
-  // };
 
   // request attestation
   const requestAttestation = async (data) => {
@@ -91,7 +77,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
       const receiverFullDid = await getFullDid(
         Kilt.Did.DidUtils.getIdentifierFromKiltDid(ADMINATTESTER)
       );
-      const ctype = CType.fromSchema(CTYPE as ICTypeSchema);
+      const ctype = CType.fromSchema(CTYPE as CTypeSchemaWithoutId);
 
       const claim = Claim.fromCTypeAndClaimContents(
         ctype,
@@ -125,7 +111,6 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
       if (res.data.code === 200) {
         setInterval(TIME);
       }
-      // await setLoading(false);
     } catch (error) {
       addPopup({
         txn: {
@@ -135,7 +120,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
           summary: error.message,
         },
       });
-      // await setLoading(false);
+
       throw error;
     }
   };
@@ -143,6 +128,10 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
   const onFinish = async (values: any) => {
     if (disabled && !random) return;
     await setLoading(true);
+    await message.warning({
+      content: "It may take you 30-60s",
+      duration: 0,
+    });
     console.log("Success:", values);
     const year = dayjs(values.age).get("year");
     const month = dayjs(values.age).get("month") + 1;
@@ -150,25 +139,16 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
 
     const age = getAge(year, month, date);
 
-    console.log(55555, age);
-
     const newValues = {
       ...values,
       age: age,
     };
 
-    console.log(55555111, newValues);
-
     await requestAttestation(newValues);
-
-    await message.warning({
-      content: "It may take you 30-60s",
-      duration: 0,
-    });
   };
 
   const handleDownload = async () => {
-    const blob = await new Blob([JSON.stringify("3434343")], {
+    const blob = await new Blob([JSON.stringify(credentail.body.content)], {
       type: "text/plain;charset=utf-8",
     });
 
@@ -176,7 +156,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
     await setNext(true);
   };
 
-  const handleValuesChange = (changedValues, allValues) => {
+  const handleValuesChange = (_, allValues) => {
     const allTrue = Object.values(allValues).every((it) => !!it);
 
     setDisabled(!allTrue);
@@ -234,8 +214,6 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
         account.lightDidDetails.did
       );
 
-      console.log(112121, lightDid.encryptionKey!.id);
-
       const res = await getAttestation({
         receiverKeyId: `${account?.lightDidDetails.did}#${
           lightDid.encryptionKey!.id
@@ -248,6 +226,8 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
         console.log(45555, decryptData);
         setCredentail(decryptData);
         handleCredentail(decryptData);
+        await setLoading(false);
+        await message.destroy();
       }
     }
   };
@@ -366,7 +346,10 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
               </Button>
             </div>
             <Button
-              className="btn"
+              size="default"
+              className={classNames("btn", {
+                "submit-loading-btn": loading,
+              })}
               htmlType="submit"
               disabled={disabled && !random}
               loading={loading}
@@ -378,7 +361,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
       )}
       {!!credentail && (
         <div>
-          <SecondStepCredential />
+          <SecondStepCredential data={credentail} />
           <div style={{ textAlign: "center" }}>
             <Button className="btn" onClick={handleDownload}>
               Download
