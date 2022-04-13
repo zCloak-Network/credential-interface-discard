@@ -2,39 +2,35 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 13:40:15
- * @LastEditTime: 2022-04-10 22:20:05
+ * @LastEditTime: 2022-04-13 21:20:44
  */
 import React, { useEffect, useState } from "react";
 import LogoBanner from "../LogoBanner";
 import { Image } from "@davatar/react";
 import { shortenAddress } from "../../utils";
-import useBalance from "../../hooks/useBalance";
-// import useSymbol from "../../hooks/useSymbol";
-import { getSymbol } from "../../utils/web3Utils";
-import abi from "../../constants/contract/contractAbi/SampleToken";
-import { TokenAddress } from "../../constants/contract/address";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import logo from "../../images/logo_white.svg";
+import Web3 from "web3";
 
 import "./index.scss";
 
 const GuideHeader: React.FC = () => {
   const { error, account } = useWeb3React();
-  // let symbol;
-  // const [symbol, setSymbol] = useState("");
-  const balance = useBalance(account, TokenAddress);
+  const [balance, setBalance] = useState<any>();
 
-  // console.log(44444, balance, symbol);
+  const getData = async () => {
+    if (account) {
+      const web3 = new Web3(Web3.givenProvider);
+      const balance = await web3.eth.getBalance(account);
+      const formatBalance = Number(web3.utils.fromWei(balance)).toFixed(2);
 
-  // const getData = async () => {
-  //   const aa = await getSymbol(abi, TokenAddress);
-  //   console.log(12233, symbol);
-  //   setSymbol(aa);
-  // };
+      setBalance(formatBalance);
+    }
+  };
 
-  // useEffect(() => {
-  //   getData();
-  // }, []);
+  useEffect(() => {
+    getData();
+  }, [account]);
 
   return (
     <div className="guide-header-component">
@@ -43,7 +39,7 @@ const GuideHeader: React.FC = () => {
         <div className="account">
           <div className="account-balance">
             {balance}
-            {/* {symbol} */}
+            DEV
           </div>
           <div className="account-address">
             {shortenAddress(account)}
