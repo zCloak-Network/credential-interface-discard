@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-13 16:30:56
+ * @LastEditTime: 2022-04-14 16:09:16
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -346,24 +346,26 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
                 Random
               </Button>
             </div>
-            <Button
-              size="default"
-              className={classNames("btn", {
-                "submit-loading-btn": loading,
-              })}
-              htmlType="submit"
-              disabled={disabled && !random}
-              loading={loading}
-            >
-              Submit
-            </Button>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                size="default"
+                className={classNames("btn", {
+                  "submit-loading-btn": loading,
+                })}
+                htmlType="submit"
+                disabled={disabled && !random}
+                loading={loading}
+              >
+                Submit
+              </Button>
+            </div>
           </Form>
         </>
       )}
       {!!credentail && (
         <div>
           <SecondStepCredential data={credentail} />
-          <div style={{ textAlign: "center" }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <Button className="btn" onClick={handleDownload}>
               Download
             </Button>

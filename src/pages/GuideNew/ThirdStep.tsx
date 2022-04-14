@@ -2,13 +2,99 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-13 17:26:28
+ * @LastEditTime: 2022-04-14 18:18:42
  */
-import React from "react";
-import bg from "../../images/step_import.svg";
+import React, { useEffect, useState } from "react";
+import { message } from "antd";
 import Button from "../../components/Button";
+import { CTYPEHASH, MESSAGECODE } from "../../constants/guide";
+import { openMessage, destroyMessage } from "../../utils/message";
 
-const ThirdStep: React.FC = () => {
+import bg from "../../images/step_import.svg";
+import classNames from "classnames";
+
+type Props = {
+  handleNext: () => void;
+};
+
+const messageKey = "importCredential";
+
+const ThirdStep: React.FC<Props> = ({ handleNext }) => {
+  const [status, setStatus] = useState<string>("next");
+  const [hasCredential, setHasCredential] = useState<boolean>(false);
+
+  const openExtension = async () => {
+    const { openzkIDPopup } = window?.zCloak?.zkID;
+    openzkIDPopup(MESSAGECODE.OPEN_IMPORT_CREDENTIAL);
+    setStatus("extensionImport");
+    const data = STATUS.extensionImport;
+    openMessage(data.message, data.messageType, messageKey);
+  };
+
+  const STATUS = {
+    import: {
+      buttonText: "Import Credential",
+      buttonType: null,
+      func: openExtension,
+      message: null,
+      messageType: null,
+    },
+    extensionImport: {
+      buttonText: "loading",
+      buttonType: "loading",
+      func: null,
+      message: "Please select the Credential file and Import it",
+      messageType: "warning",
+    },
+    next: {
+      buttonText: "Next",
+      buttonType: null,
+      func: handleNext,
+      message: null,
+      messageType: null,
+    },
+  };
+
+  useEffect(() => {
+    window.addEventListener("message", (event) => {
+      const { statusCode, data } = event.data;
+      if (statusCode === MESSAGECODE.EXTENSION_CLOSED) {
+        if (!hasCredential) {
+          setStatus("import");
+          destroyMessage(messageKey);
+        }
+      }
+
+      if (
+        statusCode === MESSAGECODE.SEND_IMPORT_CREDENTIAL_SUCCESS_TO_WEB &&
+        data.imported
+      ) {
+        setStatus("next");
+        message.destroy();
+      }
+    });
+  }, []);
+
+  const init = async () => {
+    const { getCredentialByCHash } = window?.zCloak?.zkID;
+
+    const hasCredential = await getCredentialByCHash(CTYPEHASH);
+    if (hasCredential) {
+      setStatus("next");
+      setHasCredential(true);
+    } else {
+      setStatus("import");
+    }
+  };
+
+  useEffect(() => {
+    if (window?.zCloak?.zkID) {
+      init();
+    }
+  }, []);
+
+  const detail = STATUS[status];
+
   return (
     <div className="step-wrapper">
       <div className="title">Import Credential</div>
@@ -16,7 +102,16 @@ const ThirdStep: React.FC = () => {
         Please open the extension and click the Import button
       </div>
       <img src={bg} alt="" className="import-bg" />
-      <Button className="btn">Import Credential</Button>
+      <Button
+        size="default"
+        className={classNames("btn", {
+          "import-credential-btn": status === "import",
+        })}
+        onClick={detail.func}
+        loading={detail.buttonType}
+      >
+        {detail.buttonText}
+      </Button>
     </div>
   );
 };

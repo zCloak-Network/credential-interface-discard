@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-13 17:41:50
+ * @LastEditTime: 2022-04-14 15:17:44
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -21,8 +21,9 @@ type Props = {
   handleNext: () => void;
 };
 
+const messageKey = "installMetamask";
+
 const FourthStep: React.FC<Props> = ({ handleNext }) => {
-  const messageKey = "globalMessage";
   const [status, setStatus] = useState<string>("connect");
   const { account, error, activate } = useWeb3React();
   const balance = useBalance(account, TokenAddress);

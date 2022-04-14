@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-08-16 19:01:12
- * @LastEditTime: 2022-04-13 16:25:18
+ * @LastEditTime: 2022-04-14 12:05:18
  */
 declare module "*.jpg";
 declare module "*.png";
@@ -14,9 +14,10 @@ declare interface Window {
   projectConf: { wssUrl: string };
   zCloak: {
     zkID: {
+      getIfCreatePassword: () => Promise<any>;
       getCredentialByCHash: (...args) => Promise<any>;
       name: string;
-      openzkIDPopup: () => void;
+      openzkIDPopup: (...args) => Promise<any>;
       version: string;
     };
   };

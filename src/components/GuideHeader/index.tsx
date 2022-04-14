@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 13:40:15
- * @LastEditTime: 2022-04-13 21:20:44
+ * @LastEditTime: 2022-04-14 14:13:18
  */
 import React, { useEffect, useState } from "react";
 import LogoBanner from "../LogoBanner";
@@ -37,10 +37,7 @@ const GuideHeader: React.FC = () => {
       <LogoBanner logo={logo} className="guide-header-logo" />
       {account && (
         <div className="account">
-          <div className="account-balance">
-            {balance}
-            DEV
-          </div>
+          <div className="account-balance">{balance}&nbsp;DEV</div>
           <div className="account-address">
             {shortenAddress(account)}
             <div className="acc-img">

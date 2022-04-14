@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-29 16:15:23
- * @LastEditTime: 2022-04-13 11:34:40
+ * @LastEditTime: 2022-04-14 15:07:10
  */
 import React from "react";
 import classNames from "classnames";
@@ -62,7 +62,9 @@ export default function Button({
         className={classNames("button-components", "loading", className)}
         style={style}
       >
-        {size === "large" && (children ? children : "Loading")}
+        {size === "large" && (
+          <span className="button-text">{children ? children : "Loading"}</span>
+        )}
         <img src={Loading} />
       </div>
     );

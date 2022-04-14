@@ -20,9 +20,12 @@
   }
 
   &.loading {
-    background: #cdd0d9;
+    background: #cdd0d9 !important;
+    text-align: center;
+    >.button-text {
+      margin-right: 8px;
+    }
     > img {
-      margin-left: 8px;
       width: 24px;
       height: 24px;
     }

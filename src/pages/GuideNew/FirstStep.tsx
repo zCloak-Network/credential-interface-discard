@@ -2,23 +2,36 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-13 19:56:27
+ * @LastEditTime: 2022-04-14 18:20:00
  */
 import React, { useEffect, useState } from "react";
-import bg from "../../images/step_install.svg";
+import classNames from "classnames";
 import Button from "../../components/Button";
-import { CTYPEHASH, MESSAGECODE } from "../../constants/guide";
+import { MESSAGECODE } from "../../constants/guide";
+import { openMessage, destroyMessage } from "../../utils/message";
+
+import bg from "../../images/step_install.svg";
 
 type Props = {
   handleNext: () => void;
 };
 
+const messageKey = "installExtension";
+
 const FirstStep: React.FC<Props> = ({ handleNext }) => {
   const [status, setStatus] = useState<string>("next");
-  // const;
+  const [hasPassword, setPassword] = useState<boolean>(false);
 
   const handleInstall = () => {
     window.open("https://metamask.io/");
+  };
+
+  const openExtension = async () => {
+    const { openzkIDPopup } = window?.zCloak?.zkID;
+    openzkIDPopup("OPEN_FIRST");
+    setStatus("extensionNext");
+    const data = STATUS.extensionNext;
+    openMessage(data.message, data.messageType, messageKey);
   };
 
   const STATUS = {
@@ -29,34 +42,28 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
       message: null,
       messageType: null,
     },
-    // connect: {
-    //   buttonText: "connect wallet",
-    //   buttonType: null,
-    //   func: handleConnect,
-    //   message: null,
-    //   messageType: null,
-    // },
+    create: {
+      buttonText: "Create Password",
+      buttonType: null,
+      func: openExtension,
+      message: null,
+      messageType: null,
+    },
     extensionNext: {
       buttonText: "loading",
       buttonType: "loading",
       func: null,
-      message: "Please sign the message in your wallet",
+      message:
+        "Please click the NEXT button in the extension to create password",
       messageType: "warning",
     },
     extensionCreate: {
       buttonText: "loading",
       buttonType: "loading",
       func: null,
-      message: "Please sign the message in your wallet",
+      message: "Create a new password in the pluginin the extension",
       messageType: "warning",
     },
-    // switch: {
-    //   buttonText: "Switch network",
-    //   buttonType: null,
-    //   func: handleSwitch,
-    //   message: "You are on the wrong network",
-    //   messageType: "error",
-    // },
     next: {
       buttonText: "Next",
       buttonType: null,
@@ -66,48 +73,69 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
     },
   };
 
-  // useEffect(() => {
-  //   console.log(9999, window?.zCloak?.zkID, !window?.zCloak?.zkID);
-  //   console.log(999934, window.web3);
-  //   if (!window?.zCloak?.zkID) {
-  //     setStatus("install");
-  //     return;
-  //   }
+  useEffect(() => {
+    if (!window?.zCloak?.zkID) {
+      setStatus("install");
+      return;
+    }
 
-  //   setStatus("next");
-  // }, []);
+    setStatus("next");
+  }, []);
 
   const detail = STATUS[status];
 
-  const getExtension = async () => {
-    console.log(91111, window);
-    const { getCredentialByCHash } = window?.zCloak?.zkID;
+  const init = async () => {
+    const { getIfCreatePassword } = window?.zCloak?.zkID;
 
-    console.log(9222, window);
-    const hasCredentail = await getCredentialByCHash(CTYPEHASH);
+    const hasPassword = await getIfCreatePassword();
 
-    if (hasCredentail) {
+    if (hasPassword) {
       setStatus("next");
+      setPassword(true);
     } else {
+      setStatus("create");
     }
-    console.log(454545, hasCredentail);
   };
 
-  // useEffect(() => {
-  //   if (window?.zCloak?.zkID) {
-  //     getExtension();
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (window?.zCloak?.zkID) {
+      init();
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   window.addEventListener("message", (event) => {
-  //     const code = event.data.statusCode;
-  //     if (code === MESSAGECODE.SEND_NEXT_TO_WEB) {
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    window.addEventListener("message", (event) => {
+      const { statusCode, data } = event.data;
 
-  console.log(99991111, status, detail);
+      if (statusCode === MESSAGECODE.EXTENSION_CLOSED) {
+        if (!hasPassword) {
+          setStatus("create");
+          destroyMessage(messageKey);
+        }
+      }
+
+      if (statusCode === MESSAGECODE.SEND_BACKNEXT_TO_WEB && data.clickBack) {
+        setStatus("extensionNext");
+        const data = STATUS.extensionNext;
+        openMessage(data.message, data.messageType, messageKey);
+      }
+
+      if (statusCode === MESSAGECODE.SEND_NEXT_TO_WEB && data.clickNext) {
+        setStatus("extensionCreate");
+        const data = STATUS.extensionCreate;
+        openMessage(data.message, data.messageType, messageKey);
+      }
+
+      if (
+        statusCode === MESSAGECODE.SEND_CREATE_PASSWORD_SUCCESS_TO_WEB &&
+        data.createPassword
+      ) {
+        setStatus("next");
+        destroyMessage(messageKey);
+      }
+    });
+  }, []);
+
   return (
     <div className="step-wrapper">
       <div className="title">Install extension</div>
@@ -116,10 +144,16 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
         your data and sign private transactions.
       </div>
       <img src={bg} alt="" className="install-bg" />
-      <Button className="btn" onClick={detail.func}>
+      <Button
+        className={classNames("btn", {
+          "create-btn": status === "create",
+        })}
+        size="default"
+        onClick={detail.func}
+        loading={detail.buttonType}
+      >
         {detail.buttonText}
       </Button>
-      {/* <Button className="btn">Install</Button> */}
     </div>
   );
 };
