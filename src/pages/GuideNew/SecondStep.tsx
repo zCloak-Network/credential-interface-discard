@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-14 16:09:16
+ * @LastEditTime: 2022-04-15 16:55:04
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -35,10 +35,12 @@ import type { MessageBody } from "@kiltprotocol/sdk-js";
 import { CTypeSchemaWithoutId } from "@kiltprotocol/types";
 import SecondStepCredential from "./SecondStepCredential";
 import classNames from "classnames";
+import { openMessage, destroyMessage } from "../../utils/message";
+import { GUIDEACCOUNT } from "../../constants/guide";
 
 const { Option } = Select;
 
-const GUIDEACCOUNT = "zCloakGuideAccount";
+// const GUIDEACCOUNT = "zCloakGuideAccount";
 const GUIDECLAIM = "zCloakGuideClaim";
 
 enum status {
@@ -48,6 +50,8 @@ enum status {
 }
 
 const TIME = 6000;
+
+const messageKey = "getCredential";
 
 type Props = {
   handleNext: () => void;
@@ -128,11 +132,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
   const onFinish = async (values: any) => {
     if (disabled && !random) return;
     setLoading(true);
-
-    message.warning({
-      content: "It may take you 30-60s",
-      duration: 0,
-    });
+    openMessage("It may take you 30-60s", "warning", messageKey);
 
     const year = dayjs(values.age).get("year");
     const month = dayjs(values.age).get("month") + 1;
@@ -228,7 +228,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
         setCredentail(decryptData);
         handleCredentail(decryptData);
         await setLoading(false);
-        await message.destroy();
+        destroyMessage(messageKey);
       }
     }
   };

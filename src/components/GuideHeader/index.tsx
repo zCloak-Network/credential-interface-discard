@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 13:40:15
- * @LastEditTime: 2022-04-14 14:13:18
+ * @LastEditTime: 2022-04-15 18:19:50
  */
 import React, { useEffect, useState } from "react";
 import LogoBanner from "../LogoBanner";
@@ -22,8 +22,7 @@ const GuideHeader: React.FC = () => {
     if (account) {
       const web3 = new Web3(Web3.givenProvider);
       const balance = await web3.eth.getBalance(account);
-      const formatBalance = Number(web3.utils.fromWei(balance)).toFixed(2);
-
+      const formatBalance = Number(web3.utils.fromWei(balance)).toFixed(4);
       setBalance(formatBalance);
     }
   };

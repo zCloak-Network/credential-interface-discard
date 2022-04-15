@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-14 21:00:08
- * @LastEditTime: 2022-04-15 11:13:31
+ * @LastEditTime: 2022-04-15 17:55:02
  */
 import React from "react";
 import classNames from "classnames";
@@ -16,14 +16,14 @@ const Uploading: React.FC = () => {
       verified: true,
       verifiedAddress: "0x5BF631060b226407A1353bcEef88e3f98aB722A8",
     },
-    {
-      verified: false,
-      verifiedAddress: "0x5BF631060b226407A1353bcEef88e3f98aB722A8",
-    },
-    {
-      verified: "loading",
-      verifiedAddress: "0x5BF631060b226407A1353bcEef88e3f98aB722A8",
-    },
+    // {
+    //   verified: false,
+    //   verifiedAddress: "0x5BF631060b226407A1353bcEef88e3f98aB722A8",
+    // },
+    // {
+    //   verified: "loading",
+    //   verifiedAddress: "0x5BF631060b226407A1353bcEef88e3f98aB722AB",
+    // },
   ];
 
   return (

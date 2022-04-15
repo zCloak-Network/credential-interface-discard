@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-14 15:17:44
+ * @LastEditTime: 2022-04-15 18:27:25
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -11,11 +11,11 @@ import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import { shortenAddress } from "../../utils";
-import useBalance from "../../hooks/useBalance";
 import { SupportedChainId, CHAIN_INFO } from "../../constants/chains";
 import classNames from "classnames";
 import { message } from "antd";
-import { TokenAddress } from "../../constants/contract/address";
+import Web3 from "web3";
+import { openMessage, destroyMessage } from "../../utils/message";
 
 type Props = {
   handleNext: () => void;
@@ -26,7 +26,7 @@ const messageKey = "installMetamask";
 const FourthStep: React.FC<Props> = ({ handleNext }) => {
   const [status, setStatus] = useState<string>("connect");
   const { account, error, activate } = useWeb3React();
-  const balance = useBalance(account, TokenAddress);
+  const [balance, setBalance] = useState<string>();
 
   const handleConnect = async (connector: AbstractConnector | undefined) => {
     // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
@@ -122,6 +122,17 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
   };
   const allStatus = STATUS[status];
 
+  const getBalance = async () => {
+    const web3 = new Web3(Web3.givenProvider);
+    const balance = await web3.eth.getBalance(account);
+    const formatBalance = Number(web3.utils.fromWei(balance)).toFixed(4);
+    setBalance(formatBalance);
+  };
+
+  useEffect(() => {
+    getBalance();
+  }, [account]);
+
   useEffect(() => {
     if (!(window.web3 || window.ethereum)) {
       setStatus("install");
@@ -136,11 +147,7 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
     if (error && error instanceof UnsupportedChainIdError) {
       setStatus("switch");
       const data = STATUS.switch;
-      message[data.messageType]({
-        content: data.message,
-        duration: 0,
-        key: messageKey,
-      });
+      openMessage(data.message, data.messageType, messageKey);
       return;
     }
     if (!account) {
@@ -148,13 +155,13 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
       return;
     }
 
-    if (balance === 0) {
+    if (balance === "0") {
       setStatus("balance");
       return;
     }
 
     setStatus("connected");
-    message.destroy(messageKey);
+    destroyMessage(messageKey);
   }, [error, account, balance]);
 
   return (

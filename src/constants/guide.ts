@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-04-15 11:25:07
+ * @LastEditTime: 2022-04-15 16:54:16
  */
 export const credentialClass = [
   {
@@ -23,8 +23,13 @@ export const credentialClass = [
   },
 ];
 
+export const GUIDEACCOUNT = "zCloakGuideAccount";
+
 export const ADMINATTESTER =
   "did:kilt:4rdUX21mgJYGPpU3PmmjSMDkthg9yD2eFeRXyh84tD6ssvS4";
+
+export const ADMINATTESTERADDRESS =
+  "4rdUX21mgJYGPpU3PmmjSMDkthg9yD2eFeRXyh84tD6ssvS4";
 
 export const CTYPE = {
   $schema: "http://kilt-protocol.org/draft-01/ctype#",

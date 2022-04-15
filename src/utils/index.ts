@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-06 16:32:12
- * @LastEditTime: 2022-04-12 18:25:37
+ * @LastEditTime: 2022-04-15 18:30:33
  */
 import React from "react";
 import { getAddress } from "@ethersproject/address";
@@ -10,6 +10,7 @@ import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
 import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
 import { ProofStatus } from "../types/index";
+import BN from "bn.js";
 
 const { STATUSTRUE, STATUSFALSE, STATUSING } = ProofStatus;
 
@@ -126,3 +127,7 @@ export function getAge(year, month, date) {
     return age;
   }
 }
+
+export const hexToInt10 = (hexData: string): string => {
+  return new BN(hexData, 16).toString(10);
+};

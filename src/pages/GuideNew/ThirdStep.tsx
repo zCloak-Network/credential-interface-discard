@@ -2,10 +2,9 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-14 18:18:42
+ * @LastEditTime: 2022-04-15 18:49:17
  */
 import React, { useEffect, useState } from "react";
-import { message } from "antd";
 import Button from "../../components/Button";
 import { CTYPEHASH, MESSAGECODE } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
@@ -70,7 +69,7 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
         data.imported
       ) {
         setStatus("next");
-        message.destroy();
+        destroyMessage(messageKey);
       }
     });
   }, []);

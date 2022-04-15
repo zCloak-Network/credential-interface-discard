@@ -2,17 +2,20 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-04-14 16:52:42
+ * @LastEditTime: 2022-04-15 18:45:58
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
-import { shortenHash } from "../../utils";
+import { shortenHash, hexToInt10 } from "../../utils";
 import { getContract } from "../../utils/web3Utils";
 import Button from "../../components/Button";
 import abi from "../../constants/contract/contractAbi/KiltProofs";
 import { KiltProofsAdddress as contractAddress } from "../../constants/contract/address";
 import { useToggleGuideRule } from "../../state/application/hooks";
-import { MESSAGECODE } from "../../constants/guide";
+import { MESSAGECODE, ADMINATTESTERADDRESS } from "../../constants/guide";
+import { u8aToHex, stringToHex } from "@polkadot/util";
+import { decodeAddress } from "@polkadot/keyring";
+import { GUIDEACCOUNT } from "../../constants/guide";
 
 import "./FifthStepSubmit.scss";
 
@@ -24,6 +27,7 @@ type Props = {
   proHash: string;
   fieldName: string;
   programDetail: string;
+  handleNext: () => void;
 };
 
 const FifthStepSubmit: React.FC<Props> = ({
@@ -34,6 +38,7 @@ const FifthStepSubmit: React.FC<Props> = ({
   proHash,
   proName,
   programDetail,
+  handleNext,
 }) => {
   const [loading, setLoading] = useState(false);
   const [generateLoading, setGenerateLoading] = useState(false);
@@ -90,38 +95,52 @@ const FifthStepSubmit: React.FC<Props> = ({
 
   const handleSumbit = () => {
     setLoading(true);
-    const contract = getContract(abi, contractAddress);
-    contract.methods
-      .addProof(
-        "0xf85edd58bd7de60dac41894c508a1522f86d4b1066e3a4cbea3ab0353e659d55",
-        cTypeHash,
-        fieldName,
-        proHash,
-        generationInfo.proofCid,
-        generationInfo.rootHash,
-        generationInfo.expectResult
-      )
-      .send({
-        from: account,
-      })
-      .then(function (receipt) {
-        console.log("addProofReceipt", receipt);
-        if (receipt) {
-          setLoading(false);
+    const localAccount = JSON.parse(localStorage.getItem(GUIDEACCOUNT));
+    if (localAccount) {
+      const formatUserAddress = u8aToHex(
+        decodeAddress(localAccount?.account?.address)
+      );
+      const formatAttesterAddress = u8aToHex(
+        decodeAddress(ADMINATTESTERADDRESS)
+      );
+      const formatField = fieldName
+        .split(",")
+        .map((it) => hexToInt10(stringToHex(it).substring(2)));
+      const contract = getContract(abi, contractAddress);
 
-          addPopup(
-            {
-              txn: {
-                hash: receipt.transactionHash,
-                success: true,
-                title: "Submit Success",
-                summary: "You have submitted successfully.",
+      contract.methods
+        .addProof(
+          formatUserAddress,
+          formatAttesterAddress, //attester
+          cTypeHash,
+          formatField,
+          proHash,
+          generationInfo.proofCid,
+          generationInfo.rootHash,
+          [Number(generationInfo.expectResult)] // [generationInfo.expectResult]
+        )
+        .send({
+          from: account,
+        })
+        .then(function (receipt) {
+          console.log("addProofReceipt", receipt);
+          if (receipt) {
+            setLoading(false);
+            handleNext();
+            addPopup(
+              {
+                txn: {
+                  hash: receipt.transactionHash,
+                  success: true,
+                  title: "Submit Success",
+                  summary: "You have submitted successfully.",
+                },
               },
-            },
-            receipt.transactionHash
-          );
-        }
-      });
+              receipt.transactionHash
+            );
+          }
+        });
+    }
   };
 
   useEffect(() => {
@@ -136,9 +155,10 @@ const FifthStepSubmit: React.FC<Props> = ({
         setGenerationInfo({
           proofCid: data.proofCid,
           rootHash: data.rootHash,
-          expectResult: data.expectResult.join(),
+          expectResult: data.expectResult,
         });
         setStatus("extensionCreate");
+        setGenerateLoading(false);
       }
 
       if (
@@ -204,6 +224,7 @@ const FifthStepSubmit: React.FC<Props> = ({
         </div>
       </div>
       <Button
+        size="default"
         disabled={!abled}
         className="btn"
         type="primary"
