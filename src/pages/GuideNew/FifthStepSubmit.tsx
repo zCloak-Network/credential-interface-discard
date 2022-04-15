@@ -2,9 +2,9 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-04-12 23:01:20
+ * @LastEditTime: 2022-04-14 16:52:42
  */
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
 import { shortenHash } from "../../utils";
 import { getContract } from "../../utils/web3Utils";
@@ -12,12 +12,14 @@ import Button from "../../components/Button";
 import abi from "../../constants/contract/contractAbi/KiltProofs";
 import { KiltProofsAdddress as contractAddress } from "../../constants/contract/address";
 import { useToggleGuideRule } from "../../state/application/hooks";
+import { MESSAGECODE } from "../../constants/guide";
 
 import "./FifthStepSubmit.scss";
 
 type Props = {
   account: string;
   proName: string;
+  cTypeName: string;
   cTypeHash: string;
   proHash: string;
   fieldName: string;
@@ -27,12 +29,15 @@ type Props = {
 const FifthStepSubmit: React.FC<Props> = ({
   account,
   cTypeHash,
+  cTypeName,
   fieldName,
   proHash,
   proName,
   programDetail,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [generateLoading, setGenerateLoading] = useState(false);
+  const [status, setStatus] = useState("submit");
   const [generationInfo, setGenerationInfo] = useState({
     proofCid: "",
     rootHash: "",
@@ -41,31 +46,48 @@ const FifthStepSubmit: React.FC<Props> = ({
   const addPopup = useAddPopup();
   const toggleModal = useToggleGuideRule();
 
-  const handleData = (event) => {
-    if (event.data.type === "PROOF_DETAILS") {
-      setGenerationInfo(event.data.data);
-    }
-  };
+  const openExtension = async () => {
+    const { openzkIDPopup } = window?.zCloak?.zkID;
+    setGenerateLoading(true);
 
-  window.addEventListener("message", handleData, true);
-
-  const goToGenerate = () => {
-    window.postMessage(
+    openzkIDPopup(
+      "OPEN_GENERATE_PROOF",
+      // 可选参数
       {
-        type: "OPEN_GENERATE",
-        data: {
-          cTypeHash: cTypeHash,
-          programHashName: proName,
-          programFieldName: fieldName,
-          programHash: proHash,
-          programDetail: programDetail,
-          website: "",
-        },
-      },
-      //TODO  改为apps网址
-      "*"
+        cTypeHash: cTypeHash,
+        programHashName: proName,
+        programFieldName: fieldName,
+        programHash: proHash,
+        programDetail: programDetail,
+      }
     );
+    setStatus("extensionNext");
   };
+
+  // const STATUS = {
+  //   submit: {
+  //     buttonText: "Import Credential",
+  //     buttonType: null,
+  //     func: handleSbumit,
+  //     message: null,
+  //     messageType: null,
+  //   },
+  //   extensionImport: {
+  //     buttonText: "loading",
+  //     buttonType: "loading",
+  //     func: null,
+  //     message: "Please select the Credential file and Import it",
+  //     messageType: "warning",
+  //   },
+  //   next: {
+  //     buttonText: "Next",
+  //     buttonType: null,
+  //     func: handleNext,
+  //     message: null,
+  //     messageType: null,
+  //   },
+  // };
+
   const handleSumbit = () => {
     setLoading(true);
     const contract = getContract(abi, contractAddress);
@@ -77,7 +99,7 @@ const FifthStepSubmit: React.FC<Props> = ({
         proHash,
         generationInfo.proofCid,
         generationInfo.rootHash,
-        Boolean(Number(generationInfo.expectResult))
+        generationInfo.expectResult
       )
       .send({
         from: account,
@@ -101,6 +123,32 @@ const FifthStepSubmit: React.FC<Props> = ({
         }
       });
   };
+
+  useEffect(() => {
+    window.addEventListener("message", (event) => {
+      const { statusCode, data } = event.data;
+
+      if (statusCode === MESSAGECODE.EXTENSION_CLOSED) {
+        setGenerateLoading(false);
+      }
+
+      if (statusCode === MESSAGECODE.SEND_PROOF_TO_WEB && data.proofCid) {
+        setGenerationInfo({
+          proofCid: data.proofCid,
+          rootHash: data.rootHash,
+          expectResult: data.expectResult.join(),
+        });
+        setStatus("extensionCreate");
+      }
+
+      if (
+        statusCode === MESSAGECODE.SEND_CREATE_PASSWORD_SUCCESS_TO_WEB &&
+        data.createPassword
+      ) {
+        setStatus("next");
+      }
+    });
+  }, []);
 
   const abled = useMemo(
     () => proName && proHash && fieldName && generationInfo.proofCid,
@@ -126,7 +174,7 @@ const FifthStepSubmit: React.FC<Props> = ({
       <div className="item">
         <div className="label">Credential type</div>
         <div className="value">
-          <span>{shortenHash(cTypeHash)}</span>
+          <span>{cTypeName}</span>
         </div>
       </div>
       <div className="item">
@@ -145,7 +193,12 @@ const FifthStepSubmit: React.FC<Props> = ({
               {shortenHash(generationInfo.proofCid)}
             </span>
           )}
-          <Button className="generate-btn" onClick={goToGenerate}>
+          <Button
+            size="default"
+            className="generate-btn"
+            onClick={openExtension}
+            loading={generateLoading}
+          >
             Generate
           </Button>
         </div>

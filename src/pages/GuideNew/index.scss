@@ -401,6 +401,150 @@
     }
    
   }
+.uploading-timeline {
+  margin-top: 20px;
+  .uploading-timeline-item {
+    width: 500px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 0px 20px rgba(102, 102, 102, 0.4);
+    opacity: 1;
+    border-radius: 13px;
+    padding: 0 48px;
+    font-size: 16px;
+    font-family: Kanit;
+    font-weight: 400;
+    line-height: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+
+    >.iconfont {
+      position: absolute;
+      left: 20px;
+      top: -12px;
+      width: 24px;
+      height: 24px;
+      color: #fff;
+      width: 24px;
+      font-size: 12px;
+      padding-left: 5px;
+    }
+
+    .icon_success2 {
+      height: 24px;
+      background: #76AF92;
+      box-shadow: 0px 3px 6px rgba(102, 102, 102, 0.4);
+      border-radius: 50%;
+    }
+
+    .icon_empty {
+      height: 24px;
+      background: #D56386;
+      box-shadow: 0px 3px 6px rgba(102, 102, 102, 0.4);
+      border-radius: 50%;
+      padding-left: 6px;
+    }
+
+    &.uploading-true {
+      .uploading-result {
+        color: #76AF92;
+      }
+    }
+
+    &.uploading-true::after {
+      position: absolute;
+      content: "";
+      width: 3px !important;
+      height: 28px;
+      display: inline-block;
+      bottom: -28px;
+      left: 30px;
+      background: #76AF92 !important;
+    }
+
+    &.uploading-false { 
+      .uploading-result {
+        color: #D56386; 
+      } 
+    }
+
+    // &.uploading-false::after {
+    //   position: absolute;
+    //   content: "";
+    //   width: 3px !important;
+    //   height: 28px;
+    //   display: inline-block;
+    //   bottom: -28px;
+    //   left: 30px;
+    //   background: #D56386 !important;
+    // }
+
+
+    &.uploading {
+      .uploading-message{
+        font-size: 16px;
+        font-family: Kanit;
+        font-weight: 400;
+        line-height: 24px;
+        color: #000000;
+        opacity: 0.6;
+      }
+
+      .loading-icon{
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        background: #FFFFFF;
+        box-shadow: 0px 3px 6px rgb(0 0 0 / 16%);
+        border-radius: 50%;
+        opacity: 1;
+        left: 20px;
+        top: -12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        >img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+
+    .uploading-address{
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 300;
+      line-height: 24px;
+      color: #666666;
+    }
+
+    .uploading-address:hover {
+      >span {
+        color: #000000;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .uploading-timeline-item:not(.uploading)::after {
+    position: absolute;
+    content: "";
+    width: 1px;
+    height: 28px;
+    display: inline-block;
+    bottom: -28px;
+    left: 30px;
+    background: #CDD0D9;
+  }
+
+
+  .uploading-timeline-item + .uploading-timeline-item{
+    margin-top: 36px;
+  }
+}
+ 
 
   // ant step 样式
   .ant-steps-horizontal:not(.ant-steps-label-vertical) .ant-steps-item {

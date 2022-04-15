@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-14 16:50:32
+ * @LastEditTime: 2022-04-14 21:28:30
  */
 import React, { useState, useEffect } from "react";
 import Button from "../../components/Button";
@@ -12,6 +12,7 @@ import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import RuleModal from "./RuleModal";
 import Img from "../../images/success.svg";
 import { CTYPE, CTYPEHASH, ZKPROGRAM } from "../../constants/guide";
+import Uploading from "./Uploading";
 
 type UploadStatus = "uploading" | "success" | "prepare";
 
@@ -22,7 +23,7 @@ type Props = {
 
 const FifthStep: React.FC<Props> = ({ handleNext }) => {
   const { account, error, activate } = useWeb3React();
-  const [uploadStatus, setUploadStatus] = useState("prepare");
+  const [uploadStatus, setUploadStatus] = useState("uploading");
 
   return (
     <div className="step-wrapper">
@@ -31,6 +32,7 @@ const FifthStep: React.FC<Props> = ({ handleNext }) => {
         Your wallet is used to derive private keys, which are used to encrypt
         your data and sign private transactions.
       </div>
+      {uploadStatus === "uploading" && <Uploading />}
       {uploadStatus === "success" && (
         <div className="upload-success">
           <div className="upload-success-content">

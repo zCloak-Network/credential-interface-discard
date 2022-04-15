@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-14 16:57:18
+ * @LastEditTime: 2022-04-15 11:24:22
  */
 import React, { useState } from "react";
 import { Steps } from "antd";
@@ -21,7 +21,7 @@ import "./index.scss";
 const { Step } = Steps;
 
 const GuideNew: React.FC = () => {
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(2);
   const [credentail, setCredentail] = useState();
   const [proof, setProof] = useState();
 
