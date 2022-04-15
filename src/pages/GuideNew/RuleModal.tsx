@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 22:55:50
- * @LastEditTime: 2022-04-13 12:00:08
+ * @LastEditTime: 2022-04-15 11:43:41
  */
 import React from "react";
 import Modal from "../../components/Modal";
@@ -11,6 +11,12 @@ import {
   useToggleGuideRule,
 } from "../../state/application/hooks";
 import { ApplicationModal } from "../../state/application/reducer";
+import { ZKPROGRAM } from "../../constants/guide";
+import AceEditor from "react-ace";
+
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/theme-terminal";
+import "ace-builds/src-noconflict/ext-language_tools";
 
 import "./RuleModal.scss";
 
@@ -74,8 +80,16 @@ const RuleModal: React.FC = () => {
         3. Rarity calculation—to compute the average of all equipment rarities.
       </p>
       <p className="content-title">Program Hash</p>
-      <p>Qmea12joad</p>
+      <p>{ZKPROGRAM.hash}</p>
       <p className="content-title">zkVM Program Code</p>
+      <AceEditor
+        mode="javascript"
+        theme="terminal"
+        value={ZKPROGRAM.detail}
+        name="UNIQUE_ID_OF_DIV"
+        className="program-code"
+        editorProps={{ $blockScrolling: true }}
+      />
     </Modal>
   );
 };

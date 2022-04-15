@@ -41,4 +41,18 @@
         tr td:last-child{ border-right: 0 }
         tr:last-child td{ border-bottom: 0 }
     }
+
+    .program-code {
+        width: 608px !important;
+        height: 340px  !important;
+        background: #272823;
+        opacity: 1;
+        border-radius: 20px;
+        overflow-y: auto;
+        font-size: 14px  !important;
+        font-family: Kanit;
+        font-weight: 300;
+        color: #FFFFFF;
+        padding: 18px 32px;
+    }
 }
