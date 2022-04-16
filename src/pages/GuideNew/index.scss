@@ -373,7 +373,10 @@
 
   // step 5
   .upload-success{
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     .upload-success-content {
       width: 500px;
       height: 149px;
@@ -469,6 +472,10 @@
         color: #D56386; 
       } 
     }
+    .uploading-result:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
 
     // &.uploading-false::after {
     //   position: absolute;
@@ -520,12 +527,7 @@
       color: #666666;
     }
 
-    .uploading-address:hover {
-      >span {
-        color: #000000;
-        text-decoration: underline;
-      }
-    }
+  
   }
 
   .uploading-timeline-item:not(.uploading)::after {

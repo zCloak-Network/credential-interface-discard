@@ -2,12 +2,12 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-14 18:20:00
+ * @LastEditTime: 2022-04-16 15:03:41
  */
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import Button from "../../components/Button";
-import { MESSAGECODE } from "../../constants/guide";
+import { MESSAGECODE, zkIDEXTENSION } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 
 import bg from "../../images/step_install.svg";
@@ -23,7 +23,7 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
   const [hasPassword, setPassword] = useState<boolean>(false);
 
   const handleInstall = () => {
-    window.open("https://metamask.io/");
+    window.open(zkIDEXTENSION);
   };
 
   const openExtension = async () => {

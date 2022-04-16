@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-04-15 16:54:16
+ * @LastEditTime: 2022-04-16 15:06:26
  */
 export const credentialClass = [
   {
@@ -186,3 +186,8 @@ export const ZKPROGRAM = {
     roll.4 drop.1 swap.1 drop.1 swap.2
 `,
 };
+
+export const zkIDEXTENSION =
+  "https://chrome.google.com/webstore/detail/zkid/hkdbehojhcibpbcdpjphajfbgigldjkh?hl=zh-CN&authuser=0";
+
+export const METAMASKEXTENSION = "https://metamask.io/";

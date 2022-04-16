@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-15 18:27:25
+ * @LastEditTime: 2022-04-16 15:06:22
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -16,6 +16,7 @@ import classNames from "classnames";
 import { message } from "antd";
 import Web3 from "web3";
 import { openMessage, destroyMessage } from "../../utils/message";
+import { METAMASKEXTENSION } from "../../constants/guide";
 
 type Props = {
   handleNext: () => void;
@@ -44,7 +45,7 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
   };
 
   const handleInstall = () => {
-    window.open("https://metamask.io/");
+    window.open(METAMASKEXTENSION);
   };
 
   const handleSwitch = async () => {

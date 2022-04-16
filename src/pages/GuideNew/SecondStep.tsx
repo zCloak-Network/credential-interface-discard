@@ -2,12 +2,12 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-15 16:55:04
+ * @LastEditTime: 2022-04-16 16:23:00
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
 import dayjs from "dayjs";
-import { Form, Input, message, DatePicker, Select } from "antd";
+import { Form, Input, DatePicker, Select } from "antd";
 import Button from "../../components/Button";
 import { Claim, CType } from "@kiltprotocol/sdk-js";
 import { mnemonicGenerate } from "@polkadot/util-crypto";
@@ -37,11 +37,9 @@ import SecondStepCredential from "./SecondStepCredential";
 import classNames from "classnames";
 import { openMessage, destroyMessage } from "../../utils/message";
 import { GUIDEACCOUNT } from "../../constants/guide";
+import Loading from "../../components/Loading";
 
 const { Option } = Select;
-
-// const GUIDEACCOUNT = "zCloakGuideAccount";
-const GUIDECLAIM = "zCloakGuideClaim";
 
 enum status {
   notAttested = 1,
@@ -67,6 +65,8 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
   const [disabled, setDisabled] = useState(true);
   const [random, seRandom] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [initRefesh, setInitRefesh] = useState(true);
+  const [initLoading, setInitLoading] = useState(false);
   const [account, setAccount] = useState<any>();
   const [interval, setInterval] = useState(TIME);
   const [attestationStatus, setAttestationStatus] = useState<status>();
@@ -229,6 +229,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
         handleCredentail(decryptData);
         await setLoading(false);
         destroyMessage(messageKey);
+        await setInitLoading(false);
       }
     }
   };
@@ -250,6 +251,9 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
     if (res.data.code === 200) {
       if (res.data.data.attestationStatus !== status.attesting) {
         setInterval(undefined);
+      }
+      if (res.data.data.attestationStatus === status.notAttested) {
+        await setInitLoading(false);
       }
       setAttestationStatus(res.data.data.attestationStatus);
     } else {
@@ -273,6 +277,11 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
 
   useEffect(() => {
     if (account) {
+      // 如果是第一次渲染
+      if (initRefesh) {
+        setInitRefesh(true);
+        setInitLoading(true);
+      }
       updateStatus();
     }
   }, [account]);
@@ -288,7 +297,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
         Your wallet is used to derive private keys, which are used to encrypt
         your data and sign private transactions.
       </div>
-      {!credentail && (
+      {!credentail && !initLoading && (
         <>
           <Form
             name="basic"
@@ -362,7 +371,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
           </Form>
         </>
       )}
-      {!!credentail && (
+      {!!credentail && !initLoading && (
         <div>
           <SecondStepCredential data={credentail} />
           <div style={{ display: "flex", justifyContent: "center" }}>
@@ -376,6 +385,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
         </div>
       )}
       <SecondStepModal />
+      {initLoading && <Loading />}
     </div>
   );
 };
