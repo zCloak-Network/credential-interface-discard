@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-16 14:08:05
- * @LastEditTime: 2022-01-05 11:06:10
+ * @LastEditTime: 2022-04-16 14:54:40
  */
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { SupportedChainId, ALL_SUPPORTED_CHAIN_IDS } from "../constants/chains";
@@ -13,10 +13,11 @@ export const injected = new InjectedConnector({
 });
 
 const NETWORK_URLS: { [key in SupportedChainId]: string } = {
+  [SupportedChainId.LOCAL]: "http://192.168.31.156:7545",
   [SupportedChainId.MOONBASEALPHA]: "https://rpc.testnet.moonbeam.network",
 };
 
 export const network = new NetworkConnector({
   urls: NETWORK_URLS,
-  defaultChainId: 1287,
+  defaultChainId: 1337,
 });
