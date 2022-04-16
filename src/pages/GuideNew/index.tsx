@@ -2,10 +2,11 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-15 11:24:22
+ * @LastEditTime: 2022-04-16 20:15:11
  */
 import React, { useState } from "react";
 import { Steps } from "antd";
+import classNames from "classnames";
 import GuideGate from "../GuideGate";
 import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
@@ -14,14 +15,13 @@ import FourthStep from "./FourthStep";
 import FifthStep from "./FifthStep";
 import LastStep from "./LastStep";
 import GuideHeader from "../../components/GuideHeader";
-import classNames from "classnames";
 
 import "./index.scss";
 
 const { Step } = Steps;
 
 const GuideNew: React.FC = () => {
-  const [current, setCurrent] = useState(2);
+  const [current, setCurrent] = useState(1);
   const [credentail, setCredentail] = useState();
   const [proof, setProof] = useState();
 
@@ -58,6 +58,7 @@ const GuideNew: React.FC = () => {
       content: (
         <FifthStep
           handleNext={handleNext}
+          credentail={credentail}
           handleProof={(data) => {
             setProof(data);
           }}

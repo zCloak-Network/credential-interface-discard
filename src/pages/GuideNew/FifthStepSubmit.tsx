@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-04-15 18:45:58
+ * @LastEditTime: 2022-04-16 16:25:11
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -117,7 +117,7 @@ const FifthStepSubmit: React.FC<Props> = ({
           proHash,
           generationInfo.proofCid,
           generationInfo.rootHash,
-          [Number(generationInfo.expectResult)] // [generationInfo.expectResult]
+          [generationInfo.expectResult] // [generationInfo.expectResult]
         )
         .send({
           from: account,

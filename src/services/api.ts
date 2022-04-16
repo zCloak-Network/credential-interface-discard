@@ -2,10 +2,10 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-08 19:47:31
- * @LastEditTime: 2022-04-11 17:42:44
+ * @LastEditTime: 2022-04-16 17:37:44
  */
 import axios from "axios";
-import { HOSTPREFIX } from "../constants";
+import { HOSTPREFIX, PROOFHOSTPREFIX } from "../constants";
 
 /** 添加ctype */
 export async function addCtype(data: any, options?: { [key: string]: any }) {
@@ -120,6 +120,19 @@ export async function getAttestationStatus(
   return axios({
     method: "get",
     url: `${HOSTPREFIX}/admin-attester/attestation-status`,
+    params: {
+      ...params,
+    },
+  });
+}
+
+export async function getProof(
+  params: { rootHash: string },
+  options?: { [key: string]: any }
+) {
+  return axios({
+    method: "get",
+    url: `${PROOFHOSTPREFIX}/proof/result`,
     params: {
       ...params,
     },
