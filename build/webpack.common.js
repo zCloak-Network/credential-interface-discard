@@ -2,10 +2,10 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-08-11 13:50:41
- * @LastEditTime: 2022-01-24 14:12:54
+ * @LastEditTime: 2022-04-19 14:52:33
  */
 const webpack = require("webpack");
-const CopyPlugin = require('copy-webpack-plugin');
+// const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
@@ -108,12 +108,12 @@ const commonConfig = {
       // http: false,
       // https:false,
       // os: false,
-      crypto: require.resolve('crypto-browserify'),
+      crypto: require.resolve("crypto-browserify"),
       // path: require.resolve('path-browserify'),
       //   url: require.resolve('url'),
-      buffer: require.resolve('buffer/'),
+      buffer: require.resolve("buffer/"),
       //   util: require.resolve('util/'),
-      stream: require.resolve('stream-browserify/'),
+      stream: require.resolve("stream-browserify/"),
       // vm: require.resolve('vm-browserify')
     },
   },
@@ -128,11 +128,11 @@ const commonConfig = {
     new webpack.ProvidePlugin({
       process: "process/browser.js",
     }),
-    new CopyPlugin({
-      patterns: [
-        { from: "src/project-conf.js", to: "project-conf.js" },
-      ],
-  }),
+    //   new CopyPlugin({
+    //     patterns: [
+    //       { from: "src/project-conf.js", to: "project-conf.js" },
+    //     ],
+    // }),
   ],
   output: {
     path: path.resolve(__dirname, "../dist"),
