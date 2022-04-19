@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-08 19:47:31
- * @LastEditTime: 2022-04-16 17:37:44
+ * @LastEditTime: 2022-04-18 15:16:30
  */
 import axios from "axios";
 import { HOSTPREFIX, PROOFHOSTPREFIX } from "../constants";
@@ -138,3 +138,29 @@ export async function getProof(
     },
   });
 }
+
+export async function getPoapId(
+  params: { who: string },
+  options?: { [key: string]: any }
+) {
+  return axios({
+    method: "get",
+    url: `${PROOFHOSTPREFIX}/mint-poap`,
+    params: {
+      ...params,
+    },
+  });
+}
+
+// export async function getPoap(
+//   params: { poapId: string },
+//   options?: { [key: string]: any }
+// ) {
+//   return axios({
+//     method: "get",
+//     url: `${PROOFHOSTPREFIX}/public`,
+//     params: {
+//       ...params,
+//     },
+//   });
+// }

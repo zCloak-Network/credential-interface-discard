@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-16 15:06:22
+ * @LastEditTime: 2022-04-18 16:27:58
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -169,8 +169,7 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
     <div className="step-wrapper">
       <div className="title">connect wallet</div>
       <div className="sub-title">
-        Your wallet is used to derive private keys, which are used to encrypt
-        your data and sign private transactions.
+        BTW, get your fox friend ready. He will fetch your POAP for you.
       </div>
       <ul
         className={classNames("wallets", {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-16 15:03:41
+ * @LastEditTime: 2022-04-18 17:29:00
  */
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
@@ -110,8 +110,11 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
       if (statusCode === MESSAGECODE.EXTENSION_CLOSED) {
         if (!hasPassword) {
           setStatus("create");
-          destroyMessage(messageKey);
+        } else {
+          setStatus("next");
         }
+
+        destroyMessage(messageKey);
       }
 
       if (statusCode === MESSAGECODE.SEND_BACKNEXT_TO_WEB && data.clickBack) {
@@ -134,14 +137,16 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
         destroyMessage(messageKey);
       }
     });
-  }, []);
+  }, [hasPassword]);
 
   return (
     <div className="step-wrapper">
       <div className="title">Install extension</div>
       <div className="sub-title">
-        Your wallet is used to derive private keys, which are used to encrypt
-        your data and sign private transactions.
+        Hello adventurer! Welcome to the zCloak Kingdom. Please install the
+        zCloak Wallet to start your journey. The wallet performs some magic
+        tricks-the STARK alchemy—to help you use your data and keep your
+        secrets.
       </div>
       <img src={bg} alt="" className="install-bg" />
       <Button

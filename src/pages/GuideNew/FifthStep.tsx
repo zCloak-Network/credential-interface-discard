@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-16 20:15:52
+ * @LastEditTime: 2022-04-19 10:48:58
  */
 import React, { useState, useEffect } from "react";
 import { useInterval } from "ahooks";
@@ -68,11 +68,13 @@ const FifthStep: React.FC<Props> = ({
           setInterval(undefined);
           setUploadStatus("fail");
           setProof(data);
+          handleProof(true);
         } else if (verified && finished) {
           // 如果已经完成,且成功
           setInterval(undefined);
           setUploadStatus("success");
           setProof(data);
+          handleProof(true);
         } else if (!finished && !verified) {
           // 正在验证
           setInterval(TIME);
@@ -94,8 +96,8 @@ const FifthStep: React.FC<Props> = ({
     <div className="step-wrapper">
       <div className="title">Upload proof</div>
       <div className="sub-title">
-        Your wallet is used to derive private keys, which are used to encrypt
-        your data and sign private transactions.
+        Some magic just happened! You just got your zk-Portrait along with a
+        STARK proof. Upload the proof and our scholars will check its validity.
       </div>
       {uploadStatus === "uploading" && <Uploading data={proof} />}
       {uploadStatus === "fail" && <div>fail</div>}

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-04-16 15:06:26
+ * @LastEditTime: 2022-04-18 15:24:37
  */
 export const credentialClass = [
   {
@@ -191,3 +191,5 @@ export const zkIDEXTENSION =
   "https://chrome.google.com/webstore/detail/zkid/hkdbehojhcibpbcdpjphajfbgigldjkh?hl=zh-CN&authuser=0";
 
 export const METAMASKEXTENSION = "https://metamask.io/";
+
+export const ZKID = "https://app.zcloak.network/#/transfer";

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-09 15:01:30
- * @LastEditTime: 2022-04-09 15:32:04
+ * @LastEditTime: 2022-04-18 15:39:30
  */
 import React from "react";
 import { createWeb3ReactRoot, Web3ReactProvider } from "@web3-react/core";
@@ -19,11 +19,7 @@ const GuideGate: React.FC<props> = ({ children }) => {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
-        <Web3ReactManager>
-          {/* <MyContext.Provider value={{ web3: web3 }}> */}
-          {children}
-          {/* </MyContext.Provider> */}
-        </Web3ReactManager>
+        <Web3ReactManager>{children}</Web3ReactManager>
       </Web3ProviderNetwork>
     </Web3ReactProvider>
   );

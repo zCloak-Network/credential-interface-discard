@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 23:15:44
- * @LastEditTime: 2022-04-12 10:59:09
+ * @LastEditTime: 2022-04-18 16:25:21
  */
 import React, { useMemo, useState } from "react";
 import Modal from "../../components//Modal";
@@ -73,7 +73,7 @@ const SecondStepModal: React.FC = () => {
           </Button>
         ) : (
           <Button onClick={toggleModal} className="btn">
-            Understand , next
+            Understand
           </Button>
         )}
       </div>

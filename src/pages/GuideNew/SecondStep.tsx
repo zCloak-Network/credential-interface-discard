@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-16 16:23:00
+ * @LastEditTime: 2022-04-18 16:24:18
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -294,8 +294,9 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
     <div className="step-wrapper">
       <div className="title">Get credential</div>
       <div className="sub-title">
-        Your wallet is used to derive private keys, which are used to encrypt
-        your data and sign private transactions.
+        {`Guess what? We have prepared a gift POAP for you. The POAP style varies
+        by your age, class and equipment. To claim it, first describe yourself.
+        Click "Submit" once you are done.`}
       </div>
       {!credentail && !initLoading && (
         <>
