@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-15 18:49:17
+ * @LastEditTime: 2022-04-19 14:36:15
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -60,8 +60,11 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
       if (statusCode === MESSAGECODE.EXTENSION_CLOSED) {
         if (!hasCredential) {
           setStatus("import");
-          destroyMessage(messageKey);
+        } else {
+          setStatus("next");
         }
+
+        destroyMessage(messageKey);
       }
 
       if (
@@ -72,7 +75,7 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
         destroyMessage(messageKey);
       }
     });
-  }, []);
+  }, [hasCredential]);
 
   const init = async () => {
     const { getCredentialByCHash } = window?.zCloak?.zkID;

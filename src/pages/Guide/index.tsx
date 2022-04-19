@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-18 15:41:19
+ * @LastEditTime: 2022-04-19 14:31:15
  */
 import React from "react";
 import GuideHeader from "../../components/GuideHeader";
@@ -42,7 +42,7 @@ const Guide: React.FC = () => {
             parties, which might expose their privacy.
           </div>
           <Button className="guide-home-btn" onClick={handleClick}>
-            Get zkID <i className="iconfont icon_1" />
+            Get zkID <i className="iconfont icon_1"></i>
           </Button>
         </div>
         <div className="guide-home-right">
