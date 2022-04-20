@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-18 16:27:58
+ * @LastEditTime: 2022-04-20 17:38:01
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -17,6 +17,9 @@ import { message } from "antd";
 import Web3 from "web3";
 import { openMessage, destroyMessage } from "../../utils/message";
 import { METAMASKEXTENSION } from "../../constants/guide";
+// import { getContract } from "../../utils/web3Utils";
+// import abi from "../../constants/contract/contractAbi/Faucet";
+// import { FaucetAdddress as contractAddress } from "../../constants/contract/address";
 
 type Props = {
   handleNext: () => void;
@@ -27,7 +30,7 @@ const messageKey = "installMetamask";
 const FourthStep: React.FC<Props> = ({ handleNext }) => {
   const [status, setStatus] = useState<string>("connect");
   const { account, error, activate } = useWeb3React();
-  const [balance, setBalance] = useState<string>();
+  const [balance, setBalance] = useState<number>();
 
   const handleConnect = async (connector: AbstractConnector | undefined) => {
     // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
@@ -78,6 +81,34 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
     }
   };
 
+  const getToken = () => {
+    // TODO
+    // const contract = getContract(abi, contractAddress);
+    // contract.methods
+    //   .claim()
+    //   .send({
+    //     from: account,
+    //   })
+    //   .then(function (receipt) {
+    //     console.log("addProofReceipt", receipt);
+    //     if (receipt) {
+    //       // setLoading(false);
+    //       // handleNext();
+    //       // addPopup(
+    //       //   {
+    //       //     txn: {
+    //       //       hash: receipt.transactionHash,
+    //       //       success: true,
+    //       //       title: "Submit Success",
+    //       //       summary: "You have submitted successfully.",
+    //       //     },
+    //       //   },
+    //       //   receipt.transactionHash
+    //       // );
+    //     }
+    //   });
+  };
+
   const STATUS = {
     install: {
       buttonText: "Install MetaMask",
@@ -117,6 +148,7 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
     balance: {
       buttonText: "Get token",
       buttonType: null,
+      func: getToken,
       message: null,
       messageType: null,
     },
@@ -126,7 +158,7 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
   const getBalance = async () => {
     const web3 = new Web3(Web3.givenProvider);
     const balance = await web3.eth.getBalance(account);
-    const formatBalance = Number(web3.utils.fromWei(balance)).toFixed(4);
+    const formatBalance = Number(web3.utils.fromWei(balance));
     setBalance(formatBalance);
   };
 
@@ -145,6 +177,7 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
       });
       return;
     }
+
     if (error && error instanceof UnsupportedChainIdError) {
       setStatus("switch");
       const data = STATUS.switch;
@@ -156,7 +189,7 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
       return;
     }
 
-    if (balance === "0") {
+    if (balance === 0) {
       setStatus("balance");
       return;
     }

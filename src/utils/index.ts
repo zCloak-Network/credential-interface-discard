@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-06 16:32:12
- * @LastEditTime: 2022-04-15 18:30:33
+ * @LastEditTime: 2022-04-20 17:34:39
  */
 import React from "react";
 import { getAddress } from "@ethersproject/address";
@@ -100,12 +100,13 @@ export function getAge(year, month, date) {
   const nowYear = d.getFullYear();
   const nowMonth = d.getMonth() + 1;
   const nowDay = d.getDate();
-  if (nowYear == year) {
+
+  if (nowYear === year) {
     age = 0; //同年 则为0岁
   } else {
     const ageDiff = nowYear - year; //年之差
     if (ageDiff > 0) {
-      if (nowMonth == month) {
+      if (nowMonth === month) {
         const dayDiff = nowDay - date; //日之差
         if (dayDiff < 0) {
           age = ageDiff - 1;
@@ -123,9 +124,9 @@ export function getAge(year, month, date) {
     } else {
       age = -1;
     }
-
-    return age;
   }
+
+  return age;
 }
 
 export const hexToInt10 = (hexData: string): string => {
