@@ -16,8 +16,8 @@ export const WSSURL = "wss://peregrine.kilt.io/parachain-public-ws/";
 // OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws',
 // 'BOTLabs Trusted Entity': 'wss://spiritnet.kilt.io',
 // export const HOSTPREFIX = 'http://107.191.53.163:3009'
-// export const HOSTPREFIX = "https://api.credential.zcloak.network";
-// export const HOSTPREFIX = "http://api.dev-credential.zcloak.network";
+// export const HOSTPREFIX = "https://credential-service.zcloak.network";
+// export const HOSTPREFIX = "https://zkid-service.zcloak.network";
 export const HOSTPREFIX = "http://192.168.31.198:7001";
 export const PROOFHOSTPREFIX = "http://192.168.31.198:7002";
 
