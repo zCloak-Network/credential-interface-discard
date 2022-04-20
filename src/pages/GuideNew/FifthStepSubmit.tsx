@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-04-16 16:25:11
+ * @LastEditTime: 2022-04-20 15:13:00
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -16,8 +16,11 @@ import { MESSAGECODE, ADMINATTESTERADDRESS } from "../../constants/guide";
 import { u8aToHex, stringToHex } from "@polkadot/util";
 import { decodeAddress } from "@polkadot/keyring";
 import { GUIDEACCOUNT } from "../../constants/guide";
+import { openMessage, destroyMessage } from "../../utils/message";
 
 import "./FifthStepSubmit.scss";
+
+const messageKey = "uploadProof";
 
 type Props = {
   account: string;
@@ -54,6 +57,8 @@ const FifthStepSubmit: React.FC<Props> = ({
   const openExtension = async () => {
     const { openzkIDPopup } = window?.zCloak?.zkID;
     setGenerateLoading(true);
+    const data = STATUS.enterPassword;
+    openMessage(data.message, data.messageType, messageKey);
 
     openzkIDPopup(
       "OPEN_GENERATE_PROOF",
@@ -66,32 +71,31 @@ const FifthStepSubmit: React.FC<Props> = ({
         programDetail: programDetail,
       }
     );
-    setStatus("extensionNext");
   };
 
-  // const STATUS = {
-  //   submit: {
-  //     buttonText: "Import Credential",
-  //     buttonType: null,
-  //     func: handleSbumit,
-  //     message: null,
-  //     messageType: null,
-  //   },
-  //   extensionImport: {
-  //     buttonText: "loading",
-  //     buttonType: "loading",
-  //     func: null,
-  //     message: "Please select the Credential file and Import it",
-  //     messageType: "warning",
-  //   },
-  //   next: {
-  //     buttonText: "Next",
-  //     buttonType: null,
-  //     func: handleNext,
-  //     message: null,
-  //     messageType: null,
-  //   },
-  // };
+  const STATUS = {
+    submit: {
+      buttonText: "Submit",
+      buttonType: null,
+      func: null,
+      message: "Please click the Generate button to open the extension",
+      messageType: "warning",
+    },
+    enterPassword: {
+      buttonText: "",
+      buttonType: "",
+      func: null,
+      message: "Please enter the password in the extension",
+      messageType: "warning",
+    },
+    // next: {
+    //   buttonText: "Next",
+    //   buttonType: null,
+    //   func: handleNext,
+    //   message: null,
+    //   messageType: null,
+    // },
+  };
 
   const handleSumbit = () => {
     setLoading(true);
@@ -157,18 +161,20 @@ const FifthStepSubmit: React.FC<Props> = ({
           rootHash: data.rootHash,
           expectResult: data.expectResult,
         });
-        setStatus("extensionCreate");
+        destroyMessage(messageKey);
         setGenerateLoading(false);
       }
-
-      if (
-        statusCode === MESSAGECODE.SEND_CREATE_PASSWORD_SUCCESS_TO_WEB &&
-        data.createPassword
-      ) {
-        setStatus("next");
-      }
     });
-  }, []);
+  }, [generationInfo]);
+
+  useEffect(() => {
+    if (!generationInfo.proofCid) {
+      const data = STATUS[status];
+      openMessage(data.message, data.messageType, messageKey);
+    } else {
+      destroyMessage(messageKey);
+    }
+  }, [generationInfo]);
 
   const abled = useMemo(
     () => proName && proHash && fieldName && generationInfo.proofCid,

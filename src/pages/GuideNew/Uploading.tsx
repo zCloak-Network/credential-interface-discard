@@ -2,11 +2,12 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-14 21:00:08
- * @LastEditTime: 2022-04-16 20:14:47
+ * @LastEditTime: 2022-04-20 11:15:00
  */
 import React from "react";
 import classNames from "classnames";
 import { shortenAddress } from "../../utils";
+import { MOONSCANTX } from "../../constants/guide";
 
 import loading from "../../images/loading_1.gif";
 
@@ -16,7 +17,7 @@ type Props = {
 
 const Uploading: React.FC<Props> = ({ data }) => {
   const jumpTxDetail = (data) => {
-    window.open(`https://moonbase.moonscan.io/tx/${data.transactionHash}`);
+    window.open(`${MOONSCANTX}${data.transactionHash}`);
   };
 
   return (

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-04-07 10:39:24
+ * @LastEditTime: 2022-04-19 14:45:48
  */
 import React, { useState, useEffect } from "react";
 import omit from "omit.js";
@@ -21,6 +21,7 @@ import Loading from "../Loading";
 import PropertyInput from "./PropertyInput";
 import { useSaveClaim, useGetClaims } from "../../state/claim/hooks";
 import { useGetCurrIdentity } from "../../state/wallet/hooks";
+import useGuide from "../../hooks/useGuide";
 
 import "./index.scss";
 
@@ -32,6 +33,7 @@ export default function NewClaimModal(): JSX.Element {
   const [selectCtype, setSelectCtype] = useState(null);
   const saveClaim = useSaveClaim();
   const allClaims = useGetClaims();
+  const isGuide = useGuide();
   const toggleModal = useToggleCreateClaimModal();
   const currAccount = useGetCurrIdentity();
   const modalOpen = useModalOpen(ApplicationModal.CREATE_CLAIM);
@@ -61,10 +63,12 @@ export default function NewClaimModal(): JSX.Element {
   };
 
   useEffect(() => {
-    setLoading(true);
-    setSelectCtype(null);
-    getData();
-  }, [modalOpen]);
+    if (!isGuide) {
+      setLoading(true);
+      setSelectCtype(null);
+      getData();
+    }
+  }, [modalOpen, isGuide]);
 
   const handleSubmit = async (values) => {
     const newPro = {};
