@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-21 11:52:47
+ * @LastEditTime: 2022-04-21 14:57:33
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -57,6 +57,7 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
   useEffect(() => {
     window.addEventListener("message", (event) => {
       const { statusCode, data } = event.data;
+
       if (statusCode === MESSAGECODE.EXTENSION_CLOSED) {
         if (!hasCredential) {
           setStatus("import");
@@ -72,6 +73,7 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
         data.imported
       ) {
         setStatus("next");
+        setHasCredential(true);
         destroyMessage(messageKey);
       }
     });
