@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-04-20 15:13:00
+ * @LastEditTime: 2022-04-21 11:39:30
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -153,6 +153,9 @@ const FifthStepSubmit: React.FC<Props> = ({
 
       if (statusCode === MESSAGECODE.EXTENSION_CLOSED) {
         setGenerateLoading(false);
+        if (generationInfo.proofCid) {
+          destroyMessage(messageKey);
+        }
       }
 
       if (statusCode === MESSAGECODE.SEND_PROOF_TO_WEB && data.proofCid) {
