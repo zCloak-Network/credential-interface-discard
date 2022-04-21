@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-18 16:39:28
+ * @LastEditTime: 2022-04-21 11:55:31
  */
 import React, { useState } from "react";
 import { Steps } from "antd";
@@ -79,6 +79,7 @@ const GuideNew: React.FC = () => {
           className={classNames("guide-new-container-wrapper", {
             "get-credential": current === 1 && !credentail,
             "credential-wrapper": current === 1 && !!credentail,
+            "import-credential": current === 2,
             "upload-proof": current === 4 && !proof,
             "has-proof": current === 4 && !!proof,
           })}

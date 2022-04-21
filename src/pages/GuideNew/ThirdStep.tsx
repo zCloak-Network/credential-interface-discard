@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-19 14:36:15
+ * @LastEditTime: 2022-04-21 11:52:47
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -101,7 +101,10 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
     <div className="step-wrapper">
       <div className="title">Import Credential</div>
       <div className="sub-title">
-        Please open the extension and click the Import button
+        Mr. Thunderbrew—hope he is sober today—has checked your documents and he
+        thinks your data are good. He will issue a credential to you. As we
+        value your privacy, we will generate a zk-Portrait for you to claim your
+        POAP. Your credential will be hidden from the outside world.
       </div>
       <img src={bg} alt="" className="import-bg" />
       <Button
