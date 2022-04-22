@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-18 17:29:00
+ * @LastEditTime: 2022-04-22 16:14:53
  */
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
@@ -134,6 +134,7 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
         data.createPassword
       ) {
         setStatus("next");
+        setPassword(true);
         destroyMessage(messageKey);
       }
     });
