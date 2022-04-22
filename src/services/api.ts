@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-08 19:47:31
- * @LastEditTime: 2022-04-18 15:16:30
+ * @LastEditTime: 2022-04-22 11:38:36
  */
 import axios from "axios";
 import { HOSTPREFIX, PROOFHOSTPREFIX } from "../constants";
@@ -152,15 +152,28 @@ export async function getPoapId(
   });
 }
 
-// export async function getPoap(
-//   params: { poapId: string },
-//   options?: { [key: string]: any }
-// ) {
-//   return axios({
-//     method: "get",
-//     url: `${PROOFHOSTPREFIX}/public`,
-//     params: {
-//       ...params,
-//     },
-//   });
-// }
+export async function getToken(
+  params: { address: string },
+  options?: { [key: string]: any }
+) {
+  return axios({
+    method: "get",
+    url: `${HOSTPREFIX}/user/faucet`,
+    params: {
+      ...params,
+    },
+  });
+}
+
+export async function getTokenStatus(
+  params: { address: string },
+  options?: { [key: string]: any }
+) {
+  return axios({
+    method: "get",
+    url: `${HOSTPREFIX}/user/faucet-status`,
+    params: {
+      ...params,
+    },
+  });
+}

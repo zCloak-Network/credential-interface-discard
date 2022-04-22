@@ -2,34 +2,23 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 13:40:15
- * @LastEditTime: 2022-04-15 18:19:50
+ * @LastEditTime: 2022-04-22 13:54:26
  */
-import React, { useEffect, useState } from "react";
+import React from "react";
 import LogoBanner from "../LogoBanner";
 import { Image } from "@davatar/react";
 import { shortenAddress } from "../../utils";
-import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
+import { useWeb3React } from "@web3-react/core";
 import logo from "../../images/logo_white.svg";
-import Web3 from "web3";
 
 import "./index.scss";
 
-const GuideHeader: React.FC = () => {
+type Props = {
+  balance?: string;
+};
+
+const GuideHeader: React.FC<Props> = ({ balance }) => {
   const { error, account } = useWeb3React();
-  const [balance, setBalance] = useState<any>();
-
-  const getData = async () => {
-    if (account) {
-      const web3 = new Web3(Web3.givenProvider);
-      const balance = await web3.eth.getBalance(account);
-      const formatBalance = Number(web3.utils.fromWei(balance)).toFixed(4);
-      setBalance(formatBalance);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, [account]);
 
   return (
     <div className="guide-header-component">

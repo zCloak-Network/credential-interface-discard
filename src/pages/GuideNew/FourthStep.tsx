@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-20 17:38:01
+ * @LastEditTime: 2022-04-22 14:32:36
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -14,23 +14,34 @@ import { shortenAddress } from "../../utils";
 import { SupportedChainId, CHAIN_INFO } from "../../constants/chains";
 import classNames from "classnames";
 import { message } from "antd";
-import Web3 from "web3";
 import { openMessage, destroyMessage } from "../../utils/message";
 import { METAMASKEXTENSION } from "../../constants/guide";
-// import { getContract } from "../../utils/web3Utils";
-// import abi from "../../constants/contract/contractAbi/Faucet";
-// import { FaucetAdddress as contractAddress } from "../../constants/contract/address";
+import { getToken, getTokenStatus } from "../../services/api";
+import { useInterval } from "ahooks";
 
 type Props = {
   handleNext: () => void;
+  balance: string;
+  updateBalance: () => void;
 };
+const TIME = 3000;
 
+enum FAUCETSTATUS {
+  notFauceted = 1,
+  fauceting = 2,
+  fauceted = 3,
+}
 const messageKey = "installMetamask";
 
-const FourthStep: React.FC<Props> = ({ handleNext }) => {
+const FourthStep: React.FC<Props> = ({
+  balance,
+  handleNext,
+  updateBalance,
+}) => {
   const [status, setStatus] = useState<string>("connect");
   const { account, error, activate } = useWeb3React();
-  const [balance, setBalance] = useState<number>();
+  const [interval, setInterval] = useState(undefined);
+  const [faucetStatus, setfaucetStatus] = useState(1);
 
   const handleConnect = async (connector: AbstractConnector | undefined) => {
     // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
@@ -81,32 +92,38 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
     }
   };
 
-  const getToken = () => {
-    // TODO
-    // const contract = getContract(abi, contractAddress);
-    // contract.methods
-    //   .claim()
-    //   .send({
-    //     from: account,
-    //   })
-    //   .then(function (receipt) {
-    //     console.log("addProofReceipt", receipt);
-    //     if (receipt) {
-    //       // setLoading(false);
-    //       // handleNext();
-    //       // addPopup(
-    //       //   {
-    //       //     txn: {
-    //       //       hash: receipt.transactionHash,
-    //       //       success: true,
-    //       //       title: "Submit Success",
-    //       //       summary: "You have submitted successfully.",
-    //       //     },
-    //       //   },
-    //       //   receipt.transactionHash
-    //       // );
-    //     }
-    //   });
+  const queryTokenStatus = async () => {
+    const res = await getTokenStatus({ address: account });
+    if (res.data.code === 200) {
+      setfaucetStatus(res.data.data.status);
+    }
+  };
+
+  const updateStatus = async () => {
+    if (faucetStatus === FAUCETSTATUS.fauceting) {
+      queryTokenStatus();
+    } else {
+      await setInterval(undefined);
+      await setStatus("connected");
+      await updateBalance();
+    }
+  };
+
+  useInterval(() => {
+    if (account) {
+      updateStatus();
+    }
+  }, interval);
+
+  const handleToken = async () => {
+    if (account) {
+      const res = await getToken({ address: account });
+      if (res.data.code === 200) {
+        await setStatus("loading");
+        await queryTokenStatus();
+        await setInterval(TIME);
+      }
+    }
   };
 
   const STATUS = {
@@ -148,22 +165,15 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
     balance: {
       buttonText: "Get token",
       buttonType: null,
-      func: getToken,
+      func: handleToken,
       message: null,
       messageType: null,
     },
   };
   const allStatus = STATUS[status];
 
-  const getBalance = async () => {
-    const web3 = new Web3(Web3.givenProvider);
-    const balance = await web3.eth.getBalance(account);
-    const formatBalance = Number(web3.utils.fromWei(balance));
-    setBalance(formatBalance);
-  };
-
   useEffect(() => {
-    getBalance();
+    setfaucetStatus(1);
   }, [account]);
 
   useEffect(() => {
@@ -189,7 +199,7 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
       return;
     }
 
-    if (balance === 0) {
+    if (balance === "0.0000") {
       setStatus("balance");
       return;
     }
@@ -225,6 +235,8 @@ const FourthStep: React.FC<Props> = ({ handleNext }) => {
         </div>
       )}
       <Button
+        size="default"
+        loading={status === "loading"}
         className="btn connect-btn"
         onClick={() => {
           allStatus.func(SUPPORTED_WALLETS.METAMASK.connector);
