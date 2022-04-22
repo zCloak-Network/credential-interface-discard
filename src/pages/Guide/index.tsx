@@ -2,14 +2,14 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-19 14:31:15
+ * @LastEditTime: 2022-04-22 18:14:30
  */
 import React from "react";
 import GuideHeader from "../../components/GuideHeader";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 
-import Img from "../../images/login.png";
+import Img from "../../images/png_home.png";
 import Star from "../../images/star.svg";
 import Star_1 from "../../images/star_1.svg";
 
@@ -47,14 +47,14 @@ const Guide: React.FC = () => {
         </div>
         <div className="guide-home-right">
           <img src={Img} alt="" />
-          <div className="guide-home-right-content">
+          {/* <div className="guide-home-right-content">
             <p className="guide-home-right-title">zkID POAP</p>
             <p className="guide-home-right-desc">
               After completing the registration
               <br />
               operation, you can get an nft.
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-18 16:28:29
+ * @LastEditTime: 2022-04-22 18:40:48
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -11,11 +11,12 @@ import { getContract } from "../../utils/web3Utils";
 import abi from "../../constants/contract/contractAbi/Poap";
 import { PoapAdddress } from "../../constants/contract/address";
 import { useAddPopup } from "../../state/application/hooks";
-import { numberToHex, hexToNumber } from "@polkadot/util";
-import { stripHexPrefix } from "web3-utils";
+import { hexToNumber } from "@polkadot/util";
+import { stripHexPrefix, numberToHex, padLeft } from "web3-utils";
 import { getPoapId } from "../../services/api";
 import { HOSTPREFIX } from "../../constants";
 import { ZKID } from "../../constants/guide";
+import BN from "bn.js";
 
 import bg from "../../images/step_install.svg";
 
@@ -58,13 +59,16 @@ const LastStep: React.FC = () => {
   };
 
   const formatNum = (num) => {
-    return hexToNumber(stripHexPrefix(numberToHex(num)).slice(32));
+    const numId = hexToNumber(
+      stripHexPrefix(numberToHex(new BN(num))).slice(32)
+    );
+
+    return stripHexPrefix(padLeft(numId, 6, "0"));
   };
 
   useEffect(() => {
     const contract = getContract(abi, PoapAdddress);
     contract.events.MintPoap({}, (error, event) => {
-      console.log(445555, error, event);
       const { nftId, poapId } = event.returnValues;
       setPoapId(poapId);
       setNftId(nftId);
@@ -94,13 +98,14 @@ const LastStep: React.FC = () => {
       </div>
       {poapId ? (
         <div className="poap">
-          <div className="poap-title">zkID Poap</div>
           <img
             src={`${HOSTPREFIX}/public/${poapId}.png`}
             alt=""
             className="poap-img"
           />
-          <div className="poap-num">No : {formatNum(Number(nftId))}</div>
+          <div className="poap-num">
+            {nftId ? formatNum(String(nftId)) : "-"}
+          </div>
         </div>
       ) : (
         <img src={bg} alt="" className="install-bg" />
