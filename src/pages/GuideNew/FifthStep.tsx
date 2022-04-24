@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-24 16:00:20
+ * @LastEditTime: 2022-04-24 18:21:53
  */
 import React, { useState, useEffect } from "react";
 import { useInterval } from "ahooks";
@@ -12,7 +12,12 @@ import { useWeb3React } from "@web3-react/core";
 import RuleModal from "./RuleModal";
 import Uploading from "./Uploading";
 import { getProof } from "../../services/api";
-import { CTYPE, CTYPEHASH, ZKPROGRAM } from "../../constants/guide";
+import {
+  CTYPE,
+  CTYPEHASH,
+  ZKPROGRAM,
+  GUIDECREDENTIAL,
+} from "../../constants/guide";
 
 import failImg from "../../images/fail.svg";
 import successImg from "../../images/success.svg";
@@ -52,8 +57,16 @@ const FifthStep: React.FC<Props> = ({
     }
   }, [uploadStatus]);
 
-  const getProofData = async (isFirst) => {
-    const claimHash = credentail?.body?.content?.attestation.claimHash;
+  const getClaimHash = () => {
+    const credentailLocal = localStorage.getItem(GUIDECREDENTIAL) as any;
+
+    const data = JSON.parse(credentailLocal) || credentail;
+
+    return data?.body?.content?.attestation.claimHash;
+  };
+
+  const getProofData = async () => {
+    const claimHash = getClaimHash();
 
     const res = await getProof({
       rootHash: claimHash,
@@ -72,23 +85,24 @@ const FifthStep: React.FC<Props> = ({
         if (!verified && finished) {
           // 如果已经完成, 且失败
           setInterval(undefined);
-          if (isFirst) {
-            setUploadStatus("fail");
-          } else {
-            setUploadStatus("uploaded");
-          }
+          setUploadStatus("uploaded");
+          // if (isFirst) {
+          //   setUploadStatus("fail");
+          // } else {
+          //   setUploadStatus("uploaded");
+          // }
           setResult("fail");
           setProof(data);
           handleProof(true);
         } else if (verified && finished) {
           // 如果已经完成,且成功
           setInterval(undefined);
-
-          if (isFirst) {
-            setUploadStatus("success");
-          } else {
-            setUploadStatus("uploaded");
-          }
+          setUploadStatus("uploaded");
+          // if (isFirst) {
+          //   setUploadStatus("success");
+          // } else {
+          //   setUploadStatus("uploaded");
+          // }
           setResult("success");
 
           setProof(data);
@@ -107,12 +121,12 @@ const FifthStep: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    getProofData(true);
+    getProofData();
     updateBalance();
   }, []);
 
   useInterval(() => {
-    getProofData(false);
+    getProofData();
   }, interval);
 
   return (

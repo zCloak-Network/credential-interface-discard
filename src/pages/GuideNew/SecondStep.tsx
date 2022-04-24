@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-18 16:24:18
+ * @LastEditTime: 2022-04-24 18:22:43
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -36,7 +36,7 @@ import { CTypeSchemaWithoutId } from "@kiltprotocol/types";
 import SecondStepCredential from "./SecondStepCredential";
 import classNames from "classnames";
 import { openMessage, destroyMessage } from "../../utils/message";
-import { GUIDEACCOUNT } from "../../constants/guide";
+import { GUIDEACCOUNT, GUIDECREDENTIAL } from "../../constants/guide";
 import Loading from "../../components/Loading";
 
 const { Option } = Select;
@@ -224,7 +224,9 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
       if (res.data.code === 200) {
         const decryptData = await decrypt(res.data.data[0]);
 
-        console.log(45555, decryptData);
+        // console.log(45555, decryptData);
+        // kilt credentail 存在本地
+        localStorage.setItem(GUIDECREDENTIAL, JSON.stringify(decryptData));
         setCredentail(decryptData);
         handleCredentail(decryptData);
         await setLoading(false);

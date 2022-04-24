@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-24 14:13:05
+ * @LastEditTime: 2022-04-24 18:16:59
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -17,6 +17,8 @@ import LastStep from "./LastStep";
 import GuideHeader from "../../components/GuideHeader";
 import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
+import { GUIDECREDENTIAL } from "../../constants/guide";
+import { getProof } from "../../services/api";
 
 import "./index.scss";
 
@@ -40,6 +42,20 @@ const GuideNew: React.FC = () => {
 
       const formatBalance = Number(web3.utils.fromWei(balance)).toFixed(4);
       setBalance(formatBalance);
+    }
+  };
+
+  const getProofData = async (claimHash) => {
+    const res = await getProof({
+      rootHash: claimHash,
+    });
+
+    if (res.data.code === 200) {
+      const data = res.data.data;
+
+      if (Object.keys(data).length > 0) {
+        setCurrent(4);
+      }
     }
   };
 
@@ -91,6 +107,17 @@ const GuideNew: React.FC = () => {
       content: <LastStep updateBalance={getBalance} />,
     },
   ];
+
+  useEffect(() => {
+    const credentail = localStorage.getItem(GUIDECREDENTIAL);
+
+    if (credentail) {
+      const claimHash =
+        JSON.parse(credentail)?.body?.content?.attestation.claimHash;
+
+      getProofData(claimHash);
+    }
+  }, []);
 
   useEffect(() => {
     getBalance();
