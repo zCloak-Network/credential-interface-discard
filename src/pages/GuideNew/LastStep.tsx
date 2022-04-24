@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-22 18:40:48
+ * @LastEditTime: 2022-04-24 10:35:13
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -18,7 +18,7 @@ import { HOSTPREFIX } from "../../constants";
 import { ZKID } from "../../constants/guide";
 import BN from "bn.js";
 
-import bg from "../../images/step_install.svg";
+import bg from "../../images/png_home.png";
 
 const LastStep: React.FC = () => {
   const addPopup = useAddPopup();
@@ -78,10 +78,15 @@ const LastStep: React.FC = () => {
   const getPoapIdByAccount = async () => {
     const res = await getPoapId({ who: account });
 
-    if (res.data.code === 200 && res.data.data) {
-      const { poapId, nftId } = res.data.data;
-      setPoapId(poapId);
-      setNftId(nftId);
+    if (res.data.code === 200) {
+      if (res.data.data) {
+        const { poapId, nftId } = res.data.data;
+        setPoapId(poapId);
+        setNftId(nftId);
+      } else {
+        setPoapId(null);
+        setNftId(null);
+      }
     }
   };
 
@@ -108,7 +113,7 @@ const LastStep: React.FC = () => {
           </div>
         </div>
       ) : (
-        <img src={bg} alt="" className="install-bg" />
+        <img src={bg} alt="" className="poap-img" />
       )}
       {poapId ? (
         <Button className="btn" onClick={jumpToZKID}>

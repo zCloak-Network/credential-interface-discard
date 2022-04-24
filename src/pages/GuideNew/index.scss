@@ -568,14 +568,9 @@
   // justify-content: space-between;
   // align-items: center;
   // flex-direction: column;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
   position: relative;
 
-
-  .poap-img {
-    width: 248px;
-    height: 336px;
-  }
   .poap-num {
     font-size: 12px;
     font-family: Kanit;
@@ -584,9 +579,15 @@
     color: #000000;
 
     position: absolute;
-    bottom: 117px;
+    bottom: 137px;
     left: 70px;
   }
+}
+
+.poap-img {
+  width: 248px;
+  height: 336px;
+  margin-bottom: 20px;
 }
 
   // ant step 样式
