@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-24 14:19:03
+ * @LastEditTime: 2022-04-24 16:00:20
  */
 import React, { useState, useEffect } from "react";
 import { useInterval } from "ahooks";
@@ -40,7 +40,7 @@ const FifthStep: React.FC<Props> = ({
   const [proof, setProof] = useState();
   const [isSubmited, setIsSubmited] = useState(false);
   const [interval, setInterval] = useState(undefined);
-  const [uploadStatus, setUploadStatus] = useState<UploadStatus>("prepare");
+  const [uploadStatus, setUploadStatus] = useState<UploadStatus>(null);
   const [result, setResult] = useState<UploadResult>();
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const FifthStep: React.FC<Props> = ({
     }
   }, [uploadStatus]);
 
-  const getProofData = async () => {
+  const getProofData = async (isFirst) => {
     const claimHash = credentail?.body?.content?.attestation.claimHash;
 
     const res = await getProof({
@@ -72,15 +72,25 @@ const FifthStep: React.FC<Props> = ({
         if (!verified && finished) {
           // 如果已经完成, 且失败
           setInterval(undefined);
+          if (isFirst) {
+            setUploadStatus("fail");
+          } else {
+            setUploadStatus("uploaded");
+          }
           setResult("fail");
-          setUploadStatus("uploaded");
           setProof(data);
           handleProof(true);
         } else if (verified && finished) {
           // 如果已经完成,且成功
           setInterval(undefined);
+
+          if (isFirst) {
+            setUploadStatus("success");
+          } else {
+            setUploadStatus("uploaded");
+          }
           setResult("success");
-          setUploadStatus("uploaded");
+
           setProof(data);
           handleProof(true);
         } else if (!finished && !verified) {
@@ -97,12 +107,12 @@ const FifthStep: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    getProofData();
+    getProofData(true);
     updateBalance();
   }, []);
 
   useInterval(() => {
-    getProofData();
+    getProofData(false);
   }, interval);
 
   return (
