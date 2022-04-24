@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-24 10:35:13
+ * @LastEditTime: 2022-04-24 14:28:11
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -14,13 +14,17 @@ import { useAddPopup } from "../../state/application/hooks";
 import { hexToNumber } from "@polkadot/util";
 import { stripHexPrefix, numberToHex, padLeft } from "web3-utils";
 import { getPoapId } from "../../services/api";
-import { HOSTPREFIX } from "../../constants";
+import { getImg } from "../../utils/poap";
 import { ZKID } from "../../constants/guide";
 import BN from "bn.js";
 
 import bg from "../../images/png_home.png";
 
-const LastStep: React.FC = () => {
+type Props = {
+  updateBalance: () => void;
+};
+
+const LastStep: React.FC<Props> = ({ updateBalance }) => {
   const addPopup = useAddPopup();
   const { account } = useWeb3React();
   const [claimLoading, setClaimLoading] = useState(false);
@@ -43,6 +47,7 @@ const LastStep: React.FC = () => {
         console.log("addReceipt", receipt);
         if (receipt) {
           setClaimLoading(false);
+          updateBalance();
           addPopup(
             {
               txn: {
@@ -73,9 +78,12 @@ const LastStep: React.FC = () => {
       setPoapId(poapId);
       setNftId(nftId);
     });
+
+    updateBalance();
   }, []);
 
   const getPoapIdByAccount = async () => {
+    if (!account) return;
     const res = await getPoapId({ who: account });
 
     if (res.data.code === 200) {
@@ -103,11 +111,7 @@ const LastStep: React.FC = () => {
       </div>
       {poapId ? (
         <div className="poap">
-          <img
-            src={`${HOSTPREFIX}/public/${poapId}.png`}
-            alt=""
-            className="poap-img"
-          />
+          <img src={getImg(poapId)} alt="" className="poap-img" />
           <div className="poap-num">
             {nftId ? formatNum(String(nftId)) : "-"}
           </div>

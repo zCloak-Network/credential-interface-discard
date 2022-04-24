@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-19 10:48:58
+ * @LastEditTime: 2022-04-24 14:19:03
  */
 import React, { useState, useEffect } from "react";
 import { useInterval } from "ahooks";
@@ -14,14 +14,18 @@ import Uploading from "./Uploading";
 import { getProof } from "../../services/api";
 import { CTYPE, CTYPEHASH, ZKPROGRAM } from "../../constants/guide";
 
-import Img from "../../images/success.svg";
+import failImg from "../../images/fail.svg";
+import successImg from "../../images/success.svg";
 
-type UploadStatus = "uploading" | "success" | "prepare" | "fail";
+type UploadStatus = "uploading" | "success" | "prepare" | "fail" | "uploaded";
+
+type UploadResult = "success" | "fail";
 
 type Props = {
   credentail: any;
   handleNext: () => void;
   handleProof: (proof) => void;
+  updateBalance: () => void;
 };
 
 const TIME = 12000;
@@ -30,12 +34,14 @@ const FifthStep: React.FC<Props> = ({
   credentail,
   handleNext,
   handleProof,
+  updateBalance,
 }) => {
   const { account } = useWeb3React();
   const [proof, setProof] = useState();
   const [isSubmited, setIsSubmited] = useState(false);
   const [interval, setInterval] = useState(undefined);
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>("prepare");
+  const [result, setResult] = useState<UploadResult>();
 
   useEffect(() => {
     if (uploadStatus === "uploading") {
@@ -66,13 +72,15 @@ const FifthStep: React.FC<Props> = ({
         if (!verified && finished) {
           // 如果已经完成, 且失败
           setInterval(undefined);
-          setUploadStatus("fail");
+          setResult("fail");
+          setUploadStatus("uploaded");
           setProof(data);
           handleProof(true);
         } else if (verified && finished) {
           // 如果已经完成,且成功
           setInterval(undefined);
-          setUploadStatus("success");
+          setResult("success");
+          setUploadStatus("uploaded");
           setProof(data);
           handleProof(true);
         } else if (!finished && !verified) {
@@ -84,8 +92,13 @@ const FifthStep: React.FC<Props> = ({
     }
   };
 
+  const handleUploadingNext = () => {
+    setUploadStatus(result);
+  };
+
   useEffect(() => {
     getProofData();
+    updateBalance();
   }, []);
 
   useInterval(() => {
@@ -99,12 +112,28 @@ const FifthStep: React.FC<Props> = ({
         Some magic just happened! You just got your zk-Portrait along with a
         STARK proof. Upload the proof and our scholars will check its validity.
       </div>
-      {uploadStatus === "uploading" && <Uploading data={proof} />}
-      {uploadStatus === "fail" && <div>fail</div>}
+      {["uploading", "uploaded"].includes(uploadStatus) && (
+        <Uploading
+          data={proof}
+          uploaded={Boolean(uploadStatus === "uploaded")}
+          handleNext={handleUploadingNext}
+        />
+      )}
+      {uploadStatus === "fail" && (
+        <div className="upload-fail">
+          <div className="upload-fail-content">
+            <img src={failImg} alt="fail" />
+            <span>Your proof is verified False, You can‘t get an NFT.</span>
+          </div>
+          <Button className="btn" onClick={handleNext}>
+            Next
+          </Button>
+        </div>
+      )}
       {uploadStatus === "success" && (
         <div className="upload-success">
           <div className="upload-success-content">
-            <img src={Img} alt="success" />
+            <img src={successImg} alt="success" />
             <span>Your proof is verified true, You can get a POAP.</span>
           </div>
           <Button className="btn" onClick={handleNext}>
@@ -125,6 +154,7 @@ const FifthStep: React.FC<Props> = ({
             setIsSubmited(true);
             setUploadStatus("uploading");
             setInterval(TIME);
+            updateBalance();
           }}
         />
       )}

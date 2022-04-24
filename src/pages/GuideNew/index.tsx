@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-22 14:37:11
+ * @LastEditTime: 2022-04-24 14:13:05
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -82,12 +82,13 @@ const GuideNew: React.FC = () => {
           handleProof={(data) => {
             setProof(data);
           }}
+          updateBalance={getBalance}
         />
       ),
     },
     {
       title: "Last",
-      content: <LastStep />,
+      content: <LastStep updateBalance={getBalance} />,
     },
   ];
 
