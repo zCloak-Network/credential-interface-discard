@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-24 14:28:11
+ * @LastEditTime: 2022-04-25 18:25:54
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -18,7 +18,7 @@ import { getImg } from "../../utils/poap";
 import { ZKID } from "../../constants/guide";
 import BN from "bn.js";
 
-import bg from "../../images/png_home.png";
+import bg from "../../images/nft_cover.png";
 
 type Props = {
   updateBalance: () => void;
