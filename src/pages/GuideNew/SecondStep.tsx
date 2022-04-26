@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-26 10:56:14
+ * @LastEditTime: 2022-04-26 11:59:59
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -38,6 +38,7 @@ import classNames from "classnames";
 import { openMessage, destroyMessage } from "../../utils/message";
 import { GUIDEACCOUNT, GUIDECREDENTIAL } from "../../constants/guide";
 import Loading from "../../components/Loading";
+import moment from "moment";
 
 const { Option } = Select;
 
@@ -264,6 +265,10 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
     }
   };
 
+  const disabledDate = (current) => {
+    return current && current > moment().endOf("day");
+  };
+
   const handleRandom = () => {
     const helmet_rarity = getRandom();
     const chest_rarity = getRandom();
@@ -318,7 +323,10 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
               <Input placeholder="Please input name" />
             </Form.Item>
             <Form.Item label="Birthday" name="age">
-              <DatePicker placeholder="Please select a date" />
+              <DatePicker
+                placeholder="Please select a date"
+                disabledDate={disabledDate}
+              />
             </Form.Item>
             <Form.Item label="Class" name="class">
               <Select
