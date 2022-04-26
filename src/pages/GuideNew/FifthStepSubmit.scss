@@ -21,12 +21,20 @@
           display: flex;
           justify-content: space-between;
         }
+
+        .rule-btn{
+          margin-left: 6px;
+          color: #000;
+        }
       }
 
       &.program {
         .program-name:hover {
           color: #3434E6;
-          text-decoration: underline;
+       
+          .rule-btn{
+            color: #3434E6;
+          }
         }
       }
     }

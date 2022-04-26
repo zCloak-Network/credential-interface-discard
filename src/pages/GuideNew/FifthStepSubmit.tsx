@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-04-21 11:39:30
+ * @LastEditTime: 2022-04-26 10:31:46
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -196,6 +196,7 @@ const FifthStepSubmit: React.FC<Props> = ({
             }}
           >
             {proName}
+            <i className="iconfont wenhao-xianxingyuankuang rule-btn"></i>
           </span>
           <span>{shortenHash(proHash)}</span>
         </div>

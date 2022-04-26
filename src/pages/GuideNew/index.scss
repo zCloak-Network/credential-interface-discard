@@ -446,7 +446,13 @@
 
 
 .uploading-timeline {
-  margin-top: 20px;
+ 
+  .uploading-timeline-wrapper{
+    max-height: 260px;
+    overflow-y: auto;
+    padding-top: 20px;
+
+  }
   .uploading-timeline-item {
     width: 500px;
     height: 48px;
@@ -494,6 +500,7 @@
     &.uploading-true {
       .uploading-result {
         color: #76AF92;
+        position: relative
       }
     }
 
@@ -511,6 +518,7 @@
     &.uploading-false { 
       .uploading-result {
         color: #D56386; 
+        position: relative;
       } 
     }
     .uploading-result:hover {
@@ -518,6 +526,17 @@
       text-decoration: underline;
     }
 
+    .uploading-result{
+      .jump-btn{
+        transform: rotate(-45deg);
+        display: inline-block;
+        font-size: 12px;
+        position: absolute;
+        top: -2px;
+      }
+    }
+ 
+   
     // &.uploading-false::after {
     //   position: absolute;
     //   content: "";

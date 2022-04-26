@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-14 21:00:08
- * @LastEditTime: 2022-04-24 14:26:04
+ * @LastEditTime: 2022-04-26 11:50:55
  */
 import React from "react";
 import classNames from "classnames";
@@ -25,35 +25,40 @@ const Uploading: React.FC<Props> = ({ data, uploaded, handleNext }) => {
 
   return (
     <div className="uploading-timeline">
-      {data?.verifying.map((it, index) => (
-        <div
-          key={it.worker}
-          className={classNames("uploading-timeline-item", {
-            "uploading-true": it.isPassed,
-            "uploading-false": !it.isPassed,
-            "last-uploading": index === data?.verifying.length - 1 && uploaded,
-          })}
-        >
-          <i
-            className={classNames("iconfont", {
-              icon_success2: it.isPassed,
-              icon_empty: !it.isPassed,
+      <div className="uploading-timeline-wrapper">
+        {data?.verifying.map((it, index) => (
+          <div
+            key={it.worker}
+            className={classNames("uploading-timeline-item", {
+              "uploading-true": it.isPassed,
+              "uploading-false": !it.isPassed,
+              "last-uploading":
+                index === data?.verifying.length - 1 && uploaded,
             })}
-          ></i>
-
-          <span
-            className="uploading-result"
-            onClick={() => {
-              jumpTxDetail(it);
-            }}
           >
-            {it.isPassed ? "Verified True" : "Verified Flase"}
-          </span>
-          <span className="uploading-address">
-            By worker&nbsp;<span>{shortenAddress(it.worker)}</span>
-          </span>
-        </div>
-      ))}
+            <i
+              className={classNames("iconfont", {
+                icon_success2: it.isPassed,
+                icon_empty: !it.isPassed,
+              })}
+            ></i>
+
+            <span
+              className="uploading-result"
+              onClick={() => {
+                jumpTxDetail(it);
+              }}
+            >
+              {it.isPassed ? "Verified True" : "Verified Flase"}
+              <i className="iconfont a-ziyuan11 jump-btn" />
+            </span>
+            <span className="uploading-address">
+              By worker&nbsp;<span>{shortenAddress(it.worker)}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+
       {uploaded ? (
         <Button
           className="btn"
