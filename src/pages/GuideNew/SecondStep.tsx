@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-24 18:22:43
+ * @LastEditTime: 2022-04-26 10:56:14
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -158,7 +158,8 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
   };
 
   const handleValuesChange = (_, allValues) => {
-    const allTrue = Object.values(allValues).every((it) => !!it);
+    const checkLabel = ["name", "age", "class"];
+    const allTrue = checkLabel.every((it) => !!allValues[it]);
 
     setDisabled(!allTrue);
   };
@@ -365,7 +366,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
                   "submit-loading-btn": loading,
                 })}
                 htmlType="submit"
-                disabled={disabled && !random}
+                disabled={disabled || !random}
                 loading={loading}
               >
                 Submit
