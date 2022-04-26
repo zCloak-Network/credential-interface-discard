@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-04-26 10:31:46
+ * @LastEditTime: 2022-04-26 16:02:28
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -17,6 +17,7 @@ import { u8aToHex, stringToHex } from "@polkadot/util";
 import { decodeAddress } from "@polkadot/keyring";
 import { GUIDEACCOUNT } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
+import classNames from "classnames";
 
 import "./FifthStepSubmit.scss";
 
@@ -55,6 +56,7 @@ const FifthStepSubmit: React.FC<Props> = ({
   const toggleModal = useToggleGuideRule();
 
   const openExtension = async () => {
+    if (loading) return;
     const { openzkIDPopup } = window?.zCloak?.zkID;
     setGenerateLoading(true);
     const data = STATUS.enterPassword;
@@ -225,7 +227,9 @@ const FifthStepSubmit: React.FC<Props> = ({
           )}
           <Button
             size="default"
-            className="generate-btn"
+            className={classNames("generate-btn", {
+              "generate-btn-disabled": loading,
+            })}
             onClick={openExtension}
             loading={generateLoading}
           >
