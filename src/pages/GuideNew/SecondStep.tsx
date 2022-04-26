@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-26 11:59:59
+ * @LastEditTime: 2022-04-26 15:57:18
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -270,6 +270,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
   };
 
   const handleRandom = () => {
+    if (loading) return;
     const helmet_rarity = getRandom();
     const chest_rarity = getRandom();
     const weapon_rarity = getRandom();
@@ -363,7 +364,12 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
               >
                 <Input placeholder="1-10" disabled />
               </Form.Item>
-              <Button className="random-btn" onClick={handleRandom}>
+              <Button
+                className={classNames("random-btn", {
+                  "random-btn-disabled": loading,
+                })}
+                onClick={handleRandom}
+              >
                 Random
               </Button>
             </div>
