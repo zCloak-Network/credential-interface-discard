@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-24 18:16:59
+ * @LastEditTime: 2022-04-26 15:44:49
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -41,6 +41,8 @@ const GuideNew: React.FC = () => {
       const balance = await web3.eth.getBalance(account);
 
       const formatBalance = Number(web3.utils.fromWei(balance)).toFixed(4);
+
+      console.log("balance*****:", balance);
       setBalance(formatBalance);
     }
   };
@@ -122,6 +124,19 @@ const GuideNew: React.FC = () => {
   useEffect(() => {
     getBalance();
   }, [account]);
+
+  // useEffect(() => {
+  //   if (account) {
+  //     const web3 = new Web3(Web3.givenProvider);
+  //     web3.eth
+  //       .subscribe("logs", {
+  //         address: account,
+  //       })
+  //       .on("data", function (log) {
+  //         console.log(344444, log);
+  //       });
+  //   }
+  // }, [account]);
 
   return (
     <div className="guide-new">
