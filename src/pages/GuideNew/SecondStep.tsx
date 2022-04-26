@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-26 15:57:18
+ * @LastEditTime: 2022-04-26 17:16:27
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -131,7 +131,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
   };
 
   const onFinish = async (values: any) => {
-    if (disabled && !random) return;
+    if (disabled || !random) return;
     setLoading(true);
     openMessage("It may take you 30-60s", "warning", messageKey);
 
