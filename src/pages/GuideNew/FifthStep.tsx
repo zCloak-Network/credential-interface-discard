@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-24 18:21:53
+ * @LastEditTime: 2022-04-27 16:54:12
  */
 import React, { useState, useEffect } from "react";
 import { useInterval } from "ahooks";
@@ -30,7 +30,6 @@ type Props = {
   credentail: any;
   handleNext: () => void;
   handleProof: (proof) => void;
-  updateBalance: () => void;
 };
 
 const TIME = 12000;
@@ -39,7 +38,6 @@ const FifthStep: React.FC<Props> = ({
   credentail,
   handleNext,
   handleProof,
-  updateBalance,
 }) => {
   const { account } = useWeb3React();
   const [proof, setProof] = useState();
@@ -122,7 +120,6 @@ const FifthStep: React.FC<Props> = ({
 
   useEffect(() => {
     getProofData();
-    updateBalance();
   }, []);
 
   useInterval(() => {
@@ -178,7 +175,7 @@ const FifthStep: React.FC<Props> = ({
             setIsSubmited(true);
             setUploadStatus("uploading");
             setInterval(TIME);
-            updateBalance();
+            // updateBalance();
           }}
         />
       )}

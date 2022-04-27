@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-25 18:25:54
+ * @LastEditTime: 2022-04-27 16:49:28
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -20,11 +20,7 @@ import BN from "bn.js";
 
 import bg from "../../images/nft_cover.png";
 
-type Props = {
-  updateBalance: () => void;
-};
-
-const LastStep: React.FC<Props> = ({ updateBalance }) => {
+const LastStep: React.FC = () => {
   const addPopup = useAddPopup();
   const { account } = useWeb3React();
   const [claimLoading, setClaimLoading] = useState(false);
@@ -47,7 +43,6 @@ const LastStep: React.FC<Props> = ({ updateBalance }) => {
         console.log("addReceipt", receipt);
         if (receipt) {
           setClaimLoading(false);
-          updateBalance();
           addPopup(
             {
               txn: {
@@ -78,8 +73,6 @@ const LastStep: React.FC<Props> = ({ updateBalance }) => {
       setPoapId(poapId);
       setNftId(nftId);
     });
-
-    updateBalance();
   }, []);
 
   const getPoapIdByAccount = async () => {

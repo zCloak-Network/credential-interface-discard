@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-22 14:32:36
+ * @LastEditTime: 2022-04-27 16:53:17
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -22,7 +22,6 @@ import { useInterval } from "ahooks";
 type Props = {
   handleNext: () => void;
   balance: string;
-  updateBalance: () => void;
 };
 const TIME = 3000;
 
@@ -33,11 +32,7 @@ enum FAUCETSTATUS {
 }
 const messageKey = "installMetamask";
 
-const FourthStep: React.FC<Props> = ({
-  balance,
-  handleNext,
-  updateBalance,
-}) => {
+const FourthStep: React.FC<Props> = ({ balance, handleNext }) => {
   const [status, setStatus] = useState<string>("connect");
   const { account, error, activate } = useWeb3React();
   const [interval, setInterval] = useState(undefined);
@@ -105,7 +100,6 @@ const FourthStep: React.FC<Props> = ({
     } else {
       await setInterval(undefined);
       await setStatus("connected");
-      await updateBalance();
     }
   };
 
@@ -117,9 +111,10 @@ const FourthStep: React.FC<Props> = ({
 
   const handleToken = async () => {
     if (account) {
+      await setStatus("loading");
       const res = await getToken({ address: account });
       if (res.data.code === 200) {
-        await setStatus("loading");
+        // await setStatus("loading");
         await queryTokenStatus();
         await setInterval(TIME);
       }

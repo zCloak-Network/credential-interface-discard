@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-26 15:44:49
+ * @LastEditTime: 2022-04-27 16:50:21
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -19,6 +19,8 @@ import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
 import { GUIDECREDENTIAL } from "../../constants/guide";
 import { getProof } from "../../services/api";
+import { ethers } from "ethers";
+import { fromWei } from "web3-utils";
 
 import "./index.scss";
 
@@ -33,18 +35,6 @@ const GuideNew: React.FC = () => {
 
   const handleNext = () => {
     setCurrent(current + 1);
-  };
-
-  const getBalance = async () => {
-    if (account) {
-      const web3 = new Web3(Web3.givenProvider);
-      const balance = await web3.eth.getBalance(account);
-
-      const formatBalance = Number(web3.utils.fromWei(balance)).toFixed(4);
-
-      console.log("balance*****:", balance);
-      setBalance(formatBalance);
-    }
   };
 
   const getProofData = async (claimHash) => {
@@ -83,13 +73,7 @@ const GuideNew: React.FC = () => {
     },
     {
       title: "Fourth",
-      content: (
-        <FourthStep
-          handleNext={handleNext}
-          balance={balance}
-          updateBalance={getBalance}
-        />
-      ),
+      content: <FourthStep handleNext={handleNext} balance={balance} />,
     },
     {
       title: "Fifth",
@@ -100,13 +84,12 @@ const GuideNew: React.FC = () => {
           handleProof={(data) => {
             setProof(data);
           }}
-          updateBalance={getBalance}
         />
       ),
     },
     {
       title: "Last",
-      content: <LastStep updateBalance={getBalance} />,
+      content: <LastStep />,
     },
   ];
 
@@ -122,21 +105,22 @@ const GuideNew: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    getBalance();
-  }, [account]);
+    if (account) {
+      const provider = new ethers.providers.Web3Provider(Web3.givenProvider);
 
-  // useEffect(() => {
-  //   if (account) {
-  //     const web3 = new Web3(Web3.givenProvider);
-  //     web3.eth
-  //       .subscribe("logs", {
-  //         address: account,
-  //       })
-  //       .on("data", function (log) {
-  //         console.log(344444, log);
-  //       });
-  //   }
-  // }, [account]);
+      provider.on("block", async () => {
+        const _balance = await provider.getBalance(account);
+
+        const formatBalance = Number(fromWei(String(_balance))).toFixed(4);
+
+        setBalance(formatBalance);
+      });
+
+      return () => {
+        provider.removeAllListeners();
+      };
+    }
+  }, [account]);
 
   return (
     <div className="guide-new">
