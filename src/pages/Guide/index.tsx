@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-28 17:43:54
+ * @LastEditTime: 2022-04-28 18:17:11
  */
 import React from "react";
 import GuideHeader from "../../components/GuideHeader";
@@ -20,7 +20,7 @@ const Guide: React.FC = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/guide/new");
+    navigate("/tutorial/new");
   };
 
   const jumpToZKID = () => {

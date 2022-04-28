@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-04-22 18:15:34
+ * @LastEditTime: 2022-04-28 18:17:49
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -22,24 +22,25 @@ import * as Kilt from "@kiltprotocol/sdk-js";
 import { WSSURL } from "../constants";
 import ErrorModal from "../components/ErrorModal";
 import useRole from "../hooks/useRole";
-import useGuide from "../hooks/useGuide";
+// import useGuide from "../hooks/useGuide";
 import Guide from "./Guide";
 import GuideNew from "./GuideNew";
 
 export default function App(): JSX.Element {
   const navigate = useNavigate();
   const isClaimer = useRole();
-  const isGuide = useGuide();
+  // const isGuide = useGuide();
   const [password, setPassword] = useState("");
 
   const navigateTo = () => {
-    if (isGuide) {
-      navigate("/guide");
-    } else if (isClaimer) {
-      navigate("/user/login");
-    } else {
-      navigate("/attester/login");
-    }
+    navigate("/");
+    // if (isGuide) {
+    //   navigate("/");
+    // } else if (isClaimer) {
+    //   navigate("/user/login");
+    // } else {
+    //   navigate("/attester/login");
+    // }
   };
 
   useEffect(() => {
@@ -60,8 +61,8 @@ export default function App(): JSX.Element {
       <>
         <Popups />
         <Routes>
-          <Route path="/guide" element={<Guide />} />
-          <Route path="/guide/new" element={<GuideNew />} />
+          <Route path="/" element={<Guide />} />
+          <Route path="/tutorial/new" element={<GuideNew />} />
           <Route path="/user" element={<Navigate replace to="/user/login" />} />
           {/* TODO  refactor route */}
           <Route
