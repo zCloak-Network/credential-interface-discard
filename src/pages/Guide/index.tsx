@@ -2,12 +2,13 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-22 18:14:30
+ * @LastEditTime: 2022-04-28 17:43:54
  */
 import React from "react";
 import GuideHeader from "../../components/GuideHeader";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import { ZKID } from "../../constants/guide";
 
 import Img from "../../images/png_home.png";
 import Star from "../../images/star.svg";
@@ -20,6 +21,10 @@ const Guide: React.FC = () => {
 
   const handleClick = () => {
     navigate("/guide/new");
+  };
+
+  const jumpToZKID = () => {
+    window.open(ZKID);
   };
 
   return (
@@ -42,7 +47,10 @@ const Guide: React.FC = () => {
             parties, which might expose their privacy.
           </div>
           <Button className="guide-home-btn" onClick={handleClick}>
-            Get zkID <i className="iconfont icon_1"></i>
+            Go To Tutorial <i className="iconfont icon_1"></i>
+          </Button>
+          <Button className="guide-home-btn" onClick={jumpToZKID}>
+            Go To Dashboard <i className="iconfont icon_1"></i>
           </Button>
         </div>
         <div className="guide-home-right">

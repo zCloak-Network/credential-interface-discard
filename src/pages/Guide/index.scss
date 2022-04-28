@@ -32,7 +32,8 @@
     }
 
     .guide-home-btn {
-      width: 177px;
+      padding:  0 24px;
+      width: auto;
       height: 48px;
       background: #ffffff;
       opacity: 1;
@@ -41,6 +42,8 @@
       font-weight: 400;
       color: #000000;
       border: 0;
+      display: inline-flex;
+      margin-right: 36px;
 
       .iconfont{
         font-size: 12px;

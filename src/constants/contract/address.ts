@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-10 11:53:01
- * @LastEditTime: 2022-04-20 15:25:43
+ * @LastEditTime: 2022-04-26 16:09:14
  */
 // export const RegulatedTransferAdddress = '0x09524265E123231E50A19d5d76bD8B507d288f9c'
 export const RegulatedTransferAdddress =
@@ -11,7 +11,7 @@ export const RegulatedTransferAdddress =
 // export const KiltProofsAdddress = "0x37Ad4d70720eE86CA35b4020eeB3298b180A0B14";
 // export const KiltProofsAdddress = "0x4863BFcB4e33B4b4dEd4893fb7eb146f94f5F109";
 export const KiltProofsAdddress = "0x88D6e4866Cb8c3513CfB120c650f0C467B62f18f";
-export const PoapAdddress = "0x445eb3C1262679d2A08bC0f968F2624BF209Fd04";
+export const PoapAdddress = "0xC8247C9b21d347A63844AeEED9586F0b211a4513";
 export const FaucetAdddress = "0x999e3A4E5B93a74a30DdD96942662feEe78C9cF3";
 
 export const SampleTokenAdddress = "0xE29e1CFDC236119194D7a6AbFFC8b0F6d2aDd6e5";
