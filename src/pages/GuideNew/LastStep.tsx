@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-28 17:44:00
+ * @LastEditTime: 2022-04-28 17:56:12
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -110,7 +110,7 @@ const LastStep: React.FC = () => {
         <img src={bg} alt="" className="poap-img" />
       )}
       {poapId ? (
-        <Button className="btn" onClick={jumpToZKID}>
+        <Button className="btn jump-dashboard-btn" onClick={jumpToZKID}>
           Go to Dashboard
         </Button>
       ) : (
