@@ -7,7 +7,7 @@
   background-size: cover;
 
   .guide-new-container-wrapper {
-    width: 900px;
+    width: 920px;
     height: 672px;
     box-shadow: 0px 0px 20px rgba(34, 13, 13, 0.42);
     opacity: 1;
@@ -59,7 +59,7 @@
       position: absolute;
       z-index: 2;
       padding: 52px 186px;
-      width: 900px;
+      width: 920px;
       // height: 671px;
       align-items: center;
   
@@ -387,6 +387,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 48px;
+
     .upload-success-content {
       width: 500px;
       height: 149px;
@@ -401,9 +402,16 @@
       margin-bottom: 82px;
       position: relative;
       text-align: right;
-      padding-right: 28px;
-      line-height: 149px;
+      padding-right: 8px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      line-height: 1.5;
 
+      .upload-success-content-tip {
+        display: flex;
+        flex-direction: column;
+      }
       >img {
         width: 190px;
         height: 190px;

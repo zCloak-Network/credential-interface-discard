@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-27 16:53:17
+ * @LastEditTime: 2022-04-28 16:12:03
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -18,6 +18,7 @@ import { openMessage, destroyMessage } from "../../utils/message";
 import { METAMASKEXTENSION } from "../../constants/guide";
 import { getToken, getTokenStatus } from "../../services/api";
 import { useInterval } from "ahooks";
+import { GUIDEDESC } from "../../constants/guide";
 
 type Props = {
   handleNext: () => void;
@@ -205,10 +206,8 @@ const FourthStep: React.FC<Props> = ({ balance, handleNext }) => {
 
   return (
     <div className="step-wrapper">
-      <div className="title">connect wallet</div>
-      <div className="sub-title">
-        BTW, get your fox friend ready. He will fetch your POAP for you.
-      </div>
+      <div className="title">{GUIDEDESC.connectMetamask.title}</div>
+      <div className="sub-title">{GUIDEDESC.connectMetamask.desc}</div>
       <ul
         className={classNames("wallets", {
           "has-account": account,

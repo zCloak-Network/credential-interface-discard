@@ -2,9 +2,9 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-27 16:54:12
+ * @LastEditTime: 2022-04-28 17:15:28
  */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useInterval } from "ahooks";
 import Button from "../../components/Button";
 import FifthStepSubmit from "./FifthStepSubmit";
@@ -17,6 +17,7 @@ import {
   CTYPEHASH,
   ZKPROGRAM,
   GUIDECREDENTIAL,
+  GUIDEDESC,
 } from "../../constants/guide";
 
 import failImg from "../../images/fail.svg";
@@ -126,13 +127,24 @@ const FifthStep: React.FC<Props> = ({
     getProofData();
   }, interval);
 
+  const text = useMemo(() => {
+    if (uploadStatus === "prepare") {
+      return GUIDEDESC.uploadProof;
+    }
+    if (["uploading", "uploaded"].includes(uploadStatus)) {
+      return GUIDEDESC.verifyingProof;
+    }
+    if (uploadStatus === "success") {
+      return GUIDEDESC.proofVerified;
+    }
+
+    return GUIDEDESC.uploadProof;
+  }, [uploadStatus]);
+
   return (
     <div className="step-wrapper">
-      <div className="title">Upload proof</div>
-      <div className="sub-title">
-        Some magic just happened! You just got your zk-Portrait along with a
-        STARK proof. Upload the proof and our scholars will check its validity.
-      </div>
+      <div className="title">{text.title}</div>
+      <div className="sub-title">{text.desc}</div>
       {["uploading", "uploaded"].includes(uploadStatus) && (
         <Uploading
           data={proof}
@@ -155,7 +167,10 @@ const FifthStep: React.FC<Props> = ({
         <div className="upload-success">
           <div className="upload-success-content">
             <img src={successImg} alt="success" />
-            <span>Your proof is verified true, You can get a POAP.</span>
+            <span className="upload-success-content-tip">
+              <span>Congratulations! Your STARK proof has been verified.</span>
+              <span> You can get a POAP now.</span>
+            </span>
           </div>
           <Button className="btn" onClick={handleNext}>
             Next
@@ -175,7 +190,6 @@ const FifthStep: React.FC<Props> = ({
             setIsSubmited(true);
             setUploadStatus("uploading");
             setInterval(TIME);
-            // updateBalance();
           }}
         />
       )}

@@ -2,11 +2,11 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-21 14:57:33
+ * @LastEditTime: 2022-04-28 16:56:02
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
-import { CTYPEHASH, MESSAGECODE } from "../../constants/guide";
+import { CTYPEHASH, MESSAGECODE, GUIDEDESC } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 
 import bg from "../../images/step_import.svg";
@@ -101,13 +101,8 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
 
   return (
     <div className="step-wrapper">
-      <div className="title">Import Credential</div>
-      <div className="sub-title">
-        Mr. Thunderbrew—hope he is sober today—has checked your documents and he
-        thinks your data are good. He will issue a credential to you. As we
-        value your privacy, we will generate a zk-Portrait for you to claim your
-        POAP. Your credential will be hidden from the outside world.
-      </div>
+      <div className="title">{GUIDEDESC.importCredential.title}</div>
+      <div className="sub-title">{GUIDEDESC.importCredential.desc}</div>
       <img src={bg} alt="" className="import-bg" />
       <Button
         size="default"

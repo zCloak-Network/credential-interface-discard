@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-27 16:49:28
+ * @LastEditTime: 2022-04-28 17:16:43
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -15,7 +15,7 @@ import { hexToNumber } from "@polkadot/util";
 import { stripHexPrefix, numberToHex, padLeft } from "web3-utils";
 import { getPoapId } from "../../services/api";
 import { getImg } from "../../utils/poap";
-import { ZKID } from "../../constants/guide";
+import { ZKID, GUIDEDESC } from "../../constants/guide";
 import BN from "bn.js";
 
 import bg from "../../images/nft_cover.png";
@@ -97,11 +97,8 @@ const LastStep: React.FC = () => {
 
   return (
     <div className="step-wrapper">
-      <div className="title">Claim POAP</div>
-      <div className="sub-title">
-        Congratulations! Your STARK proof has passed our test. We will generate
-        the POAP for you as per your zk-Portrait. Have a great journey!
-      </div>
+      <div className="title">{GUIDEDESC.claimPOAP.title}</div>
+      <div className="sub-title">{GUIDEDESC.claimPOAP.desc}</div>
       {poapId ? (
         <div className="poap">
           <img src={getImg(poapId)} alt="" className="poap-img" />

@@ -2,12 +2,12 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-22 16:14:53
+ * @LastEditTime: 2022-04-28 15:39:02
  */
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import Button from "../../components/Button";
-import { MESSAGECODE, zkIDEXTENSION } from "../../constants/guide";
+import { MESSAGECODE, zkIDEXTENSION, GUIDEDESC } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 
 import bg from "../../images/step_install.svg";
@@ -142,13 +142,8 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
 
   return (
     <div className="step-wrapper">
-      <div className="title">Install extension</div>
-      <div className="sub-title">
-        Hello adventurer! Welcome to the zCloak Kingdom. Please install the
-        zCloak Wallet to start your journey. The wallet performs some magic
-        tricks-the STARK alchemy—to help you use your data and keep your
-        secrets.
-      </div>
+      <div className="title">{GUIDEDESC.installExtension.title}</div>
+      <div className="sub-title">{GUIDEDESC.installExtension.desc}</div>
       <img src={bg} alt="" className="install-bg" />
       <Button
         className={classNames("btn", {

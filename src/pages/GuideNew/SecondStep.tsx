@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-26 17:16:27
+ * @LastEditTime: 2022-04-28 15:52:41
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -36,7 +36,11 @@ import { CTypeSchemaWithoutId } from "@kiltprotocol/types";
 import SecondStepCredential from "./SecondStepCredential";
 import classNames from "classnames";
 import { openMessage, destroyMessage } from "../../utils/message";
-import { GUIDEACCOUNT, GUIDECREDENTIAL } from "../../constants/guide";
+import {
+  GUIDEACCOUNT,
+  GUIDECREDENTIAL,
+  GUIDEDESC,
+} from "../../constants/guide";
 import Loading from "../../components/Loading";
 import moment from "moment";
 
@@ -299,15 +303,16 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
     toggleModal();
   }, []);
 
+  const hasCredentail = !!credentail;
+  const currText = hasCredentail
+    ? GUIDEDESC.receiveCredential
+    : GUIDEDESC.describeYourself;
+
   return (
     <div className="step-wrapper">
-      <div className="title">Get credential</div>
-      <div className="sub-title">
-        {`Guess what? We have prepared a gift POAP for you. The POAP style varies
-        by your age, class and equipment. To claim it, first describe yourself.
-        Click "Submit" once you are done.`}
-      </div>
-      {!credentail && !initLoading && (
+      <div className="title">{currText.title}</div>
+      <div className="sub-title">{currText.desc}</div>
+      {!hasCredentail && !initLoading && (
         <>
           <Form
             name="basic"
@@ -389,7 +394,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
           </Form>
         </>
       )}
-      {!!credentail && !initLoading && (
+      {hasCredentail && !initLoading && (
         <div>
           <SecondStepCredential data={credentail} />
           <div style={{ display: "flex", justifyContent: "center" }}>

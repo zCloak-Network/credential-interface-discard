@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-04-28 16:36:42
+ * @LastEditTime: 2022-04-28 16:42:27
  */
 export const credentialClass = [
   {
@@ -206,7 +206,11 @@ export const GUIDEDESC = {
   },
   receiveCredential: {
     title: "Receive Your Credential",
-    desc: "Your data is good. Download and import your credential into your zCloak ID Wallet. To protect your privacy, your credential never needs to leave your wallet.",
+    desc: "Your data is good. Please download your credential and save it properly.",
+  },
+  importCredential: {
+    title: "Import Your Credential",
+    desc: "Import your credential into your zCloak ID Wallet. To protect your privacy, data in your credential never needs to leave your wallet.",
   },
   connectMetamask: {
     title: "Connect Metamask",
