@@ -61,6 +61,9 @@ type Props = {
   handleCredentail: (data) => void;
 };
 
+const waitingMessage =
+  "We are checking your documents. The attestation takes 30-60s.";
+
 const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
   const [form] = Form.useForm();
   const addPopup = useAddPopup();
@@ -137,7 +140,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
   const onFinish = async (values: any) => {
     if (disabled || !random) return;
     setLoading(true);
-    openMessage("It may take you 30-60s", "warning", messageKey);
+    openMessage(waitingMessage, "warning", messageKey);
 
     const year = dayjs(values.age).get("year");
     const month = dayjs(values.age).get("month") + 1;
