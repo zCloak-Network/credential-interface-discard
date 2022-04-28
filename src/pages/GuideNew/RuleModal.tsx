@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 22:55:50
- * @LastEditTime: 2022-04-15 11:43:41
+ * @LastEditTime: 2022-04-28 16:37:46
  */
 import React from "react";
 import Modal from "../../components/Modal";
@@ -28,20 +28,19 @@ const RuleModal: React.FC = () => {
     <Modal
       width="656px"
       visible={modalOpen}
-      title="zkPortrait Issuance Rule"
+      title="POAP Issuance Rule"
       onCancel={toggleModal}
       wrapClassName="rule-modal"
     >
       <p className="content-title">
-        The zkPortrait classification and other calculation rules are as
-        follows:
+        The POAP classification and other calculation rules are as follows:
       </p>
       <table className="table">
         <tr className="table-header">
-          <th>Profession</th>
+          <th>class</th>
           <th>Damage Type</th>
           <th>Age</th>
-          <th>Portrait</th>
+          <th>POAP</th>
         </tr>
         <tr>
           <td rowSpan={2}>{`Warrior & Paladin`}</td>
@@ -66,14 +65,14 @@ const RuleModal: React.FC = () => {
         <tr>
           <td colSpan={4}>
             P.s. If the average of all equipment rarities is over 6, the
-            Adventurer‘s zkPortrait will be gold-edged.
+            Adventurer‘s POAP will be gold-edged.
           </td>
         </tr>
       </table>
       <p className="content-title">Features:</p>
-      <p>1. Range Check—to check whether the Summoner’s age is over 18.</p>
+      <p>1. Range Check—to check whether the Adventurer’s age is over 18.</p>
       <p>
-        2. Membership Check—to check whether the profession belongs to
+        2. Membership Check—to check whether the class belongs to
         Physical/Magical Damage group.
       </p>
       <p>

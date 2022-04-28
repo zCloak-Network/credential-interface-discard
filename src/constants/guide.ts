@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-04-25 17:18:50
+ * @LastEditTime: 2022-04-28 16:36:42
  */
 export const credentialClass = [
   {
@@ -77,7 +77,7 @@ export const MESSAGECODE = {
 };
 
 export const ZKPROGRAM = {
-  name: "zkPortrait Issuance Rule",
+  name: "POAP Issuance Rule",
   hash: "0x5bf2b53b6831c372efcbd0ed2f7149c2997609141b8ff3bdbf692335df0d2e06",
   filed: "age,class,helmet_rarity,chest_rarity,weapon_rarity",
   // filed: "Age,Class,Helmet,Chest,Weapon",
@@ -194,3 +194,38 @@ export const METAMASKEXTENSION = "https://metamask.io/";
 export const ZKID = "https://app.zcloak.network/#/";
 
 export const MOONSCANTX = "https://moonbase.moonscan.io/tx/";
+
+export const GUIDEDESC = {
+  installExtension: {
+    title: "Install the Extension",
+    desc: "Please install the zCloak ID Wallet to start your ZK adventure. The wallet performs some magic tricks—the STARK alchemy—to help you use your data and keep your secrets.",
+  },
+  describeYourself: {
+    title: "Describe Yourself",
+    desc: "We have prepared a gift POAP for you. The POAP style varies by your age, class and equipment. To claim it, first describe yourself. Then submit. ",
+  },
+  receiveCredential: {
+    title: "Receive Your Credential",
+    desc: "Your data is good. Download and import your credential into your zCloak ID Wallet. To protect your privacy, your credential never needs to leave your wallet.",
+  },
+  connectMetamask: {
+    title: "Connect Metamask",
+    desc: "BTW, get your fox friend ready. He will fetch your POAP for you.",
+  },
+  uploadProof: {
+    title: "Generate And Upload Proof",
+    desc: "To claim your POAP, you first need to generate a STARK proof based on your credential in your zCloak ID Wallet then upload it.",
+  },
+  verifyingProof: {
+    title: "Verifying Your Proof",
+    desc: "Just a minute. Our scholars are checking your STARK proof.",
+  },
+  proofVerified: {
+    title: "Proof Verified",
+    desc: "",
+  },
+  claimPOAP: {
+    title: "Claim Your POAP",
+    desc: "Claim your POAP and enjoy your stay in zCloak Kingdom.",
+  },
+};
