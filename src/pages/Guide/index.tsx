@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-28 18:17:11
+ * @LastEditTime: 2022-04-28 18:24:25
  */
 import React from "react";
 import GuideHeader from "../../components/GuideHeader";
@@ -34,17 +34,16 @@ const Guide: React.FC = () => {
         <div className="guide-home-left">
           <div className="guide-home-left-title">
             A Privacy-Preserving <br />
-            Passport to the DeFi <br />
-            World
+            Passport to the <br />
+            Web 3.0 World
             <span className="guide-home-left-icon">
-              <img src={Star} alt="" />{" "}
+              <img src={Star} alt="" />
               <img src={Star_1} alt="" className="star-img" />
             </span>
           </div>
           <div className="guide-home-left-desc">
-            It helps users to perform computation and analysis on their data to
-            acquire corresponding services without sending their data to 3rd
-            parties, which might expose their privacy.
+            Prove who you are, without telling who you are. Data and
+            computation, keep both in your own hands.
           </div>
           <Button className="guide-home-btn" onClick={handleClick}>
             Go To Tutorial <i className="iconfont icon_1"></i>
