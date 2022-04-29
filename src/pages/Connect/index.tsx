@@ -2,9 +2,9 @@
  * @Description: submit modal
  * @Author: lixin
  * @Date: 2021-12-02 17:23:15
- * @LastEditTime: 2022-03-31 11:32:03
+ * @LastEditTime: 2022-04-29 13:50:12
  */
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import FileSaver from "file-saver";
 import Modal from "../../components/Modal";
 import { Image } from "@davatar/react";
@@ -50,9 +50,9 @@ export default function Connect({ resetPassword }: Props): ReactElement {
 
   const handleCreate = () => {
     if (isClaimer) {
-      navigate("/user/register-again");
+      navigate("/credential/user/register-again");
     } else {
-      navigate("/attester/register-again");
+      navigate("/credential/attester/register-again");
     }
     toggleConnectWalletModal();
   };

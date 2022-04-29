@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-03-29 18:41:16
+ * @LastEditTime: 2022-04-29 11:36:52
  */
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
@@ -15,12 +15,12 @@ const MENU = [
   {
     title: "Attestions",
     key: "attestions",
-    url: "/attester/attestations",
+    url: "/credential/attester/attestations",
   },
   {
     title: "CTYPEs",
     key: "ctypes",
-    url: "/attester/attestations/ctypes",
+    url: "/credential/attester/attestations/ctypes",
   },
 ];
 
@@ -28,7 +28,7 @@ const MODOLE = [
   {
     title: "Attester",
     key: "attester",
-    url: "/attester/attestations",
+    url: "/credential/attester/attestations",
   },
 ];
 

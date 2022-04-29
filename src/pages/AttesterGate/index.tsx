@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-29 13:55:08
- * @LastEditTime: 2022-04-06 16:26:53
+ * @LastEditTime: 2022-04-29 11:37:04
  */
 import React, { useEffect, useState } from "react";
 import * as Kilt from "@kiltprotocol/sdk-js";
@@ -104,7 +104,7 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
   };
 
   const handleCreateAccount = () => {
-    navigate("/attester/register-again");
+    navigate("/credential/register-again");
   };
 
   useEffect(() => {

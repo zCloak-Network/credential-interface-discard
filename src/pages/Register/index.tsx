@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 10:45:21
- * @LastEditTime: 2022-03-28 22:17:30
+ * @LastEditTime: 2022-04-29 11:35:22
  */
 import React, { useState, useEffect } from "react";
 import LogoBanner from "../../components/LogoBanner";
@@ -98,10 +98,10 @@ const Register: React.FC = () => {
     await savePassword(password);
     if (isClaimer) {
       await saveClaimer(newIdentity);
-      await navigate("/user/claims");
+      await navigate("/credential/user/claims");
     } else {
       await saveAttester(newIdentity);
-      await navigate("/attester/attestations");
+      await navigate("/credential/attester/attestations");
     }
   };
 

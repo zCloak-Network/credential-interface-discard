@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-21 20:28:29
- * @LastEditTime: 2022-03-28 22:26:41
+ * @LastEditTime: 2022-04-29 11:33:40
  */
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,9 +24,9 @@ const LoginGate: React.FC<Props> = ({ handlePassword }) => {
   const login = async (newPassword: string): Promise<void> => {
     handlePassword(newPassword);
     if (isClaimer) {
-      navigate("/user/claims");
+      navigate("/credential/user/claims");
     } else {
-      navigate("/attester/attestations");
+      navigate("/credential/attester/attestations");
     }
   };
 

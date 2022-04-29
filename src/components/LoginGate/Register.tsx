@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-21 20:33:23
- * @LastEditTime: 2022-03-29 14:03:34
+ * @LastEditTime: 2022-04-29 11:33:55
  */
 import React from "react";
 import Button from "../Button";
@@ -16,9 +16,9 @@ const Register: React.FC = () => {
 
   const handleSubmit = () => {
     if (isClaimer) {
-      navigate("/user/register");
+      navigate("/credential/user/register");
     } else {
-      navigate("/attester/register");
+      navigate("/credential/attester/register");
     }
   };
 

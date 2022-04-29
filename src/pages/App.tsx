@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-04-28 18:17:49
+ * @LastEditTime: 2022-04-29 13:48:48
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -37,9 +37,9 @@ export default function App(): JSX.Element {
     // if (isGuide) {
     //   navigate("/");
     // } else if (isClaimer) {
-    //   navigate("/user/login");
+    //   navigate("/credential/user/login");
     // } else {
-    //   navigate("/attester/login");
+    //   navigate("/credential/attester/login");
     // }
   };
 
@@ -63,10 +63,13 @@ export default function App(): JSX.Element {
         <Routes>
           <Route path="/" element={<Guide />} />
           <Route path="/tutorial/new" element={<GuideNew />} />
-          <Route path="/user" element={<Navigate replace to="/user/login" />} />
+          <Route
+            path="/credential/user"
+            element={<Navigate replace to="/credential/user/login" />}
+          />
           {/* TODO  refactor route */}
           <Route
-            path="/user/login"
+            path="/credential/user/login"
             // path="/:role/login"
             element={
               <LoginGate
@@ -77,11 +80,11 @@ export default function App(): JSX.Element {
             }
           />
           <Route
-            path="/attester"
-            element={<Navigate replace to="/attester/login" />}
+            path="/credential/attester"
+            element={<Navigate replace to="/credential/attester/login" />}
           />
           <Route
-            path="/attester/login"
+            path="/credential/attester/login"
             element={
               <LoginGate
                 handlePassword={(pwd) => {
@@ -90,23 +93,23 @@ export default function App(): JSX.Element {
               />
             }
           />
-          <Route path="/user/register" element={<Register />} />
-          <Route path="/attester/register" element={<Register />} />
+          <Route path="/credential/user/register" element={<Register />} />
+          <Route path="/credential/attester/register" element={<Register />} />
           <Route
-            path="/user/register-again"
+            path="/credential/user/register-again"
             element={<RegisterAgain password={password} />}
           />
           <Route
-            path="/attester/register-again"
+            path="/credential/attester/register-again"
             element={<RegisterAgain password={password} />}
           />
-          <Route path="/user/claims" element={<Claimer />} />
+          <Route path="/credential/user/claims" element={<Claimer />} />
           <Route
-            path="/attester/attestations/ctypes/new"
+            path="/credential/attester/attestations/ctypes/new"
             element={<NewCtype />}
           />
           <Route
-            path="/attester/attestations"
+            path="/credential/attester/attestations"
             element={
               <Attester
                 resetPassword={() => {
@@ -117,7 +120,10 @@ export default function App(): JSX.Element {
             }
           >
             <Route index element={<AttesterContent />} />
-            <Route path="/attester/attestations/ctypes" element={<Ctypes />} />
+            <Route
+              path="/credential/attester/attestations/ctypes"
+              element={<Ctypes />}
+            />
           </Route>
         </Routes>
         <Modals

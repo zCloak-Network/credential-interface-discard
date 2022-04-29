@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 13:53:47
- * @LastEditTime: 2022-04-02 11:31:55
+ * @LastEditTime: 2022-04-29 11:37:12
  */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +25,7 @@ const Ctypes: React.FC = () => {
   const currAccount = useGetCurrIdentity();
 
   const handleJump = () => {
-    navigate("/attester/attestations/ctypes/new");
+    navigate("/credential/attester/attestations/ctypes/new");
   };
 
   const getData = async () => {

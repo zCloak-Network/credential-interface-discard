@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:49:25
- * @LastEditTime: 2022-04-01 11:10:51
+ * @LastEditTime: 2022-04-29 11:37:23
  */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -38,7 +38,7 @@ const MODOLE = [
   {
     title: "Attester",
     key: "attester",
-    url: "/attester/attestations",
+    url: "/credential/attester/attestations",
   },
 ];
 
@@ -52,7 +52,7 @@ const NewCtype: React.FC = () => {
   // const [connected, setConnected] = useState<boolean>(false);
 
   const handleBack = () => {
-    navigate("/attester/attestations/ctypes");
+    navigate("/credential/attester/attestations/ctypes");
   };
 
   const updateCType = (type: string, isValid: boolean): void => {
