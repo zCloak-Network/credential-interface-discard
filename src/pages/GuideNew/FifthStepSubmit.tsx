@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-04-26 16:02:28
+ * @LastEditTime: 2022-04-29 15:50:03
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -206,7 +206,8 @@ const FifthStepSubmit: React.FC<Props> = ({
       <div className="item">
         <div className="label">Credential type</div>
         <div className="value">
-          <span>{cTypeName}</span>
+          {/* TODO  因合约没有同步更新，所以只在前端更新名字 */}
+          <span>Adventurer Profile</span>
         </div>
       </div>
       <div className="item">

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-28 17:15:28
+ * @LastEditTime: 2022-04-29 16:03:28
  */
 import React, { useState, useEffect, useMemo } from "react";
 import { useInterval } from "ahooks";
@@ -169,7 +169,13 @@ const FifthStep: React.FC<Props> = ({
             <img src={successImg} alt="success" />
             <span className="upload-success-content-tip">
               <span>Congratulations! Your STARK proof has been verified.</span>
-              <span> You can get a POAP now.</span>
+              <span
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                You can get a POAP now.
+              </span>
             </span>
           </div>
           <Button className="btn" onClick={handleNext}>
