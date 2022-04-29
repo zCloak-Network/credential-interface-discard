@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-04-29 13:48:48
+ * @LastEditTime: 2022-04-29 14:28:56
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -25,22 +25,31 @@ import useRole from "../hooks/useRole";
 // import useGuide from "../hooks/useGuide";
 import Guide from "./Guide";
 import GuideNew from "./GuideNew";
+import { useLocation } from "react-router-dom";
 
 export default function App(): JSX.Element {
   const navigate = useNavigate();
   const isClaimer = useRole();
   // const isGuide = useGuide();
+  const location = useLocation();
   const [password, setPassword] = useState("");
 
   const navigateTo = () => {
+    const path = location.pathname;
+
+    const regx = /^\/credential\/?$/;
+
+    if (regx.test(path) || path.startsWith("/credential/user")) {
+      navigate("/credential/user/login");
+      return;
+    }
+
+    if (path.startsWith("/credential/attester")) {
+      navigate("/credential/attester/login");
+      return;
+    }
+
     navigate("/");
-    // if (isGuide) {
-    //   navigate("/");
-    // } else if (isClaimer) {
-    //   navigate("/credential/user/login");
-    // } else {
-    //   navigate("/credential/attester/login");
-    // }
   };
 
   useEffect(() => {
