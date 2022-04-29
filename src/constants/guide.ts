@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-04-28 16:42:27
+ * @LastEditTime: 2022-04-29 17:46:27
  */
 export const credentialClass = [
   {
@@ -191,7 +191,7 @@ export const zkIDEXTENSION =
 
 export const METAMASKEXTENSION = "https://metamask.io/";
 
-export const ZKID = "https://app.zcloak.network/#/";
+export const ZKID = "http://zkid.app/dashboard";
 
 export const MOONSCANTX = "https://moonbase.moonscan.io/tx/";
 
