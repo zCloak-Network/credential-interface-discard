@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-28 18:24:25
+ * @LastEditTime: 2022-04-29 13:35:54
  */
 import React from "react";
 import GuideHeader from "../../components/GuideHeader";
@@ -42,14 +42,14 @@ const Guide: React.FC = () => {
             </span>
           </div>
           <div className="guide-home-left-desc">
-            Prove who you are, without telling who you are. Data and
-            computation, keep both in your own hands.
+            Prove who you are, without telling who you are.
+            <br /> Data and computation, keep both in your own hands.
           </div>
           <Button className="guide-home-btn" onClick={handleClick}>
-            Go To Tutorial <i className="iconfont icon_1"></i>
+            Go to Tutorial <i className="iconfont icon_1"></i>
           </Button>
           <Button className="guide-home-btn" onClick={jumpToZKID}>
-            Go To Dashboard <i className="iconfont icon_1"></i>
+            Go to Dashboard <i className="iconfont icon_1"></i>
           </Button>
         </div>
         <div className="guide-home-right">
