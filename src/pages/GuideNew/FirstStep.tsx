@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-28 15:39:02
+ * @LastEditTime: 2022-05-09 16:35:34
  */
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
@@ -138,6 +138,7 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
         destroyMessage(messageKey);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasPassword]);
 
   return (
