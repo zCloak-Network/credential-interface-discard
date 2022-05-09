@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-05-09 16:30:59
+ * @LastEditTime: 2022-05-09 16:48:14
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -34,6 +34,12 @@ type Props = {
   handleNext: () => void;
 };
 
+interface IProofInfo {
+  proofCid: string;
+  rootHash: string;
+  expectResult: string;
+}
+
 const STATUS = {
   submit: {
     buttonText: "Submit",
@@ -61,10 +67,10 @@ const FifthStepSubmit: React.FC<Props> = ({
   programDetail,
   handleNext,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [generateLoading, setGenerateLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [generateLoading, setGenerateLoading] = useState<boolean>(false);
   // const [status, setStatus] = useState("submit");
-  const [generationInfo, setGenerationInfo] = useState({
+  const [generationInfo, setGenerationInfo] = useState<IProofInfo>({
     proofCid: "",
     rootHash: "",
     expectResult: "",

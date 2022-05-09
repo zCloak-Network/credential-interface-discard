@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-09 16:41:41
+ * @LastEditTime: 2022-05-09 16:59:00
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -26,7 +26,7 @@ type Props = {
 };
 const TIME = 3000;
 
-enum FAUCETSTATUS {
+enum FAUCET_STATUS {
   notFauceted = 1,
   fauceting = 2,
   fauceted = 3,
@@ -34,10 +34,10 @@ enum FAUCETSTATUS {
 const messageKey = "installMetamask";
 
 const FourthStep: React.FC<Props> = ({ balance, handleNext }) => {
-  const [status, setStatus] = useState<string>("connect");
   const { account, error, activate } = useWeb3React();
-  const [interval, setIntervalStatus] = useState(undefined);
-  const [faucetStatus, setfaucetStatus] = useState(1);
+  const [status, setStatus] = useState<string>("connect");
+  const [interval, setIntervalStatus] = useState<number | undefined>(undefined);
+  const [faucetStatus, setFaucetStatus] = useState<number>(1);
 
   const handleConnect = async (connector: AbstractConnector | undefined) => {
     // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
@@ -91,12 +91,12 @@ const FourthStep: React.FC<Props> = ({ balance, handleNext }) => {
   const queryTokenStatus = async () => {
     const res = await getTokenStatus({ address: account });
     if (res.data.code === 200) {
-      setfaucetStatus(res.data.data.status);
+      setFaucetStatus(res.data.data.status);
     }
   };
 
   const updateStatus = async () => {
-    if (faucetStatus === FAUCETSTATUS.fauceting) {
+    if (faucetStatus === FAUCET_STATUS.fauceting) {
       queryTokenStatus();
     } else {
       await setIntervalStatus(undefined);
@@ -169,7 +169,7 @@ const FourthStep: React.FC<Props> = ({ balance, handleNext }) => {
   const allStatus = STATUS[status];
 
   useEffect(() => {
-    setfaucetStatus(1);
+    setFaucetStatus(FAUCET_STATUS.notFauceted);
   }, [account]);
 
   useEffect(() => {
