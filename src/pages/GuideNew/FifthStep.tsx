@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-29 16:03:28
+ * @LastEditTime: 2022-05-09 15:37:05
  */
 import React, { useState, useEffect, useMemo } from "react";
 import { useInterval } from "ahooks";
@@ -19,6 +19,7 @@ import {
   GUIDECREDENTIAL,
   GUIDEDESC,
 } from "../../constants/guide";
+import { ISubmitAttestation } from "../../types/claim";
 
 import failImg from "../../images/fail.svg";
 import successImg from "../../images/success.svg";
@@ -28,7 +29,7 @@ type UploadStatus = "uploading" | "success" | "prepare" | "fail" | "uploaded";
 type UploadResult = "success" | "fail";
 
 type Props = {
-  credentail: any;
+  credentail: ISubmitAttestation;
   handleNext: () => void;
   handleProof: (proof) => void;
 };
@@ -42,22 +43,23 @@ const FifthStep: React.FC<Props> = ({
 }) => {
   const { account } = useWeb3React();
   const [proof, setProof] = useState();
-  const [isSubmited, setIsSubmited] = useState(false);
-  const [interval, setInterval] = useState(undefined);
+  const [isSubmited, setIsSubmited] = useState<boolean>(false);
+  const [interval, setIntervalStatus] = useState<number | undefined>(undefined);
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>(null);
   const [result, setResult] = useState<UploadResult>();
 
   useEffect(() => {
     if (uploadStatus === "uploading") {
       handleProof(true);
-      setInterval(TIME);
+      setIntervalStatus(TIME);
     } else {
       handleProof(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadStatus]);
 
   const getClaimHash = () => {
-    const credentailLocal = localStorage.getItem(GUIDECREDENTIAL) as any;
+    const credentailLocal = localStorage.getItem(GUIDECREDENTIAL);
 
     const data = JSON.parse(credentailLocal) || credentail;
 
@@ -75,15 +77,15 @@ const FifthStep: React.FC<Props> = ({
       const data = res.data.data;
 
       if (Object.keys(data).length === 0 && !isSubmited) {
-        // 没有提交过
-        setInterval(undefined);
+        // if submitted
+        setIntervalStatus(undefined);
         setUploadStatus("prepare");
       } else {
         const { verified, finished } = data;
 
         if (!verified && finished) {
-          // 如果已经完成, 且失败
-          setInterval(undefined);
+          // if finished and failed
+          setIntervalStatus(undefined);
           setUploadStatus("uploaded");
           // if (isFirst) {
           //   setUploadStatus("fail");
@@ -94,8 +96,8 @@ const FifthStep: React.FC<Props> = ({
           setProof(data);
           handleProof(true);
         } else if (verified && finished) {
-          // 如果已经完成,且成功
-          setInterval(undefined);
+          // if finished and success
+          setIntervalStatus(undefined);
           setUploadStatus("uploaded");
           // if (isFirst) {
           //   setUploadStatus("success");
@@ -107,8 +109,8 @@ const FifthStep: React.FC<Props> = ({
           setProof(data);
           handleProof(true);
         } else if (!finished && !verified) {
-          // 正在验证
-          setInterval(TIME);
+          // if verifing
+          setIntervalStatus(TIME);
           setUploadStatus("uploading");
         }
       }
@@ -121,6 +123,7 @@ const FifthStep: React.FC<Props> = ({
 
   useEffect(() => {
     getProofData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useInterval(() => {
@@ -195,7 +198,7 @@ const FifthStep: React.FC<Props> = ({
           handleNext={() => {
             setIsSubmited(true);
             setUploadStatus("uploading");
-            setInterval(TIME);
+            setIntervalStatus(TIME);
           }}
         />
       )}

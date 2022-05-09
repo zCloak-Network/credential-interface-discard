@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-04-27 16:50:21
+ * @LastEditTime: 2022-05-09 14:07:34
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -134,7 +134,6 @@ const GuideNew: React.FC = () => {
           "has-proof": current === 4 && !!proof,
         })}
       >
-        {/* <div className="guide-new-container-bg"></div> */}
         <div className="guide-new-container" id="content">
           <Steps current={current}>
             {steps.map((item, index) => (
