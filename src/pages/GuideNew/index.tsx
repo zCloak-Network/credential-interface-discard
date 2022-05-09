@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-09 14:07:34
+ * @LastEditTime: 2022-05-09 16:12:52
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -25,6 +25,45 @@ import { fromWei } from "web3-utils";
 import "./index.scss";
 
 const { Step } = Steps;
+
+export interface IVerifying {
+  _id: string;
+  blockNumber: number;
+  blockHash: string;
+  transactionHash: string;
+  blockTime: number;
+  cOwner: string;
+  requestHash: string;
+  worker: string;
+  outputHash: string;
+  rootHash: string;
+  attester: string;
+  isPassed: boolean;
+  calcResult: number[];
+  __v: number;
+}
+
+/*tsModel1*/
+export interface IProof {
+  _id: string;
+  blockNumber: number;
+  blockHash: string;
+  transactionHash: string;
+  blockTime: number;
+  dataOwner: string;
+  attester: string;
+  cType: string;
+  programHash: string;
+  fieldNames: string[];
+  proofCid: string;
+  requestHash: string;
+  rootHash: string;
+  expectResult: number[];
+  __v: number;
+  verifying: IVerifying[];
+  finished: boolean;
+  verified: boolean;
+}
 
 const GuideNew: React.FC = () => {
   const [current, setCurrent] = useState(0);

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-09 15:37:05
+ * @LastEditTime: 2022-05-09 16:12:42
  */
 import React, { useState, useEffect, useMemo } from "react";
 import { useInterval } from "ahooks";
@@ -20,6 +20,7 @@ import {
   GUIDEDESC,
 } from "../../constants/guide";
 import { ISubmitAttestation } from "../../types/claim";
+import { IProof } from "./index";
 
 import failImg from "../../images/fail.svg";
 import successImg from "../../images/success.svg";
@@ -42,7 +43,7 @@ const FifthStep: React.FC<Props> = ({
   handleProof,
 }) => {
   const { account } = useWeb3React();
-  const [proof, setProof] = useState();
+  const [proof, setProof] = useState<IProof>();
   const [isSubmited, setIsSubmited] = useState<boolean>(false);
   const [interval, setIntervalStatus] = useState<number | undefined>(undefined);
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>(null);

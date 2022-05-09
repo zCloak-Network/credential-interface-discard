@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-04-29 15:50:03
+ * @LastEditTime: 2022-05-09 16:30:59
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -34,10 +34,27 @@ type Props = {
   handleNext: () => void;
 };
 
+const STATUS = {
+  submit: {
+    buttonText: "Submit",
+    buttonType: null,
+    func: null,
+    message: "Please click the Generate button to open the extension",
+    messageType: "warning",
+  },
+  enterPassword: {
+    buttonText: "",
+    buttonType: "",
+    func: null,
+    message: "Please enter the password in the extension",
+    messageType: "warning",
+  },
+};
+
 const FifthStepSubmit: React.FC<Props> = ({
   account,
   cTypeHash,
-  cTypeName,
+  // cTypeName,
   fieldName,
   proHash,
   proName,
@@ -46,7 +63,7 @@ const FifthStepSubmit: React.FC<Props> = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [generateLoading, setGenerateLoading] = useState(false);
-  const [status, setStatus] = useState("submit");
+  // const [status, setStatus] = useState("submit");
   const [generationInfo, setGenerationInfo] = useState({
     proofCid: "",
     rootHash: "",
@@ -62,41 +79,13 @@ const FifthStepSubmit: React.FC<Props> = ({
     const data = STATUS.enterPassword;
     openMessage(data.message, data.messageType, messageKey);
 
-    openzkIDPopup(
-      "OPEN_GENERATE_PROOF",
-      // 可选参数
-      {
-        cTypeHash: cTypeHash,
-        programHashName: proName,
-        programFieldName: fieldName,
-        programHash: proHash,
-        programDetail: programDetail,
-      }
-    );
-  };
-
-  const STATUS = {
-    submit: {
-      buttonText: "Submit",
-      buttonType: null,
-      func: null,
-      message: "Please click the Generate button to open the extension",
-      messageType: "warning",
-    },
-    enterPassword: {
-      buttonText: "",
-      buttonType: "",
-      func: null,
-      message: "Please enter the password in the extension",
-      messageType: "warning",
-    },
-    // next: {
-    //   buttonText: "Next",
-    //   buttonType: null,
-    //   func: handleNext,
-    //   message: null,
-    //   messageType: null,
-    // },
+    openzkIDPopup("OPEN_GENERATE_PROOF", {
+      cTypeHash: cTypeHash,
+      programHashName: proName,
+      programFieldName: fieldName,
+      programHash: proHash,
+      programDetail: programDetail,
+    });
   };
 
   const handleSumbit = () => {
@@ -174,7 +163,7 @@ const FifthStepSubmit: React.FC<Props> = ({
 
   useEffect(() => {
     if (!generationInfo.proofCid) {
-      const data = STATUS[status];
+      const data = STATUS.submit;
       openMessage(data.message, data.messageType, messageKey);
     } else {
       destroyMessage(messageKey);
@@ -206,7 +195,7 @@ const FifthStepSubmit: React.FC<Props> = ({
       <div className="item">
         <div className="label">Credential type</div>
         <div className="value">
-          {/* TODO  因合约没有同步更新，所以只在前端更新名字 */}
+          {/* TODO   */}
           <span>Adventurer Profile</span>
         </div>
       </div>
