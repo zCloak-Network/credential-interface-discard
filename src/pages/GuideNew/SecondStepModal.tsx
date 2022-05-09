@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 23:15:44
- * @LastEditTime: 2022-04-29 17:39:09
+ * @LastEditTime: 2022-05-09 16:42:13
  */
 import React, { useMemo, useState } from "react";
 import Modal from "../../components//Modal";
@@ -18,7 +18,7 @@ import "./SecondStepModal.scss";
 
 const SecondStepModal: React.FC = () => {
   const [countdown, setCountdown] = useState(5000);
-  const [interval, setInterval] = useState(1000);
+  const [interval, setIntervalStatus] = useState(1000);
   const toggleModal = useToggleGuideMessage();
   const modalOpen = useModalOpen(ApplicationModal.GUIDE_MESSAGE);
 
@@ -26,7 +26,7 @@ const SecondStepModal: React.FC = () => {
     if (!!countdown) {
       setCountdown(countdown - 1000);
     } else {
-      setInterval(undefined);
+      setIntervalStatus(undefined);
     }
   };
 

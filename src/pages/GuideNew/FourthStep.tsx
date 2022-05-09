@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-09 16:36:49
+ * @LastEditTime: 2022-05-09 16:41:41
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -36,7 +36,7 @@ const messageKey = "installMetamask";
 const FourthStep: React.FC<Props> = ({ balance, handleNext }) => {
   const [status, setStatus] = useState<string>("connect");
   const { account, error, activate } = useWeb3React();
-  const [interval, setInterval] = useState(undefined);
+  const [interval, setIntervalStatus] = useState(undefined);
   const [faucetStatus, setfaucetStatus] = useState(1);
 
   const handleConnect = async (connector: AbstractConnector | undefined) => {
@@ -99,7 +99,7 @@ const FourthStep: React.FC<Props> = ({ balance, handleNext }) => {
     if (faucetStatus === FAUCETSTATUS.fauceting) {
       queryTokenStatus();
     } else {
-      await setInterval(undefined);
+      await setIntervalStatus(undefined);
       await setStatus("connected");
     }
   };
@@ -117,7 +117,7 @@ const FourthStep: React.FC<Props> = ({ balance, handleNext }) => {
       if (res.data.code === 200) {
         // await setStatus("loading");
         await queryTokenStatus();
-        await setInterval(TIME);
+        await setIntervalStatus(TIME);
       }
     }
   };

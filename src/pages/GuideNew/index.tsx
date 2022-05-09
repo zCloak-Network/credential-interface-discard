@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-09 16:12:52
+ * @LastEditTime: 2022-05-09 16:41:05
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -43,7 +43,6 @@ export interface IVerifying {
   __v: number;
 }
 
-/*tsModel1*/
 export interface IProof {
   _id: string;
   blockNumber: number;

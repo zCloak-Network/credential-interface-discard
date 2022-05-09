@@ -76,7 +76,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
   const [initRefesh, setInitRefesh] = useState(true);
   const [initLoading, setInitLoading] = useState(false);
   const [account, setAccount] = useState<any>();
-  const [interval, setInterval] = useState(TIME);
+  const [interval, setIntervalStatus] = useState(TIME);
   const [attestationStatus, setAttestationStatus] = useState<status>();
 
   // request attestation
@@ -121,7 +121,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
       );
       const res = await submitClaim({ ...encryptedPresentationMessage });
       if (res.data.code === 200) {
-        setInterval(TIME);
+        setIntervalStatus(TIME);
       }
     } catch (error) {
       addPopup({
@@ -261,14 +261,14 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
     });
     if (res.data.code === 200) {
       if (res.data.data.attestationStatus !== status.attesting) {
-        setInterval(undefined);
+        setIntervalStatus(undefined);
       }
       if (res.data.data.attestationStatus === status.notAttested) {
         await setInitLoading(false);
       }
       setAttestationStatus(res.data.data.attestationStatus);
     } else {
-      setInterval(undefined);
+      setIntervalStatus(undefined);
     }
   };
 
