@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-09 16:41:05
+ * @LastEditTime: 2022-05-09 17:16:13
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -21,6 +21,7 @@ import { GUIDECREDENTIAL } from "../../constants/guide";
 import { getProof } from "../../services/api";
 import { ethers } from "ethers";
 import { fromWei } from "web3-utils";
+import { ISubmitAttestation } from "../../types/claim";
 
 import "./index.scss";
 
@@ -65,11 +66,12 @@ export interface IProof {
 }
 
 const GuideNew: React.FC = () => {
-  const [current, setCurrent] = useState(0);
-  const [credentail, setCredentail] = useState();
+  const { account } = useWeb3React();
+  const [current, setCurrent] = useState<number>(0);
+  const [credentail, setCredentail] = useState<ISubmitAttestation | null>(null);
+  // TODO
   const [proof, setProof] = useState();
   const [balance, setBalance] = useState<string>();
-  const { account } = useWeb3React();
 
   const handleNext = () => {
     setCurrent(current + 1);

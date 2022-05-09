@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-28 17:56:12
+ * @LastEditTime: 2022-05-09 17:16:48
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -23,9 +23,9 @@ import bg from "../../images/nft_cover.png";
 const LastStep: React.FC = () => {
   const addPopup = useAddPopup();
   const { account } = useWeb3React();
-  const [claimLoading, setClaimLoading] = useState(false);
-  const [poapId, setPoapId] = useState();
-  const [nftId, setNftId] = useState();
+  const [claimLoading, setClaimLoading] = useState<boolean>(false);
+  const [poapId, setPoapId] = useState<string | null>(null);
+  const [nftId, setNftId] = useState<string | null>(null);
 
   const jumpToZKID = () => {
     window.open(ZKID);
@@ -93,6 +93,7 @@ const LastStep: React.FC = () => {
 
   useEffect(() => {
     getPoapIdByAccount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
 
   return (
