@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 16:50:26
+ * @LastEditTime: 2022-05-10 17:58:05
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -122,7 +122,7 @@ const FourthStep: React.FC<IProps> = ({ balance, handleNext }) => {
     }
   };
 
-  const STATUS = {
+  const BUTTON_MESSAGE_STATUS = {
     install: {
       buttonText: "Install MetaMask",
       buttonType: null,
@@ -166,7 +166,7 @@ const FourthStep: React.FC<IProps> = ({ balance, handleNext }) => {
       messageType: null,
     },
   };
-  const allStatus = STATUS[status];
+  const allStatus = BUTTON_MESSAGE_STATUS[status];
 
   useEffect(() => {
     setFaucetStatus(FAUCET_STATUS.notFauceted);
@@ -175,7 +175,7 @@ const FourthStep: React.FC<IProps> = ({ balance, handleNext }) => {
   useEffect(() => {
     if (!(window.web3 || window.ethereum)) {
       setStatus("install");
-      const data = STATUS.install;
+      const data = BUTTON_MESSAGE_STATUS.install;
       message[data.messageType]({
         content: data.message,
         duration: 0,
@@ -186,7 +186,7 @@ const FourthStep: React.FC<IProps> = ({ balance, handleNext }) => {
 
     if (error && error instanceof UnsupportedChainIdError) {
       setStatus("switch");
-      const data = STATUS.switch;
+      const data = BUTTON_MESSAGE_STATUS.switch;
       openMessage(data.message, data.messageType, messageKey);
       return;
     }
