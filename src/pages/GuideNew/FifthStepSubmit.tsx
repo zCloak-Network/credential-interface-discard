@@ -12,7 +12,7 @@ import Button from "../../components/Button";
 import abi from "../../constants/contract/contractAbi/KiltProofs";
 import { KiltProofsAdddress as contractAddress } from "../../constants/contract/address";
 import { useToggleGuideRule } from "../../state/application/hooks";
-import { MESSAGECODE, ADMIN_ATTESTER_ADDRESS } from "../../constants/guide";
+import { MESSAGE_CODE, ADMIN_ATTESTER_ADDRESS } from "../../constants/guide";
 import { u8aToHex, stringToHex } from "@polkadot/util";
 import { decodeAddress } from "@polkadot/keyring";
 import { GUIDE_ACCOUNT } from "../../constants/guide";
@@ -148,14 +148,14 @@ const FifthStepSubmit: React.FC<Props> = ({
     window.addEventListener("message", (event) => {
       const { statusCode, data } = event.data;
 
-      if (statusCode === MESSAGECODE.EXTENSION_CLOSED) {
+      if (statusCode === MESSAGE_CODE.EXTENSION_CLOSED) {
         setGenerateLoading(false);
         if (generationInfo.proofCid) {
           destroyMessage(messageKey);
         }
       }
 
-      if (statusCode === MESSAGECODE.SEND_PROOF_TO_WEB && data.proofCid) {
+      if (statusCode === MESSAGE_CODE.SEND_PROOF_TO_WEB && data.proofCid) {
         setGenerationInfo({
           proofCid: data.proofCid,
           rootHash: data.rootHash,

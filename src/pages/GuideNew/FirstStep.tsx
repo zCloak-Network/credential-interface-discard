@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import Button from "../../components/Button";
-import { MESSAGECODE, zkIDEXTENSION, GUIDEDESC } from "../../constants/guide";
+import { MESSAGE_CODE, zkIDEXTENSION, GUIDEDESC } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 
 import bg from "../../images/step_install.svg";
@@ -107,7 +107,7 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
     window.addEventListener("message", (event) => {
       const { statusCode, data } = event.data;
 
-      if (statusCode === MESSAGECODE.EXTENSION_CLOSED) {
+      if (statusCode === MESSAGE_CODE.EXTENSION_CLOSED) {
         if (!hasPassword) {
           setStatus("create");
         } else {
@@ -117,20 +117,20 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
         destroyMessage(messageKey);
       }
 
-      if (statusCode === MESSAGECODE.SEND_BACKNEXT_TO_WEB && data.clickBack) {
+      if (statusCode === MESSAGE_CODE.SEND_BACKNEXT_TO_WEB && data.clickBack) {
         setStatus("extensionNext");
         const data = STATUS.extensionNext;
         openMessage(data.message, data.messageType, messageKey);
       }
 
-      if (statusCode === MESSAGECODE.SEND_NEXT_TO_WEB && data.clickNext) {
+      if (statusCode === MESSAGE_CODE.SEND_NEXT_TO_WEB && data.clickNext) {
         setStatus("extensionCreate");
         const data = STATUS.extensionCreate;
         openMessage(data.message, data.messageType, messageKey);
       }
 
       if (
-        statusCode === MESSAGECODE.SEND_CREATE_PASSWORD_SUCCESS_TO_WEB &&
+        statusCode === MESSAGE_CODE.SEND_CREATE_PASSWORD_SUCCESS_TO_WEB &&
         data.createPassword
       ) {
         setStatus("next");

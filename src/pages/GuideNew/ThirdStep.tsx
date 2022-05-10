@@ -6,7 +6,7 @@
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
-import { CTYPEHASH, MESSAGECODE, GUIDEDESC } from "../../constants/guide";
+import { CTYPEHASH, MESSAGE_CODE, GUIDEDESC } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 
 import bg from "../../images/step_import.svg";
@@ -24,7 +24,7 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
 
   const openExtension = async () => {
     const { openzkIDPopup } = window?.zCloak?.zkID;
-    openzkIDPopup(MESSAGECODE.OPEN_IMPORT_CREDENTIAL);
+    openzkIDPopup(MESSAGE_CODE.OPEN_IMPORT_CREDENTIAL);
     setStatus("extensionImport");
     const data = STATUS.extensionImport;
     openMessage(data.message, data.messageType, messageKey);
@@ -58,7 +58,7 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
     window.addEventListener("message", (event) => {
       const { statusCode, data } = event.data;
 
-      if (statusCode === MESSAGECODE.EXTENSION_CLOSED) {
+      if (statusCode === MESSAGE_CODE.EXTENSION_CLOSED) {
         if (!hasCredential) {
           setStatus("import");
         } else {
@@ -69,7 +69,7 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
       }
 
       if (
-        statusCode === MESSAGECODE.SEND_IMPORT_CREDENTIAL_SUCCESS_TO_WEB &&
+        statusCode === MESSAGE_CODE.SEND_IMPORT_CREDENTIAL_SUCCESS_TO_WEB &&
         data.imported
       ) {
         setStatus("next");

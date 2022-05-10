@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-05-10 13:43:50
+ * @LastEditTime: 2022-05-10 13:48:19
  */
 export const credentialClass = [
   {
@@ -61,7 +61,7 @@ export const CTYPE = {
 export const CTYPEHASH =
   "0xe21c5f437332f33db0e6f9cef958f2ff3fedfbcdeb60d4ff24db978b487aad1a";
 
-export const MESSAGECODE = {
+export const MESSAGE_CODE = {
   GET_CREDENTIAL_SEND: "GET_CREDENTIAL_SEND",
   GET_CREDENTIAL_BACK: "GET_CREDENTIAL_BACK",
   OPEN_GENERATE_PROOF: "OPEN_GENERATE_PROOF",
