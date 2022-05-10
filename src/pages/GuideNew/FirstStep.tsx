@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import Button from "../../components/Button";
-import { MESSAGE_CODE, zkIDEXTENSION, GUIDEDESC } from "../../constants/guide";
+import { MESSAGE_CODE, zkIDEXTENSION, GUIDE_DESC } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 
 import bg from "../../images/step_install.svg";
@@ -143,8 +143,8 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
 
   return (
     <div className="step-wrapper">
-      <div className="title">{GUIDEDESC.installExtension.title}</div>
-      <div className="sub-title">{GUIDEDESC.installExtension.desc}</div>
+      <div className="title">{GUIDE_DESC.installExtension.title}</div>
+      <div className="sub-title">{GUIDE_DESC.installExtension.desc}</div>
       <img src={bg} alt="" className="install-bg" />
       <Button
         className={classNames("btn", {

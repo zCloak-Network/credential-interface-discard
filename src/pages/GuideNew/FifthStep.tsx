@@ -17,7 +17,7 @@ import {
   CTYPEHASH,
   ZK_PROGRAM,
   GUIDE_CREDENTIAL,
-  GUIDEDESC,
+  GUIDE_DESC,
 } from "../../constants/guide";
 import { IProof } from "./index";
 import { ICredential } from "./index";
@@ -133,16 +133,16 @@ const FifthStep: React.FC<Props> = ({
 
   const text = useMemo(() => {
     if (uploadStatus === "prepare") {
-      return GUIDEDESC.uploadProof;
+      return GUIDE_DESC.uploadProof;
     }
     if (["uploading", "uploaded"].includes(uploadStatus)) {
-      return GUIDEDESC.verifyingProof;
+      return GUIDE_DESC.verifyingProof;
     }
     if (uploadStatus === "success") {
-      return GUIDEDESC.proofVerified;
+      return GUIDE_DESC.proofVerified;
     }
 
-    return GUIDEDESC.uploadProof;
+    return GUIDE_DESC.uploadProof;
   }, [uploadStatus]);
 
   return (

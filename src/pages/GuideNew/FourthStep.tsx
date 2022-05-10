@@ -18,7 +18,7 @@ import { openMessage, destroyMessage } from "../../utils/message";
 import { METAMASKEXTENSION } from "../../constants/guide";
 import { getToken, getTokenStatus } from "../../services/api";
 import { useInterval } from "ahooks";
-import { GUIDEDESC } from "../../constants/guide";
+import { GUIDE_DESC } from "../../constants/guide";
 
 type Props = {
   handleNext: () => void;
@@ -207,8 +207,8 @@ const FourthStep: React.FC<Props> = ({ balance, handleNext }) => {
 
   return (
     <div className="step-wrapper">
-      <div className="title">{GUIDEDESC.connectMetamask.title}</div>
-      <div className="sub-title">{GUIDEDESC.connectMetamask.desc}</div>
+      <div className="title">{GUIDE_DESC.connectMetamask.title}</div>
+      <div className="sub-title">{GUIDE_DESC.connectMetamask.desc}</div>
       <ul
         className={classNames("wallets", {
           "has-account": account,

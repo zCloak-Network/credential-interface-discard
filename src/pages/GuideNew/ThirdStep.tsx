@@ -6,7 +6,7 @@
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
-import { CTYPEHASH, MESSAGE_CODE, GUIDEDESC } from "../../constants/guide";
+import { CTYPEHASH, MESSAGE_CODE, GUIDE_DESC } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 
 import bg from "../../images/step_import.svg";
@@ -101,8 +101,8 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
 
   return (
     <div className="step-wrapper">
-      <div className="title">{GUIDEDESC.importCredential.title}</div>
-      <div className="sub-title">{GUIDEDESC.importCredential.desc}</div>
+      <div className="title">{GUIDE_DESC.importCredential.title}</div>
+      <div className="sub-title">{GUIDE_DESC.importCredential.desc}</div>
       <img src={bg} alt="" className="import-bg" />
       <Button
         size="default"

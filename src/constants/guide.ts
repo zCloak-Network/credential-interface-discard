@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-05-10 13:52:06
+ * @LastEditTime: 2022-05-10 13:55:23
  */
 export const credentialClass = [
   {
@@ -195,7 +195,7 @@ export const ZKID = "http://zkid.app/dashboard";
 
 export const MOONSCANTX = "https://moonbase.moonscan.io/tx/";
 
-export const GUIDEDESC = {
+export const GUIDE_DESC = {
   installExtension: {
     title: "Install the Extension",
     desc: "Please install the zCloak ID Wallet to start your ZK adventure. The wallet performs some magic tricks—the STARK alchemy—to help you use your data and keep your secrets.",

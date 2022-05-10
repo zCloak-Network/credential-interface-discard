@@ -15,7 +15,7 @@ import { hexToNumber } from "@polkadot/util";
 import { stripHexPrefix, numberToHex, padLeft } from "web3-utils";
 import { getPoapId } from "../../services/api";
 import { getImg } from "../../utils/poap";
-import { ZKID, GUIDEDESC } from "../../constants/guide";
+import { ZKID, GUIDE_DESC } from "../../constants/guide";
 import BN from "bn.js";
 
 import bg from "../../images/nft_cover.png";
@@ -98,8 +98,8 @@ const LastStep: React.FC = () => {
 
   return (
     <div className="step-wrapper">
-      <div className="title">{GUIDEDESC.claimPOAP.title}</div>
-      <div className="sub-title">{GUIDEDESC.claimPOAP.desc}</div>
+      <div className="title">{GUIDE_DESC.claimPOAP.title}</div>
+      <div className="sub-title">{GUIDE_DESC.claimPOAP.desc}</div>
       {poapId ? (
         <div className="poap">
           <img src={getImg(poapId)} alt="" className="poap-img" />

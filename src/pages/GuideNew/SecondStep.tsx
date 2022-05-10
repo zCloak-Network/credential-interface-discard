@@ -40,7 +40,7 @@ import { openMessage, destroyMessage } from "../../utils/message";
 import {
   GUIDE_ACCOUNT,
   GUIDE_CREDENTIAL,
-  GUIDEDESC,
+  GUIDE_DESC,
 } from "../../constants/guide";
 import Loading from "../../components/Loading";
 import moment from "moment";
@@ -314,8 +314,8 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
 
   const hasCredentail = !!credentail;
   const currText = hasCredentail
-    ? GUIDEDESC.receiveCredential
-    : GUIDEDESC.describeYourself;
+    ? GUIDE_DESC.receiveCredential
+    : GUIDE_DESC.describeYourself;
 
   return (
     <div className="step-wrapper">
