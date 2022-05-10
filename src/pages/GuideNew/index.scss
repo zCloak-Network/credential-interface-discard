@@ -721,12 +721,9 @@
 
 
 .credential-class-select {
-  // margin-top: 16px;
-  padding: 4px;
   background: #D4CAFE;
   box-shadow: 0px 0px 20px rgb(99 23 147 / 40%);
-  opacity: 1;
-  border-radius: 10px;
+  top: 620px !important;
 
   .ant-select-item{
     width: 100%;
