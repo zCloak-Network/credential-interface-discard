@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-05-10 13:59:11
+ * @LastEditTime: 2022-05-10 14:01:57
  */
 export const CREDENTIAL_CLASS = [
   {
@@ -186,10 +186,10 @@ export const ZK_PROGRAM = {
 `,
 };
 
-export const zkIDEXTENSION =
+export const zkID_EXTENSION =
   "https://chrome.google.com/webstore/detail/zkid/hkdbehojhcibpbcdpjphajfbgigldjkh?hl=zh-CN&authuser=0";
 
-export const METAMASKEXTENSION = "https://metamask.io/";
+export const METAMASK_EXTENSION = "https://metamask.io/";
 
 export const ZKID = "http://zkid.app/dashboard";
 

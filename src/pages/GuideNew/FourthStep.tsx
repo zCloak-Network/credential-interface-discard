@@ -15,7 +15,7 @@ import { SupportedChainId, CHAIN_INFO } from "../../constants/chains";
 import classNames from "classnames";
 import { message } from "antd";
 import { openMessage, destroyMessage } from "../../utils/message";
-import { METAMASKEXTENSION } from "../../constants/guide";
+import { METAMASK_EXTENSION } from "../../constants/guide";
 import { getToken, getTokenStatus } from "../../services/api";
 import { useInterval } from "ahooks";
 import { GUIDE_DESC } from "../../constants/guide";
@@ -55,7 +55,7 @@ const FourthStep: React.FC<Props> = ({ balance, handleNext }) => {
   };
 
   const handleInstall = () => {
-    window.open(METAMASKEXTENSION);
+    window.open(METAMASK_EXTENSION);
   };
 
   const handleSwitch = async () => {

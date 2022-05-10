@@ -7,7 +7,11 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import Button from "../../components/Button";
-import { MESSAGE_CODE, zkIDEXTENSION, GUIDE_DESC } from "../../constants/guide";
+import {
+  MESSAGE_CODE,
+  zkID_EXTENSION,
+  GUIDE_DESC,
+} from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 
 import bg from "../../images/step_install.svg";
@@ -23,7 +27,7 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
   const [hasPassword, setPassword] = useState<boolean>(false);
 
   const handleInstall = () => {
-    window.open(zkIDEXTENSION);
+    window.open(zkID_EXTENSION);
   };
 
   const openExtension = async () => {
