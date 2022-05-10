@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 14:06:16
+ * @LastEditTime: 2022-05-10 14:59:11
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -54,29 +54,37 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
     },
   };
 
-  useEffect(() => {
-    window.addEventListener("message", (event) => {
-      const { statusCode, data } = event.data;
+  const handleEvent = (event) => {
+    const { statusCode, data } = event.data;
 
-      if (statusCode === MESSAGE_CODE.EXTENSION_CLOSED) {
-        if (!hasCredential) {
-          setStatus("import");
-        } else {
-          setStatus("next");
-        }
-
-        destroyMessage(messageKey);
-      }
-
-      if (
-        statusCode === MESSAGE_CODE.SEND_IMPORT_CREDENTIAL_SUCCESS_TO_WEB &&
-        data.imported
-      ) {
+    if (statusCode === MESSAGE_CODE.EXTENSION_CLOSED) {
+      if (!hasCredential) {
+        setStatus("import");
+      } else {
         setStatus("next");
-        setHasCredential(true);
-        destroyMessage(messageKey);
       }
-    });
+
+      destroyMessage(messageKey);
+    }
+
+    if (
+      statusCode === MESSAGE_CODE.SEND_IMPORT_CREDENTIAL_SUCCESS_TO_WEB &&
+      data.imported
+    ) {
+      setStatus("next");
+      setHasCredential(true);
+      destroyMessage(messageKey);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("message", handleEvent);
+
+    return () => {
+      window.removeEventListener("message", handleEvent);
+      destroyMessage(messageKey);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasCredential]);
 
   const init = async () => {

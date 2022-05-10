@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-05-10 13:44:05
+ * @LastEditTime: 2022-05-10 15:02:01
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -144,27 +144,35 @@ const FifthStepSubmit: React.FC<Props> = ({
     }
   };
 
-  useEffect(() => {
-    window.addEventListener("message", (event) => {
-      const { statusCode, data } = event.data;
+  const handleEvent = (event) => {
+    const { statusCode, data } = event.data;
 
-      if (statusCode === MESSAGE_CODE.EXTENSION_CLOSED) {
-        setGenerateLoading(false);
-        if (generationInfo.proofCid) {
-          destroyMessage(messageKey);
-        }
-      }
-
-      if (statusCode === MESSAGE_CODE.SEND_PROOF_TO_WEB && data.proofCid) {
-        setGenerationInfo({
-          proofCid: data.proofCid,
-          rootHash: data.rootHash,
-          expectResult: data.expectResult,
-        });
+    if (statusCode === MESSAGE_CODE.EXTENSION_CLOSED) {
+      setGenerateLoading(false);
+      if (generationInfo.proofCid) {
         destroyMessage(messageKey);
-        setGenerateLoading(false);
       }
-    });
+    }
+
+    if (statusCode === MESSAGE_CODE.SEND_PROOF_TO_WEB && data.proofCid) {
+      setGenerationInfo({
+        proofCid: data.proofCid,
+        rootHash: data.rootHash,
+        expectResult: data.expectResult,
+      });
+      destroyMessage(messageKey);
+      setGenerateLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("message", handleEvent);
+
+    return () => {
+      window.removeEventListener("message", handleEvent);
+      destroyMessage(messageKey);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [generationInfo]);
 
   useEffect(() => {

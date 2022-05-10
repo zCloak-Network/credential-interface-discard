@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-09 16:35:34
+ * @LastEditTime: 2022-05-10 14:59:00
  */
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
@@ -107,41 +107,48 @@ const FirstStep: React.FC<Props> = ({ handleNext }) => {
     }
   }, []);
 
-  useEffect(() => {
-    window.addEventListener("message", (event) => {
-      const { statusCode, data } = event.data;
+  const handleEvent = (event) => {
+    const { statusCode, data } = event.data;
 
-      if (statusCode === MESSAGE_CODE.EXTENSION_CLOSED) {
-        if (!hasPassword) {
-          setStatus("create");
-        } else {
-          setStatus("next");
-        }
-
-        destroyMessage(messageKey);
-      }
-
-      if (statusCode === MESSAGE_CODE.SEND_BACKNEXT_TO_WEB && data.clickBack) {
-        setStatus("extensionNext");
-        const data = STATUS.extensionNext;
-        openMessage(data.message, data.messageType, messageKey);
-      }
-
-      if (statusCode === MESSAGE_CODE.SEND_NEXT_TO_WEB && data.clickNext) {
-        setStatus("extensionCreate");
-        const data = STATUS.extensionCreate;
-        openMessage(data.message, data.messageType, messageKey);
-      }
-
-      if (
-        statusCode === MESSAGE_CODE.SEND_CREATE_PASSWORD_SUCCESS_TO_WEB &&
-        data.createPassword
-      ) {
+    if (statusCode === MESSAGE_CODE.EXTENSION_CLOSED) {
+      if (!hasPassword) {
+        setStatus("create");
+      } else {
         setStatus("next");
-        setPassword(true);
-        destroyMessage(messageKey);
       }
-    });
+
+      destroyMessage(messageKey);
+    }
+
+    if (statusCode === MESSAGE_CODE.SEND_BACKNEXT_TO_WEB && data.clickBack) {
+      setStatus("extensionNext");
+      const data = STATUS.extensionNext;
+      openMessage(data.message, data.messageType, messageKey);
+    }
+
+    if (statusCode === MESSAGE_CODE.SEND_NEXT_TO_WEB && data.clickNext) {
+      setStatus("extensionCreate");
+      const data = STATUS.extensionCreate;
+      openMessage(data.message, data.messageType, messageKey);
+    }
+
+    if (
+      statusCode === MESSAGE_CODE.SEND_CREATE_PASSWORD_SUCCESS_TO_WEB &&
+      data.createPassword
+    ) {
+      setStatus("next");
+      setPassword(true);
+      destroyMessage(messageKey);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("message", handleEvent);
+
+    return () => {
+      window.removeEventListener("message", handleEvent);
+      destroyMessage(messageKey);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasPassword]);
 
