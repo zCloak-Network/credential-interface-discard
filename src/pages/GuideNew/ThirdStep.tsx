@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 14:59:11
+ * @LastEditTime: 2022-05-10 16:51:02
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -12,13 +12,13 @@ import { openMessage, destroyMessage } from "../../utils/message";
 import bg from "../../images/step_import.svg";
 import classNames from "classnames";
 
-type Props = {
+interface IProps {
   handleNext: () => void;
-};
+}
 
 const messageKey = "importCredential";
 
-const ThirdStep: React.FC<Props> = ({ handleNext }) => {
+const ThirdStep: React.FC<IProps> = ({ handleNext }) => {
   const [status, setStatus] = useState<string>("next");
   const [hasCredential, setHasCredential] = useState<boolean>(false);
 

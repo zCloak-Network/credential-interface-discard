@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 14:59:00
+ * @LastEditTime: 2022-05-10 16:47:13
  */
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
@@ -16,13 +16,13 @@ import { openMessage, destroyMessage } from "../../utils/message";
 
 import bg from "../../images/step_install.svg";
 
-type Props = {
+interface IProps {
   handleNext: () => void;
-};
+}
 
 const messageKey = "installExtension";
 
-const FirstStep: React.FC<Props> = ({ handleNext }) => {
+const FirstStep: React.FC<IProps> = ({ handleNext }) => {
   const [status, setStatus] = useState<string>("next");
   const [hasPassword, setPassword] = useState<boolean>(false);
 

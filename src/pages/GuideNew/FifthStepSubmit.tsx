@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-05-10 15:02:01
+ * @LastEditTime: 2022-05-10 16:46:38
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -23,7 +23,7 @@ import "./FifthStepSubmit.scss";
 
 const messageKey = "uploadProof";
 
-type Props = {
+interface IProps {
   account: string;
   proName: string;
   cTypeName: string;
@@ -32,7 +32,7 @@ type Props = {
   fieldName: string;
   programDetail: string;
   handleNext: () => void;
-};
+}
 
 interface IProofInfo {
   proofCid: string;
@@ -57,7 +57,7 @@ const STATUS = {
   },
 };
 
-const FifthStepSubmit: React.FC<Props> = ({
+const FifthStepSubmit: React.FC<IProps> = ({
   account,
   cTypeHash,
   // cTypeName,

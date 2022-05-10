@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 13:44:53
+ * @LastEditTime: 2022-05-10 16:46:12
  */
 import React, { useState, useEffect, useMemo } from "react";
 import { useInterval } from "ahooks";
@@ -29,15 +29,15 @@ type UploadStatus = "uploading" | "success" | "prepare" | "fail" | "uploaded";
 
 type UploadResult = "success" | "fail";
 
-type Props = {
+interface IProps {
   credentail: ICredential;
   handleNext: () => void;
   handleProof: (proof) => void;
-};
+}
 
 const TIME = 12000;
 
-const FifthStep: React.FC<Props> = ({
+const FifthStep: React.FC<IProps> = ({
   credentail,
   handleNext,
   handleProof,

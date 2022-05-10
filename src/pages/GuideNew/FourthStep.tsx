@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 15:10:45
+ * @LastEditTime: 2022-05-10 16:50:26
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -20,10 +20,10 @@ import { getToken, getTokenStatus } from "../../services/api";
 import { useInterval } from "ahooks";
 import { GUIDE_DESC } from "../../constants/guide";
 
-type Props = {
+interface IProps {
   handleNext: () => void;
   balance: string;
-};
+}
 const TIME = 3000;
 
 enum FAUCET_STATUS {
@@ -33,7 +33,7 @@ enum FAUCET_STATUS {
 }
 const messageKey = "installMetamask";
 
-const FourthStep: React.FC<Props> = ({ balance, handleNext }) => {
+const FourthStep: React.FC<IProps> = ({ balance, handleNext }) => {
   const { account, error, activate } = useWeb3React();
   const [status, setStatus] = useState<string>("connect");
   const [interval, setIntervalStatus] = useState<number | undefined>(undefined);

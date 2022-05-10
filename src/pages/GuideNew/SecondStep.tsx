@@ -3,7 +3,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 15:11:54
+ * @LastEditTime: 2022-05-10 16:49:48
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -59,10 +59,10 @@ const TIME = 6000;
 
 const messageKey = "getCredential";
 
-type Props = {
+interface IProps {
   handleNext: () => void;
   handleCredentail: (data: ICredential | null) => void;
-};
+}
 
 interface IAccout {
   account: KeyringPair;
@@ -73,7 +73,7 @@ interface IAccout {
 const WAITING_MESSAGE =
   "We are checking your documents. The attestation takes 30-60s.";
 
-const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
+const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
   const [form] = Form.useForm();
   const addPopup = useAddPopup();
   const toggleModal = useToggleGuideMessage();

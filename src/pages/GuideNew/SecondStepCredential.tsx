@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 20:54:18
- * @LastEditTime: 2022-05-09 18:49:40
+ * @LastEditTime: 2022-05-10 16:50:44
  */
 import React from "react";
 import bgPerson from "../../images/bg_person.svg";
@@ -12,11 +12,11 @@ import { ICredential } from "./index";
 
 import "./SecondStepCredential.scss";
 
-interface Props {
+interface IProps {
   data: ICredential;
 }
 
-const SecondStepCredential: React.FC<Props> = ({ data }) => {
+const SecondStepCredential: React.FC<IProps> = ({ data }) => {
   const {
     class: classType,
     age,
