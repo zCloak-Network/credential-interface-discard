@@ -14,7 +14,7 @@ import Uploading from "./Uploading";
 import { getProof } from "../../services/api";
 import {
   CTYPE,
-  CTYPEHASH,
+  CTYPE_HASH,
   ZK_PROGRAM,
   GUIDE_CREDENTIAL,
   GUIDE_DESC,
@@ -190,7 +190,7 @@ const FifthStep: React.FC<Props> = ({
       {uploadStatus === "prepare" && (
         <FifthStepSubmit
           account={account}
-          cTypeHash={CTYPEHASH}
+          cTypeHash={CTYPE_HASH}
           cTypeName={CTYPE.title}
           fieldName={ZK_PROGRAM.filed}
           proHash={ZK_PROGRAM.hash}

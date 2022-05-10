@@ -2,11 +2,11 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-28 16:56:02
+ * @LastEditTime: 2022-05-10 14:06:16
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
-import { CTYPEHASH, MESSAGE_CODE, GUIDE_DESC } from "../../constants/guide";
+import { CTYPE_HASH, MESSAGE_CODE, GUIDE_DESC } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 
 import bg from "../../images/step_import.svg";
@@ -82,7 +82,7 @@ const ThirdStep: React.FC<Props> = ({ handleNext }) => {
   const init = async () => {
     const { getCredentialByCHash } = window?.zCloak?.zkID;
 
-    const hasCredential = await getCredentialByCHash(CTYPEHASH);
+    const hasCredential = await getCredentialByCHash(CTYPE_HASH);
     if (hasCredential) {
       setStatus("next");
       setHasCredential(true);

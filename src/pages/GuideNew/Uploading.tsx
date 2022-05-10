@@ -7,7 +7,7 @@
 import React from "react";
 import classNames from "classnames";
 import { shortenAddress } from "../../utils";
-import { MOONSCANTX } from "../../constants/guide";
+import { MOONSCAN_TX_URL } from "../../constants/guide";
 import Button from "../../components/Button";
 import { IProof } from "./index";
 import loading from "../../images/loading_1.gif";
@@ -20,7 +20,7 @@ type Props = {
 
 const Uploading: React.FC<Props> = ({ data, uploaded, handleNext }) => {
   const jumpTxDetail = (data) => {
-    window.open(`${MOONSCANTX}${data.transactionHash}`);
+    window.open(`${MOONSCAN_TX_URL}${data.transactionHash}`);
   };
 
   return (

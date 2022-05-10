@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-05-10 14:01:57
+ * @LastEditTime: 2022-05-10 14:03:48
  */
 export const CREDENTIAL_CLASS = [
   {
@@ -58,7 +58,7 @@ export const CTYPE = {
   type: "object",
 };
 
-export const CTYPEHASH =
+export const CTYPE_HASH =
   "0xe21c5f437332f33db0e6f9cef958f2ff3fedfbcdeb60d4ff24db978b487aad1a";
 
 export const MESSAGE_CODE = {
@@ -193,7 +193,7 @@ export const METAMASK_EXTENSION = "https://metamask.io/";
 
 export const ZKID = "http://zkid.app/dashboard";
 
-export const MOONSCANTX = "https://moonbase.moonscan.io/tx/";
+export const MOONSCAN_TX_URL = "https://moonbase.moonscan.io/tx/";
 
 export const GUIDE_DESC = {
   installExtension: {
