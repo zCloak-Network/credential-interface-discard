@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-05-10 13:48:19
+ * @LastEditTime: 2022-05-10 13:52:06
  */
 export const credentialClass = [
   {
@@ -76,7 +76,7 @@ export const MESSAGE_CODE = {
   SEND_IMPORT_CREDENTIAL_SUCCESS_TO_WEB: "SEND_IMPORT_CREDENTIAL_SUCCESS",
 };
 
-export const ZKPROGRAM = {
+export const ZK_PROGRAM = {
   name: "POAP Issuance Rule",
   hash: "0x5bf2b53b6831c372efcbd0ed2f7149c2997609141b8ff3bdbf692335df0d2e06",
   filed: "age,class,helmet_rarity,chest_rarity,weapon_rarity",

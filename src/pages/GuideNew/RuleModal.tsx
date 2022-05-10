@@ -11,7 +11,7 @@ import {
   useToggleGuideRule,
 } from "../../state/application/hooks";
 import { ApplicationModal } from "../../state/application/reducer";
-import { ZKPROGRAM } from "../../constants/guide";
+import { ZK_PROGRAM } from "../../constants/guide";
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-java";
@@ -79,12 +79,12 @@ const RuleModal: React.FC = () => {
         3. Rarity calculation—to compute the average of all equipment rarities.
       </p>
       <p className="content-title">Program Hash</p>
-      <p>{ZKPROGRAM.hash}</p>
+      <p>{ZK_PROGRAM.hash}</p>
       <p className="content-title">zkVM Program Code</p>
       <AceEditor
         mode="javascript"
         theme="terminal"
-        value={ZKPROGRAM.detail}
+        value={ZK_PROGRAM.detail}
         name="UNIQUE_ID_OF_DIV"
         className="program-code"
         editorProps={{ $blockScrolling: true }}

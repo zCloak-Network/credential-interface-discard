@@ -15,7 +15,7 @@ import { getProof } from "../../services/api";
 import {
   CTYPE,
   CTYPEHASH,
-  ZKPROGRAM,
+  ZK_PROGRAM,
   GUIDE_CREDENTIAL,
   GUIDEDESC,
 } from "../../constants/guide";
@@ -192,10 +192,10 @@ const FifthStep: React.FC<Props> = ({
           account={account}
           cTypeHash={CTYPEHASH}
           cTypeName={CTYPE.title}
-          fieldName={ZKPROGRAM.filed}
-          proHash={ZKPROGRAM.hash}
-          proName={ZKPROGRAM.name}
-          programDetail={ZKPROGRAM.detailString}
+          fieldName={ZK_PROGRAM.filed}
+          proHash={ZK_PROGRAM.hash}
+          proName={ZK_PROGRAM.name}
+          programDetail={ZK_PROGRAM.detailString}
           handleNext={() => {
             setIsSubmited(true);
             setUploadStatus("uploading");
