@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-05-10 16:46:38
+ * @LastEditTime: 2022-05-10 17:57:47
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -40,7 +40,7 @@ interface IProofInfo {
   expectResult: string;
 }
 
-const STATUS = {
+const BUTTON_MESSAGE_STATUS = {
   submit: {
     buttonText: "Submit",
     buttonType: null,
@@ -82,7 +82,7 @@ const FifthStepSubmit: React.FC<IProps> = ({
     if (loading) return;
     const { openzkIDPopup } = window?.zCloak?.zkID;
     setGenerateLoading(true);
-    const data = STATUS.enterPassword;
+    const data = BUTTON_MESSAGE_STATUS.enterPassword;
     openMessage(data.message, data.messageType, messageKey);
 
     openzkIDPopup("OPEN_GENERATE_PROOF", {
@@ -177,7 +177,7 @@ const FifthStepSubmit: React.FC<IProps> = ({
 
   useEffect(() => {
     if (!generationInfo.proofCid) {
-      const data = STATUS.submit;
+      const data = BUTTON_MESSAGE_STATUS.submit;
       openMessage(data.message, data.messageType, messageKey);
     } else {
       destroyMessage(messageKey);

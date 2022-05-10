@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 16:51:02
+ * @LastEditTime: 2022-05-10 17:58:48
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -26,11 +26,11 @@ const ThirdStep: React.FC<IProps> = ({ handleNext }) => {
     const { openzkIDPopup } = window?.zCloak?.zkID;
     openzkIDPopup(MESSAGE_CODE.OPEN_IMPORT_CREDENTIAL);
     setStatus("extensionImport");
-    const data = STATUS.extensionImport;
+    const data = BUTTON_MESSAGE_STATUS.extensionImport;
     openMessage(data.message, data.messageType, messageKey);
   };
 
-  const STATUS = {
+  const BUTTON_MESSAGE_STATUS = {
     import: {
       buttonText: "Import Credential",
       buttonType: null,
@@ -105,7 +105,7 @@ const ThirdStep: React.FC<IProps> = ({ handleNext }) => {
     }
   }, []);
 
-  const detail = STATUS[status];
+  const detail = BUTTON_MESSAGE_STATUS[status];
 
   return (
     <div className="step-wrapper">

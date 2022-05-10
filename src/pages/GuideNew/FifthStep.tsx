@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 16:46:12
+ * @LastEditTime: 2022-05-12 16:25:30
  */
 import React, { useState, useEffect, useMemo } from "react";
 import { useInterval } from "ahooks";
@@ -35,7 +35,7 @@ interface IProps {
   handleProof: (proof) => void;
 }
 
-const TIME = 12000;
+const TIME = 3000;
 
 const FifthStep: React.FC<IProps> = ({
   credentail,

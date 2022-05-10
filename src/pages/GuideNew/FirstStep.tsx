@@ -34,11 +34,11 @@ const FirstStep: React.FC<IProps> = ({ handleNext }) => {
     const { openzkIDPopup } = window?.zCloak?.zkID;
     openzkIDPopup("OPEN_FIRST");
     setStatus("extensionNext");
-    const data = STATUS.extensionNext;
+    const data = BUTTON_MESSAGE_STATUS.extensionNext;
     openMessage(data.message, data.messageType, messageKey);
   };
 
-  const STATUS = {
+  const BUTTON_MESSAGE_STATUS = {
     install: {
       buttonText: "Install",
       buttonType: null,
@@ -86,7 +86,7 @@ const FirstStep: React.FC<IProps> = ({ handleNext }) => {
     setStatus("next");
   }, []);
 
-  const detail = STATUS[status];
+  const detail = BUTTON_MESSAGE_STATUS[status];
 
   const init = async () => {
     const { getIfCreatePassword } = window?.zCloak?.zkID;
@@ -122,13 +122,13 @@ const FirstStep: React.FC<IProps> = ({ handleNext }) => {
 
     if (statusCode === MESSAGE_CODE.SEND_BACKNEXT_TO_WEB && data.clickBack) {
       setStatus("extensionNext");
-      const data = STATUS.extensionNext;
+      const data = BUTTON_MESSAGE_STATUS.extensionNext;
       openMessage(data.message, data.messageType, messageKey);
     }
 
     if (statusCode === MESSAGE_CODE.SEND_NEXT_TO_WEB && data.clickNext) {
       setStatus("extensionCreate");
-      const data = STATUS.extensionCreate;
+      const data = BUTTON_MESSAGE_STATUS.extensionCreate;
       openMessage(data.message, data.messageType, messageKey);
     }
 
