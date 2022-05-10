@@ -3,7 +3,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 13:44:09
+ * @LastEditTime: 2022-05-10 15:11:54
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -306,6 +306,10 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
       }
       updateStatus();
     }
+
+    return () => {
+      destroyMessage(messageKey);
+    };
   }, [account]);
 
   useEffect(() => {

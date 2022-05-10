@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-09 16:59:00
+ * @LastEditTime: 2022-05-10 15:10:45
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -202,6 +202,10 @@ const FourthStep: React.FC<Props> = ({ balance, handleNext }) => {
 
     setStatus("connected");
     destroyMessage(messageKey);
+
+    return () => {
+      destroyMessage(messageKey);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error, account, balance]);
 
