@@ -2,18 +2,18 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-14 21:00:08
- * @LastEditTime: 2022-04-26 11:50:55
+ * @LastEditTime: 2022-05-09 18:58:34
  */
 import React from "react";
 import classNames from "classnames";
 import { shortenAddress } from "../../utils";
 import { MOONSCANTX } from "../../constants/guide";
 import Button from "../../components/Button";
-
+import { IProof } from "./index";
 import loading from "../../images/loading_1.gif";
 
 type Props = {
-  data: any;
+  data: IProof;
   uploaded: boolean;
   handleNext: () => void;
 };

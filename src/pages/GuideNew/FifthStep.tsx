@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-09 16:12:42
+ * @LastEditTime: 2022-05-09 18:49:53
  */
 import React, { useState, useEffect, useMemo } from "react";
 import { useInterval } from "ahooks";
@@ -19,8 +19,8 @@ import {
   GUIDECREDENTIAL,
   GUIDEDESC,
 } from "../../constants/guide";
-import { ISubmitAttestation } from "../../types/claim";
 import { IProof } from "./index";
+import { ICredential } from "./index";
 
 import failImg from "../../images/fail.svg";
 import successImg from "../../images/success.svg";
@@ -30,7 +30,7 @@ type UploadStatus = "uploading" | "success" | "prepare" | "fail" | "uploaded";
 type UploadResult = "success" | "fail";
 
 type Props = {
-  credentail: ISubmitAttestation;
+  credentail: ICredential;
   handleNext: () => void;
   handleProof: (proof) => void;
 };

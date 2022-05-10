@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-09 17:16:13
+ * @LastEditTime: 2022-05-09 18:48:10
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -21,11 +21,32 @@ import { GUIDECREDENTIAL } from "../../constants/guide";
 import { getProof } from "../../services/api";
 import { ethers } from "ethers";
 import { fromWei } from "web3-utils";
-import { ISubmitAttestation } from "../../types/claim";
+import {
+  IMessage,
+  IDidDetails,
+  IAttestation,
+  IRequestForAttestation,
+} from "@kiltprotocol/types";
 
 import "./index.scss";
 
 const { Step } = Steps;
+
+export interface ICredential {
+  body: {
+    content: {
+      attestation: IAttestation;
+      request: IRequestForAttestation;
+    };
+  };
+  createdAt: number;
+  sender: IDidDetails["did"];
+  receiver: IDidDetails["did"];
+  messageId?: string;
+  receivedAt?: number;
+  inReplyTo?: IMessage["messageId"];
+  references?: Array<IMessage["messageId"]>;
+}
 
 export interface IVerifying {
   _id: string;
@@ -68,7 +89,7 @@ export interface IProof {
 const GuideNew: React.FC = () => {
   const { account } = useWeb3React();
   const [current, setCurrent] = useState<number>(0);
-  const [credentail, setCredentail] = useState<ISubmitAttestation | null>(null);
+  const [credentail, setCredentail] = useState<ICredential | null>(null);
   // TODO
   const [proof, setProof] = useState();
   const [balance, setBalance] = useState<string>();

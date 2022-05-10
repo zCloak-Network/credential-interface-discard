@@ -2,9 +2,8 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-06 16:32:12
- * @LastEditTime: 2022-04-20 17:34:39
+ * @LastEditTime: 2022-05-10 11:01:56
  */
-import React from "react";
 import { getAddress } from "@ethersproject/address";
 import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
@@ -94,7 +93,7 @@ export function getRandom(min = 1, max = 10): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export function getAge(year, month, date) {
+export function getAgeByBirth(year, month, date) {
   let age;
   const d = new Date();
   const nowYear = d.getFullYear();

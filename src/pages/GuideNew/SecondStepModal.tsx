@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 23:15:44
- * @LastEditTime: 2022-05-09 16:42:13
+ * @LastEditTime: 2022-05-09 18:56:26
  */
 import React, { useMemo, useState } from "react";
 import Modal from "../../components//Modal";
@@ -16,15 +16,18 @@ import { ApplicationModal } from "../../state/application/reducer";
 
 import "./SecondStepModal.scss";
 
+const TOTAL_TIME = 5000;
+const INTERVAL_TIME = 1000;
+
 const SecondStepModal: React.FC = () => {
-  const [countdown, setCountdown] = useState(5000);
-  const [interval, setIntervalStatus] = useState(1000);
+  const [countdown, setCountdown] = useState<number>(TOTAL_TIME);
+  const [interval, setIntervalStatus] = useState<number>(INTERVAL_TIME);
   const toggleModal = useToggleGuideMessage();
   const modalOpen = useModalOpen(ApplicationModal.GUIDE_MESSAGE);
 
   const update = () => {
     if (!!countdown) {
-      setCountdown(countdown - 1000);
+      setCountdown(countdown - INTERVAL_TIME);
     } else {
       setIntervalStatus(undefined);
     }
@@ -72,7 +75,7 @@ const SecondStepModal: React.FC = () => {
       <div className="btn-wrapper">
         {disabled ? (
           <Button className="btn" disabled={true}>
-            Please read {countdown / 1000}s
+            Please read {countdown / INTERVAL_TIME}s
           </Button>
         ) : (
           <Button onClick={toggleModal} className="btn">

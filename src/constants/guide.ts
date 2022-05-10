@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-04-29 17:46:27
+ * @LastEditTime: 2022-05-10 11:48:46
  */
 export const credentialClass = [
   {
@@ -26,10 +26,10 @@ export const credentialClass = [
 export const GUIDEACCOUNT = "zCloakGuideAccount";
 export const GUIDECREDENTIAL = "zCloakGuideCredential";
 
-export const ADMINATTESTER =
+export const ADMIN_ATTESTER =
   "did:kilt:4rdUX21mgJYGPpU3PmmjSMDkthg9yD2eFeRXyh84tD6ssvS4";
 
-export const ADMINATTESTERADDRESS =
+export const ADMIN_ATTESTER_ADDRESS =
   "4rdUX21mgJYGPpU3PmmjSMDkthg9yD2eFeRXyh84tD6ssvS4";
 
 export const CTYPE = {

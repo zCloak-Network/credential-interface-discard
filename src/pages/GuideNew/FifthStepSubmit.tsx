@@ -12,7 +12,7 @@ import Button from "../../components/Button";
 import abi from "../../constants/contract/contractAbi/KiltProofs";
 import { KiltProofsAdddress as contractAddress } from "../../constants/contract/address";
 import { useToggleGuideRule } from "../../state/application/hooks";
-import { MESSAGECODE, ADMINATTESTERADDRESS } from "../../constants/guide";
+import { MESSAGECODE, ADMIN_ATTESTER_ADDRESS } from "../../constants/guide";
 import { u8aToHex, stringToHex } from "@polkadot/util";
 import { decodeAddress } from "@polkadot/keyring";
 import { GUIDEACCOUNT } from "../../constants/guide";
@@ -102,7 +102,7 @@ const FifthStepSubmit: React.FC<Props> = ({
         decodeAddress(localAccount?.account?.address)
       );
       const formatAttesterAddress = u8aToHex(
-        decodeAddress(ADMINATTESTERADDRESS)
+        decodeAddress(ADMIN_ATTESTER_ADDRESS)
       );
       const formatField = fieldName
         .split(",")

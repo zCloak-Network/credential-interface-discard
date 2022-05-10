@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-04-28 15:52:41
+ * @LastEditTime: 2022-05-10 11:46:38
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -28,8 +29,8 @@ import { useInterval } from "ahooks";
 import { useToggleGuideMessage } from "../../state/application/hooks";
 import { WSSURL } from "../../constants";
 import SecondStepModal from "./SecondStepModal";
-import { getRandom, getAge } from "../../utils";
-import { credentialClass, ADMINATTESTER, CTYPE } from "../../constants/guide";
+import { getRandom, getAgeByBirth } from "../../utils";
+import { credentialClass, ADMIN_ATTESTER, CTYPE } from "../../constants/guide";
 import { useAddPopup } from "../../state/application/hooks";
 import type { MessageBody } from "@kiltprotocol/sdk-js";
 import { CTypeSchemaWithoutId } from "@kiltprotocol/types";
@@ -43,6 +44,8 @@ import {
 } from "../../constants/guide";
 import Loading from "../../components/Loading";
 import moment from "moment";
+import { IDidDetails, KeyringPair } from "@kiltprotocol/types";
+import { ICredential } from "./index";
 
 const { Option } = Select;
 
@@ -58,25 +61,31 @@ const messageKey = "getCredential";
 
 type Props = {
   handleNext: () => void;
-  handleCredentail: (data) => void;
+  handleCredentail: (data: ICredential | null) => void;
 };
 
-const waitingMessage =
+interface IAccout {
+  account: KeyringPair;
+  mnemonic: string;
+  lightDidDetails: IDidDetails;
+}
+
+const WAITING_MESSAGE =
   "We are checking your documents. The attestation takes 30-60s.";
 
 const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
   const [form] = Form.useForm();
   const addPopup = useAddPopup();
   const toggleModal = useToggleGuideMessage();
-  const [credentail, setCredentail] = useState<any>();
-  const [next, setNext] = useState(false);
-  const [disabled, setDisabled] = useState(true);
-  const [random, seRandom] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [initRefesh, setInitRefesh] = useState(true);
-  const [initLoading, setInitLoading] = useState(false);
-  const [account, setAccount] = useState<any>();
-  const [interval, setIntervalStatus] = useState(TIME);
+  const [credentail, setCredentail] = useState<ICredential>();
+  const [next, setNext] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState<boolean>(true);
+  const [random, seRandom] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [initRefesh, setInitRefesh] = useState<boolean>(true);
+  const [initLoading, setInitLoading] = useState<boolean>(false);
+  const [account, setAccount] = useState<IAccout>();
+  const [interval, setIntervalStatus] = useState<number | undefined>(TIME);
   const [attestationStatus, setAttestationStatus] = useState<status>();
 
   // request attestation
@@ -87,7 +96,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
       const keystoreClaimer = new Kilt.Did.DemoKeystore();
       const keystoreAttester = new Kilt.Did.DemoKeystore();
       const receiverFullDid = await getFullDid(
-        Kilt.Did.DidUtils.getIdentifierFromKiltDid(ADMINATTESTER)
+        Kilt.Did.DidUtils.getIdentifierFromKiltDid(ADMIN_ATTESTER)
       );
       const ctype = CType.fromSchema(CTYPE as CTypeSchemaWithoutId);
 
@@ -114,10 +123,10 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
       );
       await generateFullKeypairs(keystoreAttester, account.mnemonic);
       const encryptedPresentationMessage = await message.encrypt(
-        lightDid.encryptionKey!.id,
+        lightDid.encryptionKey.id,
         lightDid,
         keystoreAttester,
-        receiverFullDid.assembleKeyId(receiverFullDid.encryptionKey!.id)
+        receiverFullDid.assembleKeyId(receiverFullDid.encryptionKey.id)
       );
       const res = await submitClaim({ ...encryptedPresentationMessage });
       if (res.data.code === 200) {
@@ -137,16 +146,20 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
     }
   };
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: {
+    age: string;
+    month: string;
+    data: string;
+  }) => {
     if (disabled || !random) return;
     setLoading(true);
-    openMessage(waitingMessage, "warning", messageKey);
+    openMessage(WAITING_MESSAGE, "warning", messageKey);
 
     const year = dayjs(values.age).get("year");
     const month = dayjs(values.age).get("month") + 1;
     const date = dayjs(values.age).get("date");
 
-    const age = getAge(year, month, date);
+    const age = getAgeByBirth(year, month, date);
 
     const newValues = {
       ...values,
@@ -186,7 +199,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
       lightDidDetails: lightDid,
     };
 
-    // kilt account存在本地
+    // kilt account
     localStorage.setItem(GUIDEACCOUNT, JSON.stringify(newIdentity));
     setAccount(newIdentity);
   };
@@ -225,16 +238,13 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
       );
 
       const res = await getAttestation({
-        receiverKeyId: `${account?.lightDidDetails.did}#${
-          lightDid.encryptionKey!.id
-        }`,
+        receiverKeyId: `${account?.lightDidDetails.did}#${lightDid.encryptionKey.id}`,
       });
 
       if (res.data.code === 200) {
-        const decryptData = await decrypt(res.data.data[0]);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const decryptData = (await decrypt(res.data.data[0])) as any;
 
-        // console.log(45555, decryptData);
-        // kilt credentail 存在本地
         localStorage.setItem(GUIDECREDENTIAL, JSON.stringify(decryptData));
         setCredentail(decryptData);
         handleCredentail(decryptData);
@@ -254,10 +264,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
       account.lightDidDetails.did
     );
     const res = await getAttestationStatus({
-      // senderKeyId: account.lightDidDetails.did,
-      senderKeyId: `${account?.lightDidDetails.did}#${
-        lightDid.encryptionKey!.id
-      }`,
+      senderKeyId: `${account?.lightDidDetails.did}#${lightDid.encryptionKey.id}`,
     });
     if (res.data.code === 200) {
       if (res.data.data.attestationStatus !== status.attesting) {
@@ -293,7 +300,6 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
 
   useEffect(() => {
     if (account) {
-      // 如果是第一次渲染
       if (initRefesh) {
         setInitRefesh(true);
         setInitLoading(true);

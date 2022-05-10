@@ -2,22 +2,19 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 20:54:18
- * @LastEditTime: 2022-04-13 11:08:34
+ * @LastEditTime: 2022-05-09 18:49:40
  */
 import React from "react";
 import bgPerson from "../../images/bg_person.svg";
 import attested from "../../images/attested.svg";
 import { credentialClass } from "../../constants/guide";
+import { ICredential } from "./index";
 
 import "./SecondStepCredential.scss";
 
-type Props = {
-  data: {
-    body: {
-      content: any;
-    };
-  };
-};
+interface Props {
+  data: ICredential;
+}
 
 const SecondStepCredential: React.FC<Props> = ({ data }) => {
   const {
@@ -27,7 +24,8 @@ const SecondStepCredential: React.FC<Props> = ({ data }) => {
     helmet_rarity,
     name,
     weapon_rarity,
-  } = data?.body?.content?.request.claim.contents;
+  } = data?.body?.content?.request?.claim.contents;
+
   const claName = credentialClass.find((it) => it.value === classType).name;
 
   return (
