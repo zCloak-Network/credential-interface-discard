@@ -2,9 +2,9 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-05-10 13:55:23
+ * @LastEditTime: 2022-05-10 13:59:11
  */
-export const credentialClass = [
+export const CREDENTIAL_CLASS = [
   {
     name: "Warrior",
     value: 1,

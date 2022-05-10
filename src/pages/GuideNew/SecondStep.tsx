@@ -30,7 +30,7 @@ import { useToggleGuideMessage } from "../../state/application/hooks";
 import { WSSURL } from "../../constants";
 import SecondStepModal from "./SecondStepModal";
 import { getRandom, getAgeByBirth } from "../../utils";
-import { credentialClass, ADMIN_ATTESTER, CTYPE } from "../../constants/guide";
+import { CREDENTIAL_CLASS, ADMIN_ATTESTER, CTYPE } from "../../constants/guide";
 import { useAddPopup } from "../../state/application/hooks";
 import type { MessageBody } from "@kiltprotocol/sdk-js";
 import { CTypeSchemaWithoutId } from "@kiltprotocol/types";
@@ -348,7 +348,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
                 placeholder="Please select a class"
                 dropdownClassName="credential-class-select"
               >
-                {credentialClass.map((it) => (
+                {CREDENTIAL_CLASS.map((it) => (
                   <Option value={it.value} key={it.value}>
                     {it.name}
                   </Option>

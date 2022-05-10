@@ -7,7 +7,7 @@
 import React from "react";
 import bgPerson from "../../images/bg_person.svg";
 import attested from "../../images/attested.svg";
-import { credentialClass } from "../../constants/guide";
+import { CREDENTIAL_CLASS } from "../../constants/guide";
 import { ICredential } from "./index";
 
 import "./SecondStepCredential.scss";
@@ -26,7 +26,7 @@ const SecondStepCredential: React.FC<Props> = ({ data }) => {
     weapon_rarity,
   } = data?.body?.content?.request?.claim.contents;
 
-  const claName = credentialClass.find((it) => it.value === classType).name;
+  const claName = CREDENTIAL_CLASS.find((it) => it.value === classType).name;
 
   return (
     <div className="credential">
