@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-05-09 16:48:14
+ * @LastEditTime: 2022-05-10 13:44:05
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -15,7 +15,7 @@ import { useToggleGuideRule } from "../../state/application/hooks";
 import { MESSAGECODE, ADMIN_ATTESTER_ADDRESS } from "../../constants/guide";
 import { u8aToHex, stringToHex } from "@polkadot/util";
 import { decodeAddress } from "@polkadot/keyring";
-import { GUIDEACCOUNT } from "../../constants/guide";
+import { GUIDE_ACCOUNT } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 import classNames from "classnames";
 
@@ -96,7 +96,7 @@ const FifthStepSubmit: React.FC<Props> = ({
 
   const handleSumbit = () => {
     setLoading(true);
-    const localAccount = JSON.parse(localStorage.getItem(GUIDEACCOUNT));
+    const localAccount = JSON.parse(localStorage.getItem(GUIDE_ACCOUNT));
     if (localAccount) {
       const formatUserAddress = u8aToHex(
         decodeAddress(localAccount?.account?.address)

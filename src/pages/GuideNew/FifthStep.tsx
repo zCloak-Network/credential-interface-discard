@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-09 18:49:53
+ * @LastEditTime: 2022-05-10 13:44:53
  */
 import React, { useState, useEffect, useMemo } from "react";
 import { useInterval } from "ahooks";
@@ -16,7 +16,7 @@ import {
   CTYPE,
   CTYPEHASH,
   ZKPROGRAM,
-  GUIDECREDENTIAL,
+  GUIDE_CREDENTIAL,
   GUIDEDESC,
 } from "../../constants/guide";
 import { IProof } from "./index";
@@ -60,7 +60,7 @@ const FifthStep: React.FC<Props> = ({
   }, [uploadStatus]);
 
   const getClaimHash = () => {
-    const credentailLocal = localStorage.getItem(GUIDECREDENTIAL);
+    const credentailLocal = localStorage.getItem(GUIDE_CREDENTIAL);
 
     const data = JSON.parse(credentailLocal) || credentail;
 

@@ -3,7 +3,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 11:46:38
+ * @LastEditTime: 2022-05-10 13:44:09
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -38,8 +38,8 @@ import SecondStepCredential from "./SecondStepCredential";
 import classNames from "classnames";
 import { openMessage, destroyMessage } from "../../utils/message";
 import {
-  GUIDEACCOUNT,
-  GUIDECREDENTIAL,
+  GUIDE_ACCOUNT,
+  GUIDE_CREDENTIAL,
   GUIDEDESC,
 } from "../../constants/guide";
 import Loading from "../../components/Loading";
@@ -200,13 +200,13 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
     };
 
     // kilt account
-    localStorage.setItem(GUIDEACCOUNT, JSON.stringify(newIdentity));
+    localStorage.setItem(GUIDE_ACCOUNT, JSON.stringify(newIdentity));
     setAccount(newIdentity);
   };
 
   // init kilt account
   useEffect(() => {
-    const localAccount = localStorage.getItem(GUIDEACCOUNT);
+    const localAccount = localStorage.getItem(GUIDE_ACCOUNT);
     if (localAccount) {
       setAccount(JSON.parse(localAccount));
     } else {
@@ -245,7 +245,7 @@ const SecondStep: React.FC<Props> = ({ handleNext, handleCredentail }) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const decryptData = (await decrypt(res.data.data[0])) as any;
 
-        localStorage.setItem(GUIDECREDENTIAL, JSON.stringify(decryptData));
+        localStorage.setItem(GUIDE_CREDENTIAL, JSON.stringify(decryptData));
         setCredentail(decryptData);
         handleCredentail(decryptData);
         await setLoading(false);

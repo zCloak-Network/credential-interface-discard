@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-09 18:48:10
+ * @LastEditTime: 2022-05-10 13:45:02
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -17,7 +17,7 @@ import LastStep from "./LastStep";
 import GuideHeader from "../../components/GuideHeader";
 import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
-import { GUIDECREDENTIAL } from "../../constants/guide";
+import { GUIDE_CREDENTIAL } from "../../constants/guide";
 import { getProof } from "../../services/api";
 import { ethers } from "ethers";
 import { fromWei } from "web3-utils";
@@ -155,7 +155,7 @@ const GuideNew: React.FC = () => {
   ];
 
   useEffect(() => {
-    const credentail = localStorage.getItem(GUIDECREDENTIAL);
+    const credentail = localStorage.getItem(GUIDE_CREDENTIAL);
 
     if (credentail) {
       const claimHash =
