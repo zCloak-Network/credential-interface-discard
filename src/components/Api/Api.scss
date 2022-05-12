@@ -1,0 +1,17 @@
+.loading {
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+
+  .connecting {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    z-index: 99999;
+  }
+
+  .img {
+    margin-top: 8%;
+  }
+}

@@ -1,0 +1,271 @@
+$THEME: default;
+$white: #fff;
+$black: #000;
+
+$gray-1: #111111;
+$gray-2: #333333;
+$gray-3: #666666;
+$gray-4: #999999;
+$gray-5: #d8d8d8;
+$gray-6: #e8e8e8;
+$gray-7: #f9f9f9;
+$gray-8: #e2e2e2;
+
+// vertical paddings
+$padding-lg: 24px; // containers
+$padding-md: 16px; // small containers and buttons
+$padding-sm: 12px; // Form controls and items
+$padding-xs: 8px; // small items
+$padding-xss: 4px; // more small
+
+// vertical margins
+$margin-lg: 24px; // containers
+$margin-md: 16px; // small containers and buttons
+$margin-sm: 12px; // Form controls and items
+$margin-xs: 8px; // small items
+$margin-xss: 4px; // more small
+
+$primary-color: #6768ac;
+
+$primary-2: rgba($primary-color, 20%);
+$primary-8: rgba($primary-color, 80%);
+
+$scrollbar-thumb-color: $gray-5;
+$scrollbar-thumb-width: 6px;
+$nav-header-bg-color: #2d2f34;
+$nav-header-height: 56px;
+$nav-sider-bg-color: #3d3d43;
+$nav-sider-light-bg-color: $white;
+$main-color: #3f8cff;
+$main-color-hover-bg: rgba($main-color, 10%);
+$main-color-active-bg: rgba($main-color, 10%);
+$main-hover-color: #7087ff;
+$main-active-color: #5f78ff;
+$stress-color: $gray-3;
+$content-color: $gray-3;
+
+$text-description-color: $gray-4;
+$default-text-hover-color: $main-hover-color;
+$default-text-click-color: $main-active-color;
+$default-text-active-color: $white;
+
+$text-component-color: $main-color;
+$text-component-hover-color: $main-hover-color;
+$text-component-active-color: $main-active-color;
+
+$link-color: $text-component-color;
+$link-hover-color: $text-component-hover-color;
+$link-active-color: $text-component-active-color;
+
+$icon-color: $gray-4;
+$icon-color-hover: $main-hover-color;
+$icon-color-active: $main-active-color;
+$icon-color-disable: $gray-5;
+$icon-component-color: $main-color;
+$icon-component-hover-color: $icon-color-hover;
+$icon-component-active-color: $icon-color-active;
+
+$border-component-color: $main-color;
+$border-component-hover-color: $main-hover-color;
+$border-component-active-color: $main-active-color;
+$border-color-base: $gray-5;
+$border-hover-color-base: $main-color;
+$border-active-color-base: $main-color;
+$border-width-base: 1px;
+$border-style-base: solid;
+$border-color-split: $gray-5;
+
+$title-bar-bg: #f0f6ff;
+
+$bg-color: $white;
+$bg-main-color: #f4f5f6;
+$bg-sub-color: $gray-7;
+$bg-hover-color: $white;
+$bg-active-color: $white;
+$bg-component-color: $main-color;
+$bg-component-hover-color: $main-hover-color;
+$bg-component-active-color: $main-active-color;
+
+$item-active-bg: $main-color;
+$item-hover-bg: #f4f6fd;
+
+$shadow-color: rgba($gray-4, 0.7);
+$box-shadow: 0px 5px 20px 0px $shadow-color;
+$body-bg-color: $bg-main-color;
+
+$module-bg-color: $bg-color;
+$module-border-color: $border-color-base;
+$module-title-bg-color: $bg-color;
+$module-title-border-color: $border-color-base;
+
+$status-error-color: #d56386;
+$status-error-border-color: $status-error-color;
+$status-error-bg-color: #ffeceb;
+
+$status-warning-color: #ecae71;
+$status-warning-border-color: $status-warning-color;
+$status-warning-bg-color: #ecae71;
+
+$status-success-color: #76af92;
+$status-success-border-color: $status-success-color;
+$status-success-bg-color: #ebfff8;
+
+$status-processing-color: #4a62e7;
+$status-processing-border-color: $status-processing-color;
+$status-processing-bg-color: #ebeeff;
+$status-stop-color: #945eff;
+$status-stop-border-color: $status-stop-color;
+$status-stop-bg-color: #f7f2ff;
+$status-invalid-color: #d8d8d8;
+$status-invalid-border-color: $status-invalid-color;
+$status-invalid-bg-color: $bg-main-color;
+$status-other-color: #2b95ff;
+$status-other-border-color: $status-other-color;
+
+$status-other-bg-color: #e6f2ff;
+$status-other-finish: #7cd322;
+$status-other-wait: #ffbf00;
+
+$disabled-color: #c0c5ca;
+$disabled-bg: $bg-main-color;
+$disabled-border: #ccd2d8;
+
+$font-size-base: 14px;
+$font-size-lg: $font-size-base + 2px;
+$font-size-sm: 12px;
+
+$border-radius-base: 2px;
+$border-radius-sub: 4px;
+$line-height-base: 1.5;
+
+/* 文字相关 */
+$title-color: #000000; // 一二三级标题
+$sub-title-color: #333333; // 小标题
+$text-color: #000000; // 大段正文文本 / form、list的label
+$default-text-color: $text-color;
+$subsidiary-color: #666666; // 相关辅助解释性文字
+$legend-color: #999999; // 次级辅助文字、图例
+$required-color: #e60a26; //
+$placeholder-color: #b6b7c7; // 必填标识
+
+$space-xxs: 4px;
+$space-xs: 8px;
+$space-sm: 12px;
+$space-md: 16px;
+$space-lg: 24px;
+
+$space-tab: 36px;
+
+$height-nav: 64px;
+$height-xl: 48px;
+$height-lg: 40px;
+$height-md: 36px;
+$height-sm: 32px;
+$height-xs: 24px;
+
+$helper-doc-bg: $white;
+
+$header-height: 64px;
+
+$media-width-1920: 1900px;
+$media-width-1680: 1680px;
+$media-width-1440: 1440px;
+$media-width-1200: 1200px;
+$media-width-1024: 1024px;
+$media-width-992: 992px;
+$media-width-768: 768px;
+$media-width-653: 653px;
+
+$dialog-width-sm: 552px;
+$dialog-width-md: 664px;
+$dialog-width-lg: 968px;
+
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+$search-result-left-width: 204px;
+$search-result-right-width: 310px;
+$search-result-right-width: 310px;
+
+$space-lg: 24px;
+$space-md: 16px;
+
+// 2020-10-14 从企业智库迁移
+$white: #ffffff;
+$black: #000000;
+$gray-11: #111111;
+$gray-33: #333333;
+$gray-66: #666666;
+$gray-70: #707070;
+$gray-99: #999999;
+$gray-d8: #d8d8d8;
+$gray-f9: #f9f9f9;
+$gray-e2: #e2e2e2;
+$gray-ed: #ededed;
+$gray-cc: #cccccc;
+$red: #eb5352;
+$green: #00c76c;
+$blue-49: #498cff;
+$table-bg-color: #ffffff;
+$box-shadow-large: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+$box-shadow-normal: 0 2px 4px 0 rgba(0, 0, 0, 0.07);
+$box-shadow-custom: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+$scrollbar-thumb-bg-color: #f7f7f7;
+$selection-color: #ffffff;
+
+// 响应式屏幕大小
+$screen-1024: 1024px;
+$screen-1440: 1440px;
+$screen-1920: 1920px;
+
+// select宽度
+$select-width-sm: 144px;
+$select-width-md: 240px;
+$select-width-lg: 304px;
+$select-width-xl: 648px;
+
+// 左侧菜单收缩按钮
+$left-menu-collapsed-color: rgba($gray-1, 0.65);
+
+// 响应式底部导航shadow
+// $footer-nav-height: 64px;
+// $footer-nav-shadow: 0 -1px 0 0 $default-shadow-color;
+// $footer-nav-icon-size: 24px;
+// $footer-nav-default-color: $gray-1;
+// $footer-nav-active-color: $primary-color;
+
+// Media queries breakpoints
+// $screen-xs and $screen-xs-min is not used in Grid
+// smallest break point is $screen-md
+$screen-xs: 480px;
+$screen-xs-min: $screen-xs;
+// 👆 Extra small screen / phone
+
+// 👇 Small screen / tablet
+$screen-sm: 576px;
+$screen-sm-min: $screen-sm;
+
+// Medium screen / desktop
+$screen-md: 768px;
+$screen-md-min: $screen-md;
+
+// Large screen / wide desktop
+$screen-lg: 992px;
+$screen-lg-min: $screen-lg;
+
+// Extra large screen / full hd
+$screen-xl: 1200px;
+$screen-xl-min: $screen-xl;
+
+// Extra extra large screen / large desktop
+$screen-xxl: 1600px;
+$screen-xxl-min: $screen-xxl;
+
+// provide a maximum
+$screen-xs-max: ($screen-sm-min - 1px);
+$screen-sm-max: ($screen-md-min - 1px);
+$screen-md-max: ($screen-lg-min - 1px);
+$screen-lg-max: ($screen-xl-min - 1px);
+$screen-xl-max: ($screen-xxl-min - 1px);

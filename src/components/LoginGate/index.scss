@@ -1,0 +1,83 @@
+.login-gate {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(180deg, #f4f5fc 0%, #fbfcfd 76%, #ffffff 100%);
+  justify-content: center;
+
+  .login-box {
+    .title {
+      font-size: 32px;
+      font-family: Kanit;
+      font-weight: 500;
+      color: #000000;
+      margin-bottom: 24px;
+      line-height: 48px;
+    }
+
+    .ant-form-item-label > label {
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 300;
+      line-height: 24px;
+      color: #666666;
+    }
+
+    .sub-title {
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 400;
+      color: #333333;
+      margin-bottom: 24px;
+    }
+
+    .login-pwd {
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 300;
+      color: #333333;
+      align-self: baseline;
+      margin-top: 54px;
+    }
+
+    .login-pwd-input {
+      width: 430px;
+      height: 44px;
+      background: #f7f8fa;
+      border: 1px solid #eaecf2;
+      opacity: 1;
+      border-radius: 10px;
+
+      .ant-input {
+        background: #f7f8fa;
+      }
+    }
+
+    .login-btn {
+      margin-top: 8px;
+      width: 430px;
+      height: 48px;
+      background: #6768ac;
+      border-radius: 10px;
+      font-size: 18px;
+      font-family: Kanit;
+      color: #ffffff;
+    }
+
+    .reset-btn {
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 300;
+      line-height: 24px;
+      color: #333333;
+      cursor: pointer;
+      margin-top: 20px;
+      text-align: right;
+    }
+
+    .reset-btn:hover {
+      color: #6768ac;
+      text-decoration: underline;
+    }
+  }
+}

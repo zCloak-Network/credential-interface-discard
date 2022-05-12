@@ -1,0 +1,50 @@
+.guide-header-component {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 30px 50px 30px;
+  position: relative;
+
+  .guide-header-logo {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 0px;
+    color: #ffffff;
+  }
+
+  .account {
+    position: absolute;
+    right: 30px;
+    // width: 167px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    opacity: 1;
+    border-radius: 20px;
+    padding-left:24px;
+  
+    display: flex;
+    align-items: center;
+
+    .account-balance {
+      padding-right: 8px;
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 400;
+      line-height: 24px;
+      color: #333333;
+    }
+
+    .account-address {
+      padding: 0 24px;
+      display: flex;
+      height: 100%;
+      border-radius: 20px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.5);
+      .acc-img {
+        margin-left: 14px;
+      }
+    }
+  }
+}

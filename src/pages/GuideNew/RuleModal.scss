@@ -1,0 +1,61 @@
+.rule-modal {
+    text-align: left;
+    .content-title {
+        font-size: 16px;
+        font-family: Kanit;
+        font-weight: 400;
+        line-height: 24px;
+        color: #333333;
+        margin-bottom: 8px;
+    }
+
+    .content-title {
+        margin-top: 24px;
+    }
+
+    .table {
+        width: 608px;
+        font-size: 12px;
+        font-family: Kanit;
+        font-weight: 300;
+        color: #000000;
+        text-align: center;
+        background: #F7F8FA;
+        border: 1px solid #999999;
+        opacity: 1;
+        border-radius: 4px;
+        border-spacing: 0;    
+        border-collapse: separate;
+
+        tr {
+            height: 36px
+        }
+        .table-header {
+            font-weight: 400; 
+        }
+
+        tr, th {border-bottom: 1px solid #999999}
+        td, th{
+            border-right: 1px solid #999999;
+            border-bottom: 1px solid #999999;
+            padding: 8px;
+            vertical-align: middle;
+        }
+        tr td:last-child, tr th:last-child{ border-right: 0 }
+        tr:last-child td{ border-bottom: 0 }
+    }
+
+    .program-code {
+        width: 608px !important;
+        height: 340px  !important;
+        background: #272823;
+        opacity: 1;
+        border-radius: 20px;
+        overflow-y: auto;
+        font-size: 14px  !important;
+        font-family: Kanit;
+        font-weight: 300;
+        color: #FFFFFF;
+        padding: 18px 32px;
+    }
+}

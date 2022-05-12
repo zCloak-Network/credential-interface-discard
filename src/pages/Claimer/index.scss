@@ -1,0 +1,49 @@
+.claimer-lists {
+  width: 1200px;
+  margin: 0 auto;
+  .claimer-lists-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 18px;
+    font-family: Kanit;
+    font-weight: 400;
+    line-height: 11px;
+    color: #333333;
+
+    .back-btn {
+      width: 24px;
+      height: 24px;
+      transform: rotate(90deg);
+      margin-right: 8px;
+      vertical-align: sub;
+      cursor: pointer;
+    }
+
+    .create-claim-btn {
+      width: 166px;
+      height: 40px;
+      background: #6768ac;
+      box-shadow: 0px 3px 6px rgba(196, 203, 214, 0.1);
+      opacity: 1;
+      border-radius: 16px;
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 500;
+      line-height: 11px;
+      color: #ffffff;
+    }
+  }
+
+  .claimer-content-header {
+    display: grid;
+    padding: 0 24px;
+    margin-top: 38px;
+    margin-bottom: 12px;
+    grid-template-columns: 20px 1fr repeat(2, 2fr) 1fr 2fr 3fr;
+    font-size: 14px;
+    font-family: Kanit;
+    font-weight: 400;
+    color: #666666;
+  }
+}

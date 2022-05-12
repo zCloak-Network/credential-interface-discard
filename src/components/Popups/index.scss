@@ -1,0 +1,53 @@
+.popups-component {
+  min-width: 250px;
+  padding: $padding-md $padding-lg $padding-lg;
+  background: $white;
+  box-shadow: 0px 6px 58px rgba(121, 145, 173, 0.2);
+  opacity: 1;
+  border-radius: 12px;
+  position: absolute;
+  right: 40px;
+  top: 88px;
+  z-index: 9999;
+
+  .close-btn {
+    width: 18px;
+    height: 18px;
+    background: #f4f6fd;
+    border-radius: 4px;
+    float: right;
+    text-align: center;
+    cursor: pointer;
+    > img {
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  .transaction-popup {
+    .message {
+      font-size: 14px;
+      font-family: Kanit;
+      font-weight: 400;
+      color: #000000;
+      line-height: 1;
+
+      .status-img {
+        height: 24px;
+        width: 24px;
+        margin-right: $margin-xs;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 4px;
+      }
+    }
+
+    .description {
+      font-size: 12px;
+      font-family: Kanit;
+      font-weight: 300;
+      color: #000000;
+      padding-left: 32px;
+    }
+  }
+}

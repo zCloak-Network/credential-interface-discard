@@ -1,0 +1,37 @@
+.create-did {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  > img {
+    width: 188px;
+    height: 158px;
+  }
+
+  .title {
+    font-size: 16px;
+    font-family: Kanit;
+    font-weight: 300;
+    margin-top: 16px;
+    margin-bottom: 24px;
+    color: #333333;
+  }
+
+  .sub-title {
+    font-size: 14px;
+    font-family: Kanit;
+    font-weight: 300;
+    margin-top: 6px;
+    color: #666666;
+  }
+
+  .create-btn {
+    width: 392px;
+    height: 40px;
+  }
+
+  .faucet-btn {
+    width: 450px;
+    height: 40px;
+  }
+}

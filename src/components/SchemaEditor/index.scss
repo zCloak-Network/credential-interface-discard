@@ -1,0 +1,194 @@
+.schema-based-json-editor {
+  width: 100%;
+  margin: {
+    right: auto;
+    bottom: 24p x;
+    left: auto;
+  }
+
+  .schema-main > h3 {
+    display: none;
+  }
+
+  .schema-based-json-editor--row,
+  .schema-based-json-editor--error-row {
+    margin-bottom: 16px;
+  }
+
+  .schema-based-json-editor--error-input,
+  .schema-based-json-editor--input {
+    width: 656px;
+    height: 44px;
+    background: #ffffff;
+    border: 1px solid #eaecf2;
+    opacity: 1;
+    border-radius: 10px;
+    margin-top: 6px;
+  }
+
+  .schema-properties {
+    > h3 {
+      display: flex;
+      margin-bottom: 6px;
+    }
+    .schema-based-json-editor--error-input,
+    .schema-based-json-editor--input {
+      width: 656px;
+      height: 44px;
+      background: #ffffff;
+      border: 1px solid #eaecf2;
+      opacity: 1;
+      border-radius: 10px;
+      margin-top: 6px;
+    }
+  }
+  .schema-properties {
+    > .schema-based-json-editor--card {
+      width: 656px;
+      background: #f7f8fa;
+      border: 1px solid #eaecf2;
+      opacity: 1;
+      border-radius: 10px;
+      padding: 20px;
+      > .schema-based-json-editor--card {
+        > .schema-based-json-editor--row {
+          > h3 {
+            display: flex;
+            margin-bottom: 6px;
+          }
+          > .schema-based-json-editor--card {
+            width: 616px;
+            background: #ffffff;
+            border: 1px solid #eaecf2;
+            opacity: 1;
+            border-radius: 10px;
+            padding: 20px;
+
+            > .schema-based-json-editor--row,
+            > .schema-based-json-editor--error-row {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+
+              > .schema-based-json-editor--input:focus-visible,
+              > .schema-based-json-editor--error-input:focus-visible {
+                border: 0;
+                outline-color: #fff;
+              }
+              > .schema-based-json-editor--input,
+              > .schema-based-json-editor--error-input {
+                border: 0;
+                text-align: right;
+                margin-left: 16px;
+                height: 24px;
+                margin-top: 0;
+                width: 400px;
+              }
+
+              .schema-based-json-editor--select:focus-visible {
+                border: 0;
+                outline-color: #fff;
+              }
+            }
+
+            > .schema-based-json-editor--error-row {
+              display: grid;
+              grid-template-areas:
+                "a b"
+                "c c";
+
+              > .schema-based-json-editor--title {
+                grid-area: a;
+              }
+
+              > .schema-based-json-editor--error-input {
+                width: 400px;
+                grid-area: b;
+              }
+
+              > .schema-based-json-editor--description {
+                grid-area: c;
+                text-align: right;
+                color: $status-error-color;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  & .hidden {
+    display: none !important;
+  }
+
+  &--title {
+    font-size: 16px;
+    font-family: Kanit;
+    font-weight: 300;
+    color: #333333;
+  }
+
+  &--button {
+    margin-left: 24px;
+    border: none;
+    background: transparent;
+    // down
+    & .fa-caret-square-down {
+      font-family: "iconfont" !important;
+      font-size: 12px;
+      font-style: normal;
+      color: #6768ac;
+      background: #fff;
+      padding: 4px;
+      border-radius: 4px;
+      transform: rotate(90deg);
+      display: inherit;
+      &:before {
+        content: "\e696";
+      }
+    }
+
+    // right
+    & .fa-caret-square-right {
+      font-family: "iconfont" !important;
+      font-size: 12px;
+      font-style: normal;
+      color: #6768ac;
+      background: #fff;
+      padding: 4px;
+      border-radius: 4px;
+      &:before {
+        content: "\e696";
+      }
+    }
+
+    // add
+    & .fa-plus {
+      font-family: "iconfont" !important;
+      font-size: 12px;
+      font-style: normal;
+      color: #6768ac;
+      background: #fff;
+      padding: 4px;
+      border-radius: 4px;
+      &:before {
+        content: "\e694";
+      }
+    }
+
+    // close
+    & .fa-times {
+      font-family: "iconfont" !important;
+      font-size: 12px;
+      font-style: normal;
+      color: #6768ac;
+      background: #fff;
+      padding: 4px;
+      border-radius: 4px;
+      &:before {
+        content: "\e695";
+      }
+    }
+  }
+}

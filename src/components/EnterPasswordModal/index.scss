@@ -1,0 +1,33 @@
+.enter-password-modal {
+  .ant-form-item {
+    margin-bottom: 20px;
+  }
+  .submit-btn {
+    width: 100%;
+  }
+
+  .reset-btn {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .login-pwd-input {
+    width: 100%;
+    height: 44px;
+    background: #f7f8fa;
+    border: 1px solid #eaecf2;
+    opacity: 1;
+    border-radius: 10px;
+
+    .ant-input {
+      background: #f7f8fa;
+    }
+  }
+  .ant-form-item-label > label {
+    font-size: 16px;
+    font-family: Kanit;
+    font-weight: 300;
+    line-height: 24px;
+    color: #666666;
+  }
+}

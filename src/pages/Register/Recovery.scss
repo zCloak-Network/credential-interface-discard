@@ -1,0 +1,94 @@
+.recovery {
+  width: 500px;
+  margin: 0 auto;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+
+  > .tip {
+    font-size: 14px;
+    font-family: Kanit;
+    font-weight: 300;
+    line-height: 24px;
+    color: #000000;
+    margin-bottom: 44px;
+  }
+
+  .mnemonic-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .mnemonic {
+    display: flex;
+    flex-wrap: wrap;
+    background: #eaecf2;
+    border-radius: 10px;
+    gap: 24px;
+    padding: 30px;
+    justify-content: space-around;
+    position: relative;
+
+    &.blur {
+      filter: blur(6px);
+    }
+  }
+
+  .reveal-btn {
+    position: absolute;
+    height: 44px;
+    width: auto;
+    padding: 0 24px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  .mne-item {
+    .mne-index {
+      font-size: 14px;
+      font-family: Kanit;
+      font-weight: 300;
+      color: #333333;
+      margin-right: 12px;
+      display: inline-block;
+    }
+
+    .mne-word {
+      width: 100px;
+      height: 32px;
+      display: inline-block;
+      background: #ffffff;
+      opacity: 1;
+      border-radius: 8px;
+      font-weight: 500;
+      line-height: 32px;
+      text-align: center;
+      color: #333333;
+    }
+  }
+
+  .icon_visible {
+    margin-right: 8px;
+    font-size: 12px;
+  }
+
+  > .footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 30px;
+
+    .create-btn {
+      width: 184px;
+      height: 40px;
+      box-shadow: 0px 3px 6px rgba(196, 203, 214, 0.1);
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: Kanit;
+      font-weight: 400;
+      color: #ffffff;
+    }
+  }
+}

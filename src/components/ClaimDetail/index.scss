@@ -1,0 +1,36 @@
+.claimDetail {
+  .modal-wrapper {
+    width: 652px;
+    background: #f7f8fa;
+    border: 1px solid #eaecf2;
+    opacity: 1;
+    border-radius: 20px;
+    margin-top: 32px;
+    padding: 20px;
+    .detail-item {
+      font-size: 16px;
+      color: #212121;
+      display: flex;
+      justify-content: space-between;
+
+      .detail-item-label {
+        font-weight: 300;
+        color: #333333;
+        margin-right: 36px;
+      }
+
+      .detail-item-value {
+        flex: 1;
+        text-align: right;
+      }
+
+      .detail-item-code {
+        text-align: left;
+      }
+    }
+
+    .detail-item + .detail-item {
+      margin-top: 12px;
+    }
+  }
+}
