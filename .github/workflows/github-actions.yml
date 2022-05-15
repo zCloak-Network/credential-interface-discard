@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-    environment: dev
+    environment: master
     steps:
       - run: echo "🎉 ${{ github.repository }}, ${{ github.ref }}, ${{ github.event_name }} , ${{ runner.os }}, "
       - uses: actions/checkout@v2
@@ -18,6 +18,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm i
       - run: npm run build --if-present
+      - name: executing remote ssh commands
+        uses: appleboy/ssh-action@master
+        with:
+          username: ubuntu
+          host: ${{ secrets.HOST }}
+          port: 22
+          key: ${{ secrets.KEY }}
+          script: |
+            ls -l
   prod-deploy:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
