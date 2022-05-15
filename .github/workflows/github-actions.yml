@@ -2,6 +2,7 @@ name: GitHub Actions
 on: [push]
 jobs:
   dev-deploy:
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -9,14 +10,27 @@ jobs:
     environment: dev
     steps:
       - run: echo "🎉 ${{ github.repository }}, ${{ github.ref }}, ${{ github.event_name }} , ${{ runner.os }}, "
-      - name: Check out repository code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           ref: dev
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: npm i
+      - run: npm i
+      - run: npm run build --if-present
+  prod-deploy:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    environment: master
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm i
       - run: npm run build --if-present
