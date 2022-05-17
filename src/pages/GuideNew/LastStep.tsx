@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-09 17:16:48
+ * @LastEditTime: 2022-05-17 14:53:05
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -12,11 +12,12 @@ import abi from "../../constants/contract/contractAbi/Poap";
 import { PoapAdddress } from "../../constants/contract/address";
 import { useAddPopup } from "../../state/application/hooks";
 import { hexToNumber } from "@polkadot/util";
-import { stripHexPrefix, numberToHex, padLeft } from "web3-utils";
+import { stripHexPrefix, numberToHex } from "web3-utils";
 import { getPoapId } from "../../services/api";
 import { getImg } from "../../utils/poap";
 import { ZKID, GUIDE_DESC } from "../../constants/guide";
 import BN from "bn.js";
+import _ from "lodash";
 
 import bg from "../../images/nft_cover.png";
 
@@ -63,7 +64,7 @@ const LastStep: React.FC = () => {
       stripHexPrefix(numberToHex(new BN(num))).slice(32)
     );
 
-    return stripHexPrefix(padLeft(numId, 6, "0"));
+    return _.padStart(String(numId), 6, "0");
   };
 
   useEffect(() => {
