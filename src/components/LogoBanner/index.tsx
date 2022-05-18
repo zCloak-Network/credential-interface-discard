@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 14:43:43
- * @LastEditTime: 2022-04-08 14:36:45
+ * @LastEditTime: 2022-05-13 13:49:21
  */
 import React from "react";
 import classNames from "classnames";
@@ -12,7 +12,8 @@ import _logo from "../../images/logo_2.svg";
 import "./index.scss";
 
 type Props = {
-  logo?: React.ReactDOM;
+  // add React.ReactDOM type for logo components
+  logo?: string;
   className?: string;
 };
 

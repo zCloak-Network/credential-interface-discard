@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-05-10 17:57:47
+ * @LastEditTime: 2022-05-13 17:00:45
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -18,6 +18,9 @@ import { decodeAddress } from "@polkadot/keyring";
 import { GUIDE_ACCOUNT } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 import classNames from "classnames";
+
+import { IButtonStaus } from "./FirstStep";
+import { SerializableTransactionReceipt } from "../../state/transactions/reducer";
 
 import "./FifthStepSubmit.scss";
 
@@ -40,7 +43,9 @@ interface IProofInfo {
   expectResult: string;
 }
 
-const BUTTON_MESSAGE_STATUS = {
+const BUTTON_MESSAGE_STATUS: {
+  [statusName: string]: IButtonStaus;
+} = {
   submit: {
     buttonText: "Submit",
     buttonType: null,
@@ -96,7 +101,7 @@ const FifthStepSubmit: React.FC<IProps> = ({
 
   const handleSumbit = () => {
     setLoading(true);
-    const localAccount = JSON.parse(localStorage.getItem(GUIDE_ACCOUNT));
+    const localAccount = JSON.parse(localStorage.getItem(GUIDE_ACCOUNT) ?? "");
     if (localAccount) {
       const formatUserAddress = u8aToHex(
         decodeAddress(localAccount?.account?.address)
@@ -123,7 +128,7 @@ const FifthStepSubmit: React.FC<IProps> = ({
         .send({
           from: account,
         })
-        .then(function (receipt) {
+        .then(function (receipt: SerializableTransactionReceipt) {
           console.log("addProofReceipt", receipt);
           if (receipt) {
             setLoading(false);
@@ -144,7 +149,7 @@ const FifthStepSubmit: React.FC<IProps> = ({
     }
   };
 
-  const handleEvent = (event) => {
+  const handleEvent = (event: { data: { statusCode: string; data: any } }) => {
     const { statusCode, data } = event.data;
 
     if (statusCode === MESSAGE_CODE.EXTENSION_CLOSED) {

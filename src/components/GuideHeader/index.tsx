@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 13:40:15
- * @LastEditTime: 2022-04-22 13:54:26
+ * @LastEditTime: 2022-05-13 13:52:27
  */
 import React from "react";
 import LogoBanner from "../LogoBanner";
@@ -13,12 +13,12 @@ import logo from "../../images/logo_white.svg";
 
 import "./index.scss";
 
-type Props = {
+interface IProps {
   balance?: string;
-};
+}
 
-const GuideHeader: React.FC<Props> = ({ balance }) => {
-  const { error, account } = useWeb3React();
+const GuideHeader: React.FC<IProps> = ({ balance }) => {
+  const { account } = useWeb3React();
 
   return (
     <div className="guide-header-component">

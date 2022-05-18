@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-24 15:55:51
- * @LastEditTime: 2022-03-30 18:17:20
+ * @LastEditTime: 2022-05-18 14:31:41
  */
 import React from "react";
 import Modal from "../../components/Modal";
@@ -12,17 +12,11 @@ import {
 } from "../../state/application/hooks";
 import { ApplicationModal } from "../../state/application/reducer";
 import ClaimDetail from "../../components/ClaimDetail";
+import { IClaimSingle } from "../../state/claim/reducer";
 
 interface Props {
-  // TODO
   footer?: boolean | React.ReactNode;
-  data: {
-    claim: {
-      cTypeHash: string;
-      contents: any;
-      owner: string;
-    };
-  };
+  data: IClaimSingle;
 }
 
 const DetailModal: React.FC<Props> = ({ footer = true, data }) => {

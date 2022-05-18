@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-28 17:56:31
- * @LastEditTime: 2022-01-11 10:26:11
+ * @LastEditTime: 2022-05-12 17:28:53
  */
 import React from "react";
 import Modal from "../Modal";
@@ -48,18 +48,22 @@ export default function AccountDetails(): JSX.Element {
       </div>
       <span className="account">{account && shortenAddress(account)}</span>
       <div className="account-details-btns">
-        <Copy toCopy={account}>
-          <span className="copy-btn">Copy Address</span>
-        </Copy>
-        <a
-          target="_blank"
-          className="view-btn"
-          href={getExplorerLink(chainId, account, ExplorerDataType.ADDRESS)}
-          rel="noreferrer"
-        >
-          <ExternalLink size={16} className="icon" />
-          View on Explorer
-        </a>
+        {account && (
+          <Copy toCopy={account}>
+            <span className="copy-btn">Copy Address</span>
+          </Copy>
+        )}
+        {chainId && account && (
+          <a
+            target="_blank"
+            className="view-btn"
+            href={getExplorerLink(chainId, account, ExplorerDataType.ADDRESS)}
+            rel="noreferrer"
+          >
+            <ExternalLink size={16} className="icon" />
+            View on Explorer
+          </a>
+        )}
       </div>
     </Modal>
   );

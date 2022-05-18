@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-04-29 11:36:52
+ * @LastEditTime: 2022-05-13 17:48:08
  */
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
@@ -38,11 +38,13 @@ type Props = {
 const Attester: React.FC<Props> = ({ resetPassword }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [module, setModule] = useState(MENU[0].key);
+  const [module, setModule] = useState<string>(MENU[0].key);
 
-  const handleClick = (e) => {
-    setModule(e.target?.dataset.id);
-    navigate(e.target?.dataset.url);
+  const handleClick = (e: React.MouseEvent<HTMLUListElement>) => {
+    const target = e.target as HTMLElement;
+
+    setModule(target.dataset.id || "");
+    navigate(target.dataset.url || "");
   };
 
   useEffect(() => {

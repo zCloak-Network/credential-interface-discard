@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-02 11:07:37
- * @LastEditTime: 2022-04-02 17:30:03
+ * @LastEditTime: 2022-05-16 10:57:27
  */
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +29,7 @@ interface Props {
 
 export default function Header({ menu }: Props): React.ReactElement {
   const navigate = useNavigate();
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement>(null);
   const currAccount = useGetCurrIdentity();
   const saveCurrIdentityBalance = useSaveCurrIdentityBalance();
   const balance = useGetCurrIdentityBalance();
@@ -50,12 +50,14 @@ export default function Header({ menu }: Props): React.ReactElement {
     navigate("/");
   };
 
-  const openMenu = (e) => {
+  const openMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setMenuStatus(!menuStatus);
   };
 
   const connectBalance = () => {
+    if (!currAccount) return;
+
     setBalanceLoading(true);
     Kilt.Balance.listenToBalanceChanges(
       currAccount.account.address,
@@ -70,6 +72,7 @@ export default function Header({ menu }: Props): React.ReactElement {
     if (currAccount?.account?.address) {
       connectBalance();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currAccount]);
 
   return (
@@ -87,7 +90,7 @@ export default function Header({ menu }: Props): React.ReactElement {
         <div className="btn connected" onClick={handleOpenConnect}>
           <span className="balance">
             {balanceLoading ? (
-              <img src={Loading} style={{ width: 20 }} />
+              <img src={Loading} style={{ width: 20 }} alt="loading" />
             ) : balance?.isZero() ? (
               "0 KILT"
             ) : (
@@ -95,7 +98,7 @@ export default function Header({ menu }: Props): React.ReactElement {
             )}
           </span>
           <span className="address">
-            {shortenHash(currAccount?.account.address)}
+            {currAccount ? shortenHash(currAccount?.account.address) : "-"}
             <div className="acc-img">
               <Image address={currAccount?.account.address} size={16} />
             </div>

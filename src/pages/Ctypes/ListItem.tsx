@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 16:23:51
- * @LastEditTime: 2022-04-01 11:38:08
+ * @LastEditTime: 2022-05-16 11:38:18
  */
 import React from "react";
 import { ICTypeWithMetadata } from "../../types/ctypes";
@@ -13,7 +13,7 @@ import "./ListItem.scss";
 interface Props {
   index: number;
   data: ICTypeWithMetadata;
-  handleDetail: (data) => void;
+  handleDetail: (data: ICTypeWithMetadata) => void;
 }
 
 const ListItem: React.FC<Props> = ({ index, data, handleDetail }) => {

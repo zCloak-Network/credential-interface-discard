@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-29 16:15:23
- * @LastEditTime: 2022-04-14 15:07:10
+ * @LastEditTime: 2022-05-12 17:57:33
  */
 import React from "react";
 import classNames from "classnames";
@@ -49,7 +49,7 @@ export default function Button({
     className
   );
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (disabled) return;
     if (onClick) {
       onClick(e);
@@ -65,7 +65,7 @@ export default function Button({
         {size === "large" && (
           <span className="button-text">{children ? children : "Loading"}</span>
         )}
-        <img src={Loading} />
+        <img src={Loading} alt="loading" />
       </div>
     );
   }

@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-29 13:55:08
- * @LastEditTime: 2022-04-29 11:37:04
+ * @LastEditTime: 2022-05-16 11:00:13
  */
 import React, { useEffect, useState } from "react";
 import * as Kilt from "@kiltprotocol/sdk-js";
@@ -46,34 +47,36 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
     useState<boolean>(false);
 
   const handleGenerateFullDid = async () => {
-    if (currAccount.account.address) {
-      await setCreateLoading(true);
-      const keystore = new Kilt.Did.DemoKeystore();
+    if (!currAccount) return;
 
-      const keys = await generateFullKeypairs(keystore, currAccount.mnemonic);
-      const account = await generateAccount(currAccount.mnemonic);
+    await setCreateLoading(true);
+    const keystore = new Kilt.Did.DemoKeystore();
 
-      try {
-        const fullDid = await generateFullDid(keystore, account, keys);
-        const newAccount = { ...currAccount, fullDid: fullDid };
-        await updateAttesters(newAccount);
+    const keys = await generateFullKeypairs(keystore, currAccount.mnemonic);
+    const account = await generateAccount(currAccount.mnemonic);
 
-        await addPopup({
-          txn: {
-            hash: "",
-            success: true,
-            title: "SUCCESS",
-            summary: `Fulldid successfully created.`,
-          },
-        });
-        await setCreateLoading(false);
-        await addAttester({
-          address: currAccount.account.address,
-          did: fullDid.did,
-        });
-        await saveCurrIdentity(newAccount);
-        await setEnterPasswordStatus(false);
-      } catch (error) {
+    try {
+      const fullDid = await generateFullDid(keystore, account, keys);
+      const newAccount = { ...currAccount, fullDid: fullDid };
+      await updateAttesters(newAccount);
+
+      await addPopup({
+        txn: {
+          hash: "",
+          success: true,
+          title: "SUCCESS",
+          summary: `Fulldid successfully created.`,
+        },
+      });
+      await setCreateLoading(false);
+      await addAttester({
+        address: currAccount.account.address,
+        did: fullDid.did,
+      });
+      await saveCurrIdentity(newAccount);
+      await setEnterPasswordStatus(false);
+    } catch (error) {
+      if (error instanceof Error) {
         addPopup({
           txn: {
             hash: "",
@@ -82,8 +85,9 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
             summary: error.message,
           },
         });
-        throw error;
       }
+
+      throw error;
     }
   };
 

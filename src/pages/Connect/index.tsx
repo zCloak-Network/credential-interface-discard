@@ -2,7 +2,7 @@
  * @Description: submit modal
  * @Author: lixin
  * @Date: 2021-12-02 17:23:15
- * @LastEditTime: 2022-04-29 13:50:12
+ * @LastEditTime: 2022-05-16 10:57:57
  */
 import React, { ReactElement } from "react";
 import FileSaver from "file-saver";
@@ -24,6 +24,7 @@ import useRole from "../../hooks/useRole";
 import CopyHelper from "../../components/Copy";
 // import EnterPasswordModal from "../../components/EnterPasswordModal";
 import { ApplicationModal } from "../../state/application/reducer";
+import { IIdentity } from "../../state/wallet/reducer";
 
 import "./index.scss";
 type Props = {
@@ -43,7 +44,7 @@ export default function Connect({ resetPassword }: Props): ReactElement {
   // const [enterPasswordStatus, setEnterPasswordStatus] =
   //   useState<boolean>(false);
 
-  const handleClick = (value) => {
+  const handleClick = (value: IIdentity) => {
     saveCurrIdentity(value);
     toggleConnectWalletModal();
   };
@@ -57,9 +58,9 @@ export default function Connect({ resetPassword }: Props): ReactElement {
     toggleConnectWalletModal();
   };
 
-  const handleDownload = async (e) => {
+  const handleDownload = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-
+    if (!currAccount) return;
     // setEnterPasswordStatus(true);
 
     const blob = await new Blob([JSON.stringify(currAccount.mnemonic)], {

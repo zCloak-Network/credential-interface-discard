@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-30 16:51:36
- * @LastEditTime: 2022-04-06 17:31:00
+ * @LastEditTime: 2022-05-18 14:30:15
  */
 import React from "react";
 import dayjs from "dayjs";
@@ -12,6 +12,8 @@ import {
   useToggleRequestModal,
   useToggleDetailModal,
 } from "../../state/application/hooks";
+import { IClaimSingle } from "../../state/claim/reducer";
+
 import FileSaver from "file-saver";
 import detailImg from "../../images/icon_detials.svg";
 import forwardImg from "../../images/icon_forward.svg";
@@ -24,21 +26,8 @@ interface Props {
   index: number;
   attestation: any;
   attestationLoading: boolean;
-  setSelectItem: (value) => void;
-  data: {
-    requestForAttestations: {
-      rootHash: string;
-    };
-    meta: {
-      alias: string;
-      time: string;
-    };
-    claim: {
-      cTypeHash: string;
-      contents: any;
-      owner: string;
-    };
-  };
+  setSelectItem: (value: IClaimSingle) => void;
+  data: IClaimSingle;
 }
 
 export default function ListItem({

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-03 16:03:26
- * @LastEditTime: 2022-03-23 10:28:33
+ * @LastEditTime: 2022-05-16 10:56:58
  */
 import React from "react";
 import * as common from "schema-based-json-editor";
@@ -15,7 +15,7 @@ import "./index.scss";
 type Props = {
   // input
   // connected: boolean;
-  cType: string;
+  cType: any;
   isValid: boolean;
   // output
   // cancel: () => void;

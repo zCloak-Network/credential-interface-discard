@@ -2,12 +2,13 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-30 16:51:36
- * @LastEditTime: 2022-03-31 11:31:04
+ * @LastEditTime: 2022-05-16 11:11:37
  */
 import React from "react";
 import dayjs from "dayjs";
 import { shortenHash } from "../../utils";
 import { timeFormat } from "../../constants";
+import { IMessage } from "@kiltprotocol/types";
 
 import detailImg from "../../images/icon_detials.svg";
 
@@ -15,7 +16,7 @@ import "./ListItem.scss";
 
 interface Props {
   index: number;
-  handleClick: (data) => void;
+  handleClick: (data: IMessage) => void;
   data: any;
 }
 

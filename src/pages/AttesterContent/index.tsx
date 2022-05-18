@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:20:49
- * @LastEditTime: 2022-04-06 17:29:33
+ * @LastEditTime: 2022-05-16 12:52:08
  */
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
@@ -24,6 +24,8 @@ import Loading from "../../components/Loading";
 import Button from "../../components/Button";
 import { useAddPopup } from "../../state/application/hooks";
 import type { MessageBody } from "@kiltprotocol/sdk-js";
+import { IMessage, IEncryptedMessage } from "@kiltprotocol/types";
+import { IIdentity } from "../../state/wallet/reducer";
 
 import "./index.scss";
 
@@ -32,7 +34,7 @@ const STATUS = ["Pending", "processed"];
 const Option = Select.Option;
 
 const Content: React.FC = () => {
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState<IMessage[] | null>(null);
   const [selectItem, setSelectItem] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [attestLoading, setAttestLoading] = useState(false);
@@ -45,16 +47,17 @@ const Content: React.FC = () => {
     // TODO
   };
 
-  const handleClick = (data) => {
+  const handleClick = (data: IMessage) => {
     setSelectItem(data);
     toggleModal();
   };
 
-  const decrypt = async (data) => {
+  // TODO  Wrapping the decrypt function
+  const decrypt = async (data: IEncryptedMessage, account: IIdentity) => {
     const keystore = new Kilt.Did.DemoKeystore();
-    await generateFullKeypairs(keystore, currIdentity.mnemonic);
+    await generateFullKeypairs(keystore, account.mnemonic);
 
-    const receiverFullDid = await getFullDid(currIdentity.account.address);
+    const receiverFullDid = await getFullDid(account.account.address);
 
     const decryptedRequestForAttestationMessage = await Kilt.Message.decrypt(
       data,
@@ -65,11 +68,12 @@ const Content: React.FC = () => {
     return decryptedRequestForAttestationMessage;
   };
 
-  const decryptMessage = async (data) => {
-    const dataAll = [];
+  const decryptMessage = async (data: IEncryptedMessage[]) => {
+    const dataAll: Promise<IMessage>[] = [];
 
-    await data.map((it) => {
-      dataAll.push(decrypt(it));
+    await data.forEach((it) => {
+      if (!currIdentity) return;
+      dataAll.push(decrypt(it, currIdentity));
     });
 
     return Promise.all(dataAll).then((res) => {
@@ -98,9 +102,12 @@ const Content: React.FC = () => {
 
   useEffect(() => {
     queryMessage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = async () => {
+    if (!currIdentity || !currIdentity.fullDid) return;
+
     if (selectItem.body.type === Kilt.Message.BodyType.REQUEST_ATTESTATION) {
       setAttestLoading(true);
       try {
@@ -182,14 +189,17 @@ const Content: React.FC = () => {
 
         console.log("Attester -> submit attestation...");
       } catch (error) {
-        addPopup({
-          txn: {
-            hash: "",
-            success: false,
-            title: error.name,
-            summary: error.message,
-          },
-        });
+        if (error instanceof Error) {
+          addPopup({
+            txn: {
+              hash: "",
+              success: false,
+              title: error.name,
+              summary: error.message,
+            },
+          });
+        }
+
         throw error;
       }
       setAttestLoading(false);
@@ -225,7 +235,7 @@ const Content: React.FC = () => {
             <span></span>
           </div>
           <div className="content-list">
-            {message.map((it, index) => (
+            {message.map((it, index: number) => (
               <ListItem
                 data={it}
                 index={index + 1}

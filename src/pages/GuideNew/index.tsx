@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-10 13:45:02
+ * @LastEditTime: 2022-05-16 15:06:41
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -90,15 +90,14 @@ const GuideNew: React.FC = () => {
   const { account } = useWeb3React();
   const [current, setCurrent] = useState<number>(0);
   const [credentail, setCredentail] = useState<ICredential | null>(null);
-  // TODO
-  const [proof, setProof] = useState();
-  const [balance, setBalance] = useState<string>();
+  const [proof, setProof] = useState<boolean>();
+  const [balance, setBalance] = useState<string>("0");
 
   const handleNext = () => {
     setCurrent(current + 1);
   };
 
-  const getProofData = async (claimHash) => {
+  const getProofData = async (claimHash: string) => {
     const res = await getProof({
       rootHash: claimHash,
     });
@@ -161,7 +160,7 @@ const GuideNew: React.FC = () => {
       const claimHash =
         JSON.parse(credentail)?.body?.content?.attestation.claimHash;
 
-      getProofData(claimHash);
+      claimHash && getProofData(claimHash);
     }
   }, []);
 
@@ -196,7 +195,7 @@ const GuideNew: React.FC = () => {
         })}
       >
         <div className="guide-new-container" id="content">
-          <Steps current={current}>
+          <Steps current={current} className="guide-step">
             {steps.map((item, index) => (
               <Step
                 key={item.title}

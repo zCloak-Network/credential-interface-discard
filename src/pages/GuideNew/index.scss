@@ -150,8 +150,8 @@
   // step 2 
   .create-claim-form {
     width: 100%;
-    text-align: center;
-
+    text-align: center; 
+    
     .ant-form-item {
       margin-bottom: 14px;
     }
@@ -286,6 +286,10 @@
       background: transparent;
       width: 100%;
       text-align: left;
+    }
+
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+      background: transparent;
     }
 
     .random-btn {
@@ -659,61 +663,63 @@
 }
 
   // ant step 样式
-  .ant-steps-horizontal:not(.ant-steps-label-vertical) .ant-steps-item {
-    padding-left: 2px;
-  }
+  .guide-step {
+    &.ant-steps-horizontal:not(.ant-steps-label-vertical) .ant-steps-item {
+        padding-left: 2px;
+    }
 
-  .ant-steps-item-title::after {
-    left: 2px;
-    background-color: #fff;
-  }
+    .ant-steps-item-title::after {
+      left: 2px;
+      background-color: #fff;
+    }
 
-  .ant-steps-item-process:not(.ant-steps-item-active)
-    > .ant-steps-item-container
-    > .ant-steps-item-content
-    > .ant-steps-item-title::after {
-    background-color: #fff;
-    height: 2px;
-  }
-  .ant-steps-item-process,
-  .ant-steps-item-finish {
-    .ant-steps-item-icon {
-      background: #ffffff;
-      border: 0;
-      margin: 0;
-      > .ant-steps-icon {
-        font-size: 16px;
-        font-family: Kanit;
-        font-weight: 500;
-        line-height: 0px;
-        color: #000000;
+    .ant-steps-item-process:not(.ant-steps-item-active)
+      > .ant-steps-item-container
+      > .ant-steps-item-content
+      > .ant-steps-item-title::after {
+      background-color: #fff;
+      height: 2px;
+    }
+    .ant-steps-item-process,
+    .ant-steps-item-finish {
+      .ant-steps-item-icon {
+        background: #ffffff;
+        border: 0;
+        margin: 0;
+        > .ant-steps-icon {
+          font-size: 16px;
+          font-family: Kanit;
+          font-weight: 500;
+          line-height: 0px;
+          color: #000000;
+        }
       }
     }
-  }
-  .ant-steps-item-wait {
-    .ant-steps-item-icon {
-      width: 32px;
-      height: 32px;
-      background: transparent;
-      border: 0;
-      margin: 0;
+    .ant-steps-item-wait {
+      .ant-steps-item-icon {
+        width: 32px;
+        height: 32px;
+        background: transparent;
+        border: 0;
+        margin: 0;
 
-      > .ant-steps-icon {
-        font-size: 16px;
-        font-family: Kanit;
-        font-weight: 500;
-        color: #ffffff;
+        > .ant-steps-icon {
+          font-size: 16px;
+          font-family: Kanit;
+          font-weight: 500;
+          color: #ffffff;
 
-        &::after {
-          width: 32px;
-          height: 32px;
-          background: #fff;
-          border-radius: 50%;
-          position: absolute;
-          content: "";
-          left: -12px;
-          top: -4px;
-          opacity: 0.26;
+          &::after {
+            width: 32px;
+            height: 32px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            content: "";
+            left: -12px;
+            top: -4px;
+            opacity: 0.26;
+          }
         }
       }
     }
@@ -721,26 +727,4 @@
 }
 
 
-.credential-class-select {
-  background: #D4CAFE;
-  box-shadow: 0px 0px 20px rgb(99 23 147 / 40%);
-  top: 620px !important;
 
-  .ant-select-item{
-    width: 100%;
-    height: 48px;
-    font-size: 16px;
-    font-family: Kanit;
-    font-weight: 400;
-    padding: 12px 20px;
-    color: #666666;
-    border-radius: 6px;
-  }
-
-  .ant-select-item-option-active {
-    background: rgba(255, 255, 255, 0.6);
-    opacity: 1;
-    border-radius: 6px;
-    color: #333333;
-  }
-}

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 17:58:05
+ * @LastEditTime: 2022-05-13 18:06:58
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -13,12 +13,12 @@ import { AbstractConnector } from "@web3-react/abstract-connector";
 import { shortenAddress } from "../../utils";
 import { SupportedChainId, CHAIN_INFO } from "../../constants/chains";
 import classNames from "classnames";
-import { message } from "antd";
 import { openMessage, destroyMessage } from "../../utils/message";
 import { METAMASK_EXTENSION } from "../../constants/guide";
 import { getToken, getTokenStatus } from "../../services/api";
 import { useInterval } from "ahooks";
 import { GUIDE_DESC } from "../../constants/guide";
+import { IButtonStaus } from "./FirstStep";
 
 interface IProps {
   handleNext: () => void;
@@ -68,7 +68,7 @@ const FourthStep: React.FC<IProps> = ({ balance, handleNext }) => {
             { chainId: CHAIN_INFO[SupportedChainId.MOONBASEALPHA].chainId },
           ],
         });
-      } catch (switchError) {
+      } catch (switchError: any) {
         // This error code indicates that the chain has not been added to MetaMask.
         if (switchError.code === 4902) {
           try {
@@ -89,6 +89,8 @@ const FourthStep: React.FC<IProps> = ({ balance, handleNext }) => {
   };
 
   const queryTokenStatus = async () => {
+    if (!account) return;
+
     const res = await getTokenStatus({ address: account });
     if (res.data.code === 200) {
       setFaucetStatus(res.data.data.status);
@@ -122,7 +124,9 @@ const FourthStep: React.FC<IProps> = ({ balance, handleNext }) => {
     }
   };
 
-  const BUTTON_MESSAGE_STATUS = {
+  const BUTTON_MESSAGE_STATUS: {
+    [statusName: string]: IButtonStaus;
+  } = {
     install: {
       buttonText: "Install MetaMask",
       buttonType: null,
@@ -176,11 +180,7 @@ const FourthStep: React.FC<IProps> = ({ balance, handleNext }) => {
     if (!(window.web3 || window.ethereum)) {
       setStatus("install");
       const data = BUTTON_MESSAGE_STATUS.install;
-      message[data.messageType]({
-        content: data.message,
-        duration: 0,
-        key: messageKey,
-      });
+      openMessage(data.message, data.messageType, messageKey);
       return;
     }
 
@@ -222,7 +222,11 @@ const FourthStep: React.FC<IProps> = ({ balance, handleNext }) => {
           const option = SUPPORTED_WALLETS[key];
           return (
             <li className="wallet-item" key={key}>
-              <img src={option.iconURL} className="wallet-img" />
+              <img
+                src={option.iconURL}
+                className="wallet-img"
+                alt={option.name}
+              />
               <span className="wallet-name">{option.name}</span>
             </li>
           );

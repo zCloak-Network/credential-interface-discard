@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 16:47:13
+ * @LastEditTime: 2022-05-18 14:34:27
  */
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
@@ -15,6 +15,14 @@ import {
 import { openMessage, destroyMessage } from "../../utils/message";
 
 import bg from "../../images/step_install.svg";
+
+export interface IButtonStaus {
+  buttonText: string;
+  buttonType: string | null;
+  func: any;
+  message: string | null;
+  messageType: "warning" | "error" | null;
+}
 
 interface IProps {
   handleNext: () => void;
@@ -38,7 +46,9 @@ const FirstStep: React.FC<IProps> = ({ handleNext }) => {
     openMessage(data.message, data.messageType, messageKey);
   };
 
-  const BUTTON_MESSAGE_STATUS = {
+  const BUTTON_MESSAGE_STATUS: {
+    [statusName: string]: IButtonStaus;
+  } = {
     install: {
       buttonText: "Install",
       buttonType: null,
@@ -107,7 +117,7 @@ const FirstStep: React.FC<IProps> = ({ handleNext }) => {
     }
   }, []);
 
-  const handleEvent = (event) => {
+  const handleEvent = (event: { data: { statusCode: string; data: any } }) => {
     const { statusCode, data } = event.data;
 
     if (statusCode === MESSAGE_CODE.EXTENSION_CLOSED) {
@@ -163,7 +173,7 @@ const FirstStep: React.FC<IProps> = ({ handleNext }) => {
         })}
         size="default"
         onClick={detail.func}
-        loading={detail.buttonType}
+        loading={!!detail.buttonType}
       >
         {detail.buttonText}
       </Button>

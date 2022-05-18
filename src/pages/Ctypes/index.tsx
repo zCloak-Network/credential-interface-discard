@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 13:53:47
- * @LastEditTime: 2022-04-29 11:37:12
+ * @LastEditTime: 2022-05-16 11:37:50
  */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,14 +13,15 @@ import Empty from "../../components/Empty";
 import CtypeDetailModal from "../../components/CtypeDetailModal";
 import Button from "../../components/Button";
 import { useGetCurrIdentity } from "../../state/wallet/hooks";
+import { ICTypeWithMetadata } from "../../types/ctypes";
 
 import "./index.scss";
 
 const Ctypes: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [ctypes, setCtypes] = useState(null);
-  const [detail, setDetail] = useState(null);
+  const [ctypes, setCtypes] = useState<ICTypeWithMetadata[] | null>(null);
+  const [detail, setDetail] = useState<ICTypeWithMetadata | null>(null);
   const [detailVisible, setDetailVisible] = useState(false);
   const currAccount = useGetCurrIdentity();
 
@@ -29,6 +30,8 @@ const Ctypes: React.FC = () => {
   };
 
   const getData = async () => {
+    if (!currAccount || !currAccount.fullDid) return;
+
     await setLoading(true);
     const res = await queryCtypes({ owner: currAccount.fullDid.did });
     if (res.data.code === 200) {
@@ -37,15 +40,15 @@ const Ctypes: React.FC = () => {
     }
   };
 
-  const handleDetail = (data) => {
+  const handleDetail = (data: ICTypeWithMetadata) => {
     setDetail(data);
     setDetailVisible(true);
   };
 
   useEffect(() => {
-    if (currAccount.fullDid.did) {
-      getData();
-    }
+    if (!currAccount || !currAccount.fullDid) return;
+
+    getData();
   }, [currAccount]);
 
   return (
@@ -64,7 +67,7 @@ const Ctypes: React.FC = () => {
             <span />
           </div>
           <ul>
-            {ctypes.map((it, index) => (
+            {ctypes.map((it, index: number) => (
               <ListItem
                 data={it}
                 key={index}
