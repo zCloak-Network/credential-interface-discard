@@ -1,20 +1,26 @@
 {
-    "compilerOptions": {
-        "outDir": "./dist",
-        "module": "es6",
-        "target": "es5",
-        "allowJs": true,
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        "sourceMap": true,
-        "jsx": "react-jsx",
-        "moduleResolution": "node",
-        "allowSyntheticDefaultImports": true
-    },
-    "exclude": ["node_modules", "dist"],
-     "include": [
-        "./src/**/*", // 这个表示处理根目录的src目录下所有的.ts和.tsx文件，并不是所有文件
-        "./declarations.d.ts"
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src"
   ]
 }
-  
