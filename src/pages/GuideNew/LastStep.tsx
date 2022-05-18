@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-18 14:39:25
+ * @LastEditTime: 2022-05-18 16:05:49
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -21,7 +21,7 @@ import { SerializableTransactionReceipt } from "../../state/transactions/reducer
 import { PoapDigitalLink } from "../../utils/poap";
 import _ from "lodash";
 
-import bg from "../../images/nft_cover.png";
+import bg from "../../images/nft_cover.webp";
 
 const LastStep: React.FC = () => {
   const addPopup = useAddPopup();

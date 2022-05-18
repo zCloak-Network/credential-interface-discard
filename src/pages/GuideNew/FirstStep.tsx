@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-18 14:34:27
+ * @LastEditTime: 2022-05-18 15:35:51
  */
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
@@ -14,7 +14,7 @@ import {
 } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 
-import bg from "../../images/step_install.svg";
+import bg from "../../images/step_install.webp";
 
 export interface IButtonStaus {
   buttonText: string;

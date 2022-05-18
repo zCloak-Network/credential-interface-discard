@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-13 16:56:40
+ * @LastEditTime: 2022-05-18 15:51:55
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -11,7 +11,7 @@ import { openMessage, destroyMessage } from "../../utils/message";
 import classNames from "classnames";
 import { IButtonStaus } from "./FirstStep";
 
-import bg from "../../images/step_import.svg";
+import bg from "../../images/step_import.webp";
 
 interface IProps {
   handleNext: () => void;

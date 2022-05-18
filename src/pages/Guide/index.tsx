@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-09 19:03:34
+ * @LastEditTime: 2022-05-18 15:48:18
  */
 import React from "react";
 import GuideHeader from "../../components/GuideHeader";
@@ -10,7 +10,7 @@ import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { ZKID } from "../../constants/guide";
 
-import Img from "../../images/png_home.png";
+import Img from "../../images/poap.webp";
 import Star from "../../images/star.svg";
 import Star_1 from "../../images/star_1.svg";
 
