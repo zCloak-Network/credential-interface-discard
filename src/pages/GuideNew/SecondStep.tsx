@@ -3,7 +3,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 16:49:48
+ * @LastEditTime: 2022-05-18 14:59:07
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -33,7 +33,6 @@ import { getRandom, getAgeByBirth } from "../../utils";
 import { CREDENTIAL_CLASS, ADMIN_ATTESTER, CTYPE } from "../../constants/guide";
 import { useAddPopup } from "../../state/application/hooks";
 import type { MessageBody } from "@kiltprotocol/sdk-js";
-import { CTypeSchemaWithoutId } from "@kiltprotocol/types";
 import SecondStepCredential from "./SecondStepCredential";
 import classNames from "classnames";
 import { openMessage, destroyMessage } from "../../utils/message";
@@ -44,7 +43,15 @@ import {
 } from "../../constants/guide";
 import Loading from "../../components/Loading";
 import moment from "moment";
-import { IDidDetails, KeyringPair } from "@kiltprotocol/types";
+import {
+  IDidDetails,
+  KeyringPair,
+  IEncryptedMessage,
+  CTypeSchemaWithoutId,
+  IClaimContents,
+} from "@kiltprotocol/types";
+import { IContents } from "../../types/claim";
+
 import { ICredential } from "./index";
 
 const { Option } = Select;
@@ -89,15 +96,21 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
   const [attestationStatus, setAttestationStatus] = useState<status>();
 
   // request attestation
-  const requestAttestation = async (data) => {
+  const requestAttestation = async (data: IClaimContents) => {
+    if (!account) return;
+
     try {
       await Kilt.init({ address: WSSURL });
 
       const keystoreClaimer = new Kilt.Did.DemoKeystore();
       const keystoreAttester = new Kilt.Did.DemoKeystore();
+
       const receiverFullDid = await getFullDid(
         Kilt.Did.DidUtils.getIdentifierFromKiltDid(ADMIN_ATTESTER)
       );
+
+      if (!receiverFullDid || !receiverFullDid.encryptionKey) return;
+
       const ctype = CType.fromSchema(CTYPE as CTypeSchemaWithoutId);
 
       const claim = Claim.fromCTypeAndClaimContents(
@@ -112,16 +125,21 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
         account.mnemonic
       );
       const lightDid = await generateLightDid(lightKeypairs);
+      if (!lightDid || !lightDid.encryptionKey) return;
+
       const messageBody: MessageBody = {
         content: { requestForAttestation },
         type: Kilt.Message.BodyType.REQUEST_ATTESTATION,
       };
+
       const message = new Kilt.Message(
         messageBody,
         account?.lightDidDetails?.did,
         receiverFullDid.did
       );
+
       await generateFullKeypairs(keystoreAttester, account.mnemonic);
+
       const encryptedPresentationMessage = await message.encrypt(
         lightDid.encryptionKey.id,
         lightDid,
@@ -133,24 +151,22 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
         setIntervalStatus(TIME);
       }
     } catch (error) {
-      addPopup({
-        txn: {
-          hash: "",
-          success: false,
-          title: error.name,
-          summary: error.message,
-        },
-      });
+      if (error instanceof Error) {
+        addPopup({
+          txn: {
+            hash: "",
+            success: false,
+            title: error.name,
+            summary: error.message,
+          },
+        });
+      }
 
       throw error;
     }
   };
 
-  const onFinish = async (values: {
-    age: string;
-    month: string;
-    data: string;
-  }) => {
+  const onFinish = async (values: IContents) => {
     if (disabled || !random) return;
     setLoading(true);
     openMessage(WAITING_MESSAGE, "warning", messageKey);
@@ -170,15 +186,22 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
   };
 
   const handleDownload = async () => {
-    const blob = await new Blob([JSON.stringify(credentail.body.content)], {
-      type: "text/plain;charset=utf-8",
-    });
+    if (credentail) {
+      const blob = await new Blob([JSON.stringify(credentail.body.content)], {
+        type: "text/plain;charset=utf-8",
+      });
 
-    await FileSaver.saveAs(blob, "credential.json");
-    await setNext(true);
+      await FileSaver.saveAs(blob, "credential.json");
+      await setNext(true);
+    }
   };
 
-  const handleValuesChange = (_, allValues) => {
+  const handleValuesChange = (
+    _: any,
+    allValues: {
+      [key: string]: any;
+    }
+  ) => {
     const checkLabel = ["name", "age", "class"];
     const allTrue = checkLabel.every((it) => !!allValues[it]);
 
@@ -214,7 +237,9 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
     }
   }, []);
 
-  const decrypt = async (data) => {
+  const decrypt = async (data: IEncryptedMessage) => {
+    if (!account) return;
+
     const keystore = new Kilt.Did.DemoKeystore();
     const lightKeypairs = await generateLightKeypairs(
       keystore,
@@ -232,10 +257,13 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
   };
 
   const queryAttestation = async () => {
+    if (!account) return;
+
     if (attestationStatus === status.attested) {
       const lightDid = Kilt.Did.LightDidDetails.fromUri(
         account.lightDidDetails.did
       );
+      if (!lightDid || !lightDid.encryptionKey) return;
 
       const res = await getAttestation({
         receiverKeyId: `${account?.lightDidDetails.did}#${lightDid.encryptionKey.id}`,
@@ -260,9 +288,13 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
   }, [attestationStatus]);
 
   const updateStatus = async () => {
+    if (!account) return;
+
     const lightDid = Kilt.Did.LightDidDetails.fromUri(
       account.lightDidDetails.did
     );
+    if (!lightDid || !lightDid.encryptionKey) return;
+
     const res = await getAttestationStatus({
       senderKeyId: `${account?.lightDidDetails.did}#${lightDid.encryptionKey.id}`,
     });
@@ -279,7 +311,7 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
     }
   };
 
-  const disabledDate = (current) => {
+  const disabledDate = (current: any) => {
     return current && current > moment().endOf("day");
   };
 

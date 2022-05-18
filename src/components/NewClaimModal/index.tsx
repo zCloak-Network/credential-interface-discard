@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-04-19 14:45:48
+ * @LastEditTime: 2022-05-16 11:29:09
  */
 import React, { useState, useEffect } from "react";
 import omit from "omit.js";
@@ -22,6 +22,7 @@ import PropertyInput from "./PropertyInput";
 import { useSaveClaim, useGetClaims } from "../../state/claim/hooks";
 import { useGetCurrIdentity } from "../../state/wallet/hooks";
 import useGuide from "../../hooks/useGuide";
+import { InstanceType } from "@kiltprotocol/types";
 
 import "./index.scss";
 
@@ -30,7 +31,9 @@ const { Option } = Select;
 export default function NewClaimModal(): JSX.Element {
   const [ctypes, setCtypes] = useState<ICTypeWithMetadata[]>([]);
   const [loading, setLoading] = useState(false);
-  const [selectCtype, setSelectCtype] = useState(null);
+  const [selectCtype, setSelectCtype] = useState<ICTypeWithMetadata | null>(
+    null
+  );
   const saveClaim = useSaveClaim();
   const allClaims = useGetClaims();
   const isGuide = useGuide();
@@ -48,7 +51,7 @@ export default function NewClaimModal(): JSX.Element {
       const isTestedCtype = allClaimsCurr.map((it) => it.claim.cTypeHash) || [];
 
       const formatData = res.data.data?.filter(
-        (it) => !isTestedCtype.includes(it.ctypeHash)
+        (it: ICTypeWithMetadata) => !isTestedCtype.includes(it.ctypeHash)
       );
 
       await setCtypes(formatData);
@@ -56,10 +59,11 @@ export default function NewClaimModal(): JSX.Element {
     await setLoading(false);
   };
 
-  const handleChange = (value) => {
+  const handleChange = (value: string) => {
     const find = ctypes.find((it) => it.ctypeHash === value);
-
-    setSelectCtype(find);
+    if (find) {
+      setSelectCtype(find);
+    }
   };
 
   useEffect(() => {
@@ -68,10 +72,19 @@ export default function NewClaimModal(): JSX.Element {
       setSelectCtype(null);
       getData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalOpen, isGuide]);
 
-  const handleSubmit = async (values) => {
-    const newPro = {};
+  const handleSubmit = async (values: { alias: string; ctype: string }) => {
+    if (!currAccount || !selectCtype) return;
+
+    const newPro: {
+      [key: string]: {
+        $ref?: string;
+        type?: InstanceType;
+        format?: string;
+      };
+    } = {};
     Object.keys(selectCtype?.metadata?.properties).forEach((key) => {
       newPro[key] = {
         type: selectCtype?.metadata?.properties[key].type,

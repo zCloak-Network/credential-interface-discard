@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-30 16:51:36
- * @LastEditTime: 2022-05-18 14:30:15
+ * @LastEditTime: 2022-05-18 14:54:42
  */
 import React from "react";
 import dayjs from "dayjs";
@@ -66,7 +66,9 @@ export default function ListItem({
       </span>
       <span>{shortenHash(data.claim?.cTypeHash) || "-"}</span>
       <span>
-        {attestationLoading && <img src={loading} className="loading" />}
+        {attestationLoading && (
+          <img src={loading} className="loading" alt="loading" />
+        )}
         {isTested && !attestationLoading && (
           <i className="iconfont icon_success2" />
         )}

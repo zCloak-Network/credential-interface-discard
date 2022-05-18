@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 13:53:47
- * @LastEditTime: 2022-05-16 11:37:50
+ * @LastEditTime: 2022-05-18 14:55:11
  */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -49,6 +49,7 @@ const Ctypes: React.FC = () => {
     if (!currAccount || !currAccount.fullDid) return;
 
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currAccount]);
 
   return (

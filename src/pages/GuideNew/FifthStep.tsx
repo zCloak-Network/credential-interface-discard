@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-12 16:25:30
+ * @LastEditTime: 2022-05-17 11:07:13
  */
 import React, { useState, useEffect, useMemo } from "react";
 import { useInterval } from "ahooks";
@@ -30,9 +30,9 @@ type UploadStatus = "uploading" | "success" | "prepare" | "fail" | "uploaded";
 type UploadResult = "success" | "fail";
 
 interface IProps {
-  credentail: ICredential;
+  credentail: ICredential | null;
   handleNext: () => void;
-  handleProof: (proof) => void;
+  handleProof: (proof: boolean) => void;
 }
 
 const TIME = 3000;
@@ -43,11 +43,11 @@ const FifthStep: React.FC<IProps> = ({
   handleProof,
 }) => {
   const { account } = useWeb3React();
-  const [proof, setProof] = useState<IProof>();
+  const [proof, setProof] = useState<IProof | null>(null);
   const [isSubmited, setIsSubmited] = useState<boolean>(false);
   const [interval, setIntervalStatus] = useState<number | undefined>(undefined);
-  const [uploadStatus, setUploadStatus] = useState<UploadStatus>(null);
-  const [result, setResult] = useState<UploadResult>();
+  const [uploadStatus, setUploadStatus] = useState<UploadStatus | null>(null);
+  const [result, setResult] = useState<UploadResult | null>(null);
 
   useEffect(() => {
     if (uploadStatus === "uploading") {
@@ -60,7 +60,7 @@ const FifthStep: React.FC<IProps> = ({
   }, [uploadStatus]);
 
   const getClaimHash = () => {
-    const credentailLocal = localStorage.getItem(GUIDE_CREDENTIAL);
+    const credentailLocal = localStorage.getItem(GUIDE_CREDENTIAL) || "";
 
     const data = JSON.parse(credentailLocal) || credentail;
 
@@ -135,7 +135,7 @@ const FifthStep: React.FC<IProps> = ({
     if (uploadStatus === "prepare") {
       return GUIDE_DESC.uploadProof;
     }
-    if (["uploading", "uploaded"].includes(uploadStatus)) {
+    if (uploadStatus && ["uploading", "uploaded"].includes(uploadStatus)) {
       return GUIDE_DESC.verifyingProof;
     }
     if (uploadStatus === "success") {
@@ -149,7 +149,7 @@ const FifthStep: React.FC<IProps> = ({
     <div className="step-wrapper">
       <div className="title">{text.title}</div>
       <div className="sub-title">{text.desc}</div>
-      {["uploading", "uploaded"].includes(uploadStatus) && (
+      {uploadStatus && ["uploading", "uploaded"].includes(uploadStatus) && (
         <Uploading
           data={proof}
           uploaded={Boolean(uploadStatus === "uploaded")}
@@ -187,7 +187,7 @@ const FifthStep: React.FC<IProps> = ({
           </Button>
         </div>
       )}
-      {uploadStatus === "prepare" && (
+      {uploadStatus === "prepare" && account && (
         <FifthStepSubmit
           account={account}
           cTypeHash={CTYPE_HASH}
