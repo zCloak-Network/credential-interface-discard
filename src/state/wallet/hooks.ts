@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:03:58
- * @LastEditTime: 2022-04-02 14:35:03
+ * @LastEditTime: 2022-05-16 10:16:33
  */
 import { useCallback } from "react";
 import { AppState } from "../PersistentStore";
@@ -16,6 +16,8 @@ import {
   updateAttesters,
   saveCurrIdentityBalance,
 } from "./reducer";
+
+import {IIdentity} from './reducer'
 
 export function useGetPassword(): AppState["wallet"]["password"] {
   const password = useSelector((state: AppState) => state.wallet.password);
@@ -44,7 +46,7 @@ export function useGetCurrIdentityBalance(): AppState["wallet"]["currentIdentity
   return data;
 }
 
-export function useSavePassword(): (password) => void {
+export function useSavePassword(): (password: string) => void {
   const dispatch = useDispatch();
 
   return useCallback(
@@ -59,7 +61,7 @@ export function useSavePassword(): (password) => void {
   );
 }
 
-export function useSaveClaimer(): (identity) => void {
+export function useSaveClaimer(): (identity: IIdentity) => void {
   const dispatch = useDispatch();
 
   return useCallback(
@@ -74,7 +76,7 @@ export function useSaveClaimer(): (identity) => void {
   );
 }
 
-export function useSaveAttester(): (identity) => void {
+export function useSaveAttester(): (identity: IIdentity) => void {
   const dispatch = useDispatch();
 
   return useCallback(
@@ -89,7 +91,8 @@ export function useSaveAttester(): (identity) => void {
   );
 }
 
-export function useSaveCurrIdentityBalance(): (balance) => void {
+// TODO
+export function useSaveCurrIdentityBalance(): (balance: any) => void {
   const dispatch = useDispatch();
 
   return useCallback(
@@ -104,7 +107,7 @@ export function useSaveCurrIdentityBalance(): (balance) => void {
   );
 }
 
-export function useSaveCurrIdentity(): (identity) => void {
+export function useSaveCurrIdentity(): (identity: IIdentity) => void {
   const dispatch = useDispatch();
 
   return useCallback(
@@ -119,7 +122,7 @@ export function useSaveCurrIdentity(): (identity) => void {
   );
 }
 
-export function useUpdateClaimers(): (identity) => void {
+export function useUpdateClaimers(): (identity: IIdentity) => void {
   const dispatch = useDispatch();
 
   return useCallback(
@@ -134,7 +137,7 @@ export function useUpdateClaimers(): (identity) => void {
   );
 }
 
-export function useUpdateAttesters(): (identity) => void {
+export function useUpdateAttesters(): (identity: IIdentity) => void {
   const dispatch = useDispatch();
 
   return useCallback(

@@ -2,19 +2,32 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:09:59
- * @LastEditTime: 2022-04-02 17:10:56
+ * @LastEditTime: 2022-05-18 14:46:44
  */
 import { createSlice } from "@reduxjs/toolkit";
+import {
+  IDidDetails,
+  KeyringPair,
+} from "@kiltprotocol/types";
+
+export interface IIdentity {
+    account: KeyringPair,
+    mnemonic: string,
+    lightDidDetails: IDidDetails,
+    fullDid?: IDidDetails & {
+      identifier: any
+    }
+}
 
 export interface WalletState {
   password: string;
-  currentIdentity: any;
+  currentIdentity: IIdentity | null;
   currentIdentityBalance: any;
-  claimers: any[];
-  attesters: any[];
+  claimers: IIdentity[];
+  attesters: IIdentity[];
 }
 
-const initialState = {
+const initialState: WalletState = {
   password: "",
   currentIdentity: null,
   currentIdentityBalance: null,

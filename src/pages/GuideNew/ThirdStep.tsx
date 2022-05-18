@@ -2,15 +2,16 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-10 17:58:48
+ * @LastEditTime: 2022-05-13 16:56:40
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import { CTYPE_HASH, MESSAGE_CODE, GUIDE_DESC } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
+import classNames from "classnames";
+import { IButtonStaus } from "./FirstStep";
 
 import bg from "../../images/step_import.svg";
-import classNames from "classnames";
 
 interface IProps {
   handleNext: () => void;
@@ -30,7 +31,9 @@ const ThirdStep: React.FC<IProps> = ({ handleNext }) => {
     openMessage(data.message, data.messageType, messageKey);
   };
 
-  const BUTTON_MESSAGE_STATUS = {
+  const BUTTON_MESSAGE_STATUS: {
+    [statusName: string]: IButtonStaus;
+  } = {
     import: {
       buttonText: "Import Credential",
       buttonType: null,
@@ -54,7 +57,7 @@ const ThirdStep: React.FC<IProps> = ({ handleNext }) => {
     },
   };
 
-  const handleEvent = (event) => {
+  const handleEvent = (event: { data: { statusCode: string; data: any } }) => {
     const { statusCode, data } = event.data;
 
     if (statusCode === MESSAGE_CODE.EXTENSION_CLOSED) {
@@ -118,7 +121,7 @@ const ThirdStep: React.FC<IProps> = ({ handleNext }) => {
           "import-credential-btn": status === "import",
         })}
         onClick={detail.func}
-        loading={detail.buttonType}
+        loading={!!detail.buttonType}
       >
         {detail.buttonText}
       </Button>

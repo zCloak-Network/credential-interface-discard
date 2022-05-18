@@ -51,7 +51,7 @@ export class PersistentStore {
     // };
   }
 
-  private static serialize(state): string {
+  private static serialize(state: any): string {
     // const obj: SerializedState = {
     //   claims: Claims.Store.serialize(state.claims),
     // };

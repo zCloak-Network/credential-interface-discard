@@ -2,9 +2,9 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 16:42:32
- * @LastEditTime: 2022-03-16 15:38:38
+ * @LastEditTime: 2022-05-16 16:58:43
  */
-import { ICTypeMetadata, ICType as SDKICType } from "@kiltprotocol/types";
+import { ICTypeMetadata, ICType as SDKICType, ICTypeSchema, InstanceType } from "@kiltprotocol/types";
 
 export interface ICType extends ICTypeMetadata {
   cType: SDKICType;
@@ -13,7 +13,8 @@ export interface ICType extends ICTypeMetadata {
 export interface ICTypeWithMetadata {
   cType: SDKICType;
   ctypeHash: string;
-  metadata: ICTypeInput;
+  metadata: ICTypeSchema;
+  owner:  string | null;
 }
 
 export interface ICTypeInput {
@@ -23,14 +24,14 @@ export interface ICTypeInput {
   required: string[];
   title: string;
   description: string;
-  type: string;
+  type: InstanceType;
   owner: string | null;
 }
 
 export interface ICTypeInputProperty {
   title: string;
   $id?: string;
-  type: string;
+  type?: InstanceType;
   format?: string;
   description?: string;
 }
@@ -42,6 +43,6 @@ export interface IClaimInput {
   required: string[];
   title: string;
   description?: string;
-  type: string;
+  type: InstanceType;
   owner?: string;
 }

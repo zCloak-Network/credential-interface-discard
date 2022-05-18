@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-06 16:32:12
- * @LastEditTime: 2022-05-10 11:01:56
+ * @LastEditTime: 2022-05-13 15:33:56
  */
 import { getAddress } from "@ethersproject/address";
 import { AddressZero } from "@ethersproject/constants";
@@ -93,7 +93,7 @@ export function getRandom(min = 1, max = 10): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export function getAgeByBirth(year, month, date) {
+export function getAgeByBirth(year: number, month: number, date: number) {
   let age;
   const d = new Date();
   const nowYear = d.getFullYear();

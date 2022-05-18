@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-08 19:47:31
- * @LastEditTime: 2022-04-22 11:38:36
+ * @LastEditTime: 2022-05-13 13:54:13
  */
 import axios from "axios";
 import { HOSTPREFIX, PROOFHOSTPREFIX } from "../constants";
@@ -19,7 +19,7 @@ export async function addCtype(data: any, options?: { [key: string]: any }) {
 }
 
 /** 获取所有ctype */
-export async function queryCtypes(params: { owner: string }) {
+export async function queryCtypes(params: { owner: string | null}) {
   return axios({
     method: "get",
     url: `${HOSTPREFIX}/ctypes/all`,

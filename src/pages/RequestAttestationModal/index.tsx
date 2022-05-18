@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-02-24 15:55:51
- * @LastEditTime: 2022-04-01 18:14:42
+ * @LastEditTime: 2022-05-16 10:19:54
  */
 import React, { useState } from "react";
 import Modal from "../../components/Modal";
@@ -39,6 +39,7 @@ const RequestAttestationModal: React.FC<Props> = ({ detail }) => {
   const modalOpen = useModalOpen(ApplicationModal.REQUEST_ATTESTATION);
 
   const handleSendMessage = async () => {
+    if (!currAccount) return;
     await setLoading(true);
     try {
       const keystoreClaimer = new Kilt.Did.DemoKeystore();
@@ -81,14 +82,17 @@ const RequestAttestationModal: React.FC<Props> = ({ detail }) => {
       await toggleModal();
       await setLoading(false);
     } catch (error) {
-      addPopup({
-        txn: {
-          hash: "",
-          success: false,
-          title: error.name,
-          summary: error.message,
-        },
-      });
+      if (error instanceof Error) {
+        addPopup({
+          txn: {
+            hash: "",
+            success: false,
+            title: error.name,
+            summary: error.message,
+          },
+        });
+      }
+
       await setLoading(false);
       throw error;
     }

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-17 14:53:05
+ * @LastEditTime: 2022-05-18 14:39:25
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -17,6 +17,8 @@ import { getPoapId } from "../../services/api";
 import { getImg } from "../../utils/poap";
 import { ZKID, GUIDE_DESC } from "../../constants/guide";
 import BN from "bn.js";
+import { SerializableTransactionReceipt } from "../../state/transactions/reducer";
+import { PoapDigitalLink } from "../../utils/poap";
 import _ from "lodash";
 
 import bg from "../../images/nft_cover.png";
@@ -25,7 +27,7 @@ const LastStep: React.FC = () => {
   const addPopup = useAddPopup();
   const { account } = useWeb3React();
   const [claimLoading, setClaimLoading] = useState<boolean>(false);
-  const [poapId, setPoapId] = useState<string | null>(null);
+  const [poapId, setPoapId] = useState<PoapDigitalLink | null>(null);
   const [nftId, setNftId] = useState<string | null>(null);
 
   const jumpToZKID = () => {
@@ -40,7 +42,7 @@ const LastStep: React.FC = () => {
       .send({
         from: account,
       })
-      .then(function (receipt) {
+      .then(function (receipt: SerializableTransactionReceipt) {
         console.log("addReceipt", receipt);
         if (receipt) {
           setClaimLoading(false);
@@ -59,7 +61,7 @@ const LastStep: React.FC = () => {
       });
   };
 
-  const formatNum = (num) => {
+  const formatNum = (num: string) => {
     const numId = hexToNumber(
       stripHexPrefix(numberToHex(new BN(num))).slice(32)
     );
@@ -69,7 +71,7 @@ const LastStep: React.FC = () => {
 
   useEffect(() => {
     const contract = getContract(abi, PoapAdddress);
-    contract.events.MintPoap({}, (error, event) => {
+    contract.events.MintPoap({}, (_: never, event: any) => {
       const { nftId, poapId } = event.returnValues;
       setPoapId(poapId);
       setNftId(nftId);

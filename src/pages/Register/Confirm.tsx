@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 17:13:19
- * @LastEditTime: 2022-03-16 11:18:16
+ * @LastEditTime: 2022-05-13 16:24:12
  */
 import React, { useState, useEffect } from "react";
 import Button from "../../components/Button";
@@ -43,11 +43,11 @@ const ConfirmItem = ({ data, aimData }: PropsItem) => {
 };
 
 const Confirm: React.FC<Props> = ({ handleBack, handleClick, mnemonic }) => {
-  const [random, setRandom] = useState([]);
+  const [random, setRandom] = useState<number[]>([]);
   const [form] = Form.useForm();
 
   const getRandom = () => {
-    const result = [];
+    const result: number[] = [];
     const originalArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
     for (let i = 0; i < 4; ++i) {

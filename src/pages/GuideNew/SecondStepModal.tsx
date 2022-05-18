@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 23:15:44
- * @LastEditTime: 2022-05-09 18:56:26
+ * @LastEditTime: 2022-05-13 11:00:59
  */
 import React, { useMemo, useState } from "react";
 import Modal from "../../components//Modal";
@@ -21,7 +21,9 @@ const INTERVAL_TIME = 1000;
 
 const SecondStepModal: React.FC = () => {
   const [countdown, setCountdown] = useState<number>(TOTAL_TIME);
-  const [interval, setIntervalStatus] = useState<number>(INTERVAL_TIME);
+  const [interval, setIntervalStatus] = useState<number | undefined>(
+    INTERVAL_TIME
+  );
   const toggleModal = useToggleGuideMessage();
   const modalOpen = useModalOpen(ApplicationModal.GUIDE_MESSAGE);
 
@@ -42,7 +44,7 @@ const SecondStepModal: React.FC = () => {
     <Modal
       width="700px"
       visible={modalOpen}
-      title={null}
+      title={""}
       onCancel={toggleModal}
       maskClosable={false}
       wrapClassName="guide-message-modal"

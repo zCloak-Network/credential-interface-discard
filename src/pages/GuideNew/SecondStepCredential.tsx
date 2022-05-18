@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 20:54:18
- * @LastEditTime: 2022-05-10 16:50:44
+ * @LastEditTime: 2022-05-13 18:02:02
  */
 import React from "react";
 import bgPerson from "../../images/bg_person.svg";
@@ -24,9 +24,16 @@ const SecondStepCredential: React.FC<IProps> = ({ data }) => {
     helmet_rarity,
     name,
     weapon_rarity,
-  } = data?.body?.content?.request?.claim.contents;
+  } = data?.body?.content?.request?.claim.contents as {
+    class: number;
+    age: number;
+    chest_rarity: number;
+    helmet_rarity: number;
+    name: string;
+    weapon_rarity: number;
+  };
 
-  const claName = CREDENTIAL_CLASS.find((it) => it.value === classType).name;
+  const claName = CREDENTIAL_CLASS.find((it) => it.value === classType)?.name;
 
   return (
     <div className="credential">
@@ -35,7 +42,7 @@ const SecondStepCredential: React.FC<IProps> = ({ data }) => {
       <div className="detail">
         <div className="detial-item name-item">
           <span className="label">Name:</span>
-          <span className="value">{name}</span>
+          <span className="value">{name || ""}</span>
         </div>
         <div className="detial-item">
           <span className="label">Age:</span>

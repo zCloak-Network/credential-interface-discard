@@ -2,19 +2,24 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:09:59
- * @LastEditTime: 2022-03-21 20:58:30
+ * @LastEditTime: 2022-05-16 11:48:44
  */
 import { createSlice } from "@reduxjs/toolkit";
-// import { IClaim } from "@kiltprotocol/types";
+import { IClaim } from "@kiltprotocol/types";
+
+export interface IClaimSingle  {
+  id: string;
+  claim: IClaim;
+  meta: {
+    alias: string;
+    time: string;
+  };
+  requestForAttestations: any;
+  attestedClaims: any;
+}
 
 export type SerializedState = {
-  claims: Array<{
-    id: string;
-    claim: any;
-    meta: any;
-    requestForAttestations: any;
-    attestedClaims: any;
-  }>;
+  claims: IClaimSingle[]
 };
 
 export interface State {

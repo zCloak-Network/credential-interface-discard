@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:49:25
- * @LastEditTime: 2022-04-29 11:37:23
+ * @LastEditTime: 2022-05-18 14:44:45
  */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -19,20 +19,9 @@ import Button from "../../components/Button";
 import { useGetCurrIdentity } from "../../state/wallet/hooks";
 import { useAddPopup } from "../../state/application/hooks";
 import arrowDownInactiveImg from "../../images/icon_arrow_inactive.png";
-import { ICTypeSchema } from "@kiltprotocol/types";
+import { ICTypeSchema, InstanceType } from "@kiltprotocol/types";
 
 import "./index.scss";
-
-type Props = {
-  // input
-  connected: boolean;
-  cType: string;
-  isValid: boolean;
-  // output
-  cancel: () => void;
-  submit: () => void;
-  updateCType: (cType: any, isValid: boolean) => void;
-};
 
 const MODOLE = [
   {
@@ -42,11 +31,20 @@ const MODOLE = [
   },
 ];
 
+interface IProperties {
+  title: string;
+  type: InstanceType;
+}
+
+type ICTypeSchemaNew = ICTypeSchema & {
+  properties: IProperties[];
+};
+
 const NewCtype: React.FC = () => {
   const navigate = useNavigate();
   const addPopup = useAddPopup();
   const currIdentity = useGetCurrIdentity();
-  const [cType, setType] = useState<any>();
+  const [cType, setType] = useState<ICTypeSchemaNew | null>(null);
   const [isValid, setIsValid] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   // const [connected, setConnected] = useState<boolean>(false);
@@ -55,20 +53,20 @@ const NewCtype: React.FC = () => {
     navigate("/credential/attester/attestations/ctypes");
   };
 
-  const updateCType = (type: string, isValid: boolean): void => {
+  const updateCType = (type: ICTypeSchemaNew, isValid: boolean): void => {
     setType(type);
     setIsValid(isValid);
   };
 
-  const connect = () => {
-    // TODO: test unmount and host change
-    // TODO: test error handling
-    // const blockUi: BlockUi = FeedbackService.addBlockUi({
-    //   headline: "Connecting to block chain",
-    // });
-    // setConnected(true);
-    // blockUi.remove();
-  };
+  // const connect = () => {
+  // TODO: test unmount and host change
+  // TODO: test error handling
+  // const blockUi: BlockUi = FeedbackService.addBlockUi({
+  //   headline: "Connecting to block chain",
+  // });
+  // setConnected(true);
+  // blockUi.remove();
+  // };
 
   // useEffect(() => {
   //   // connect();
@@ -81,7 +79,16 @@ const NewCtype: React.FC = () => {
   // };
 
   const format = () => {
-    const newProperties = {};
+    if (!cType) return;
+
+    const newProperties: {
+      [key: string]: {
+        $ref?: string;
+        type?: InstanceType;
+        format?: string;
+      };
+    } = {};
+
     cType.properties?.forEach((it) => {
       newProperties[it.title] = { type: it.type };
     });
@@ -99,6 +106,8 @@ const NewCtype: React.FC = () => {
   // Promise<void>
   const submit = async () => {
     // Load Account
+    if (!currIdentity || !currIdentity.fullDid) return;
+
     await setLoading(true);
     const account = await generateAccount(currIdentity.mnemonic);
     const fullDid = await getFullDid(currIdentity.fullDid.identifier);
@@ -134,7 +143,7 @@ const NewCtype: React.FC = () => {
           hash: "",
           success: true,
           title: "SUCCESS",
-          summary: `CTYPE ${cType.title} successfully created.`,
+          summary: `CTYPE ${cType?.title} successfully created.`,
         },
       });
       await addCtype({
@@ -145,14 +154,17 @@ const NewCtype: React.FC = () => {
       await setLoading(false);
       await handleBack();
     } catch (error) {
-      addPopup({
-        txn: {
-          hash: "",
-          success: false,
-          title: `Failed to create CTYPE ${cType.title}.`,
-          summary: error.message,
-        },
-      });
+      if (error instanceof Error) {
+        addPopup({
+          txn: {
+            hash: "",
+            success: false,
+            title: `Failed to create CTYPE ${cType?.title}.`,
+            summary: error.message,
+          },
+        });
+      }
+
       await setLoading(false);
       throw error;
     }
@@ -167,6 +179,7 @@ const NewCtype: React.FC = () => {
               src={arrowDownInactiveImg}
               className="back-btn"
               onClick={handleBack}
+              alt="back"
             />
             Claimer
           </div>

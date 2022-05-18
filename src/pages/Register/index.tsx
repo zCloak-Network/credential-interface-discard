@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 10:45:21
- * @LastEditTime: 2022-04-29 11:35:22
+ * @LastEditTime: 2022-05-12 18:32:29
  */
 import React, { useState, useEffect } from "react";
 import LogoBanner from "../../components/LogoBanner";
@@ -28,11 +28,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import useRole from "../../hooks/useRole";
 
-const { Step } = Steps;
-
 import "./index.scss";
 
-const getStepItem = (num, className) => {
+const { Step } = Steps;
+
+const getStepItem = (num: number, className: string) => {
   const klasses = classNames("register-step-icon", className);
 
   return (
@@ -59,7 +59,7 @@ const Register: React.FC = () => {
     await PersistentStore.createLocalState(password);
   };
 
-  const handleCreate = (values) => {
+  const handleCreate = (values: { password: string }) => {
     next();
     setPassword(values.password);
   };

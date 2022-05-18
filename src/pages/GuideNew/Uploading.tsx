@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-14 21:00:08
- * @LastEditTime: 2022-05-10 16:51:14
+ * @LastEditTime: 2022-05-18 14:43:34
  */
 import React from "react";
 import classNames from "classnames";
@@ -11,15 +11,15 @@ import { MOONSCAN_TX_URL } from "../../constants/guide";
 import Button from "../../components/Button";
 import { IProof } from "./index";
 import loading from "../../images/loading_1.gif";
-
+import { IVerifying } from "./index";
 interface IProps {
-  data: IProof;
+  data: IProof | null;
   uploaded: boolean;
   handleNext: () => void;
 }
 
 const Uploading: React.FC<IProps> = ({ data, uploaded, handleNext }) => {
-  const jumpTxDetail = (data) => {
+  const jumpTxDetail = (data: IVerifying) => {
     window.open(`${MOONSCAN_TX_URL}${data.transactionHash}`);
   };
 

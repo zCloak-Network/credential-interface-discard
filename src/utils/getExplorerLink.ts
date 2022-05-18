@@ -2,10 +2,8 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-28 19:00:35
- * @LastEditTime: 2022-03-15 11:39:57
+ * @LastEditTime: 2022-05-13 17:04:24
  */
-import { SupportedChainId } from "../constants/chains";
-
 export enum ExplorerDataType {
   TRANSACTION = "transaction",
   TOKEN = "token",
