@@ -1,3 +1,9 @@
+/*
+ * @Description: 
+ * @Author: lixin
+ * @Date: 2022-05-11 17:03:00
+ * @LastEditTime: 2022-05-18 16:59:02
+ */
 const webpack = require('webpack');
 const path = require("path");
 const addRewireScssLoader = require("react-app-rewire-scss-loaders");
@@ -27,7 +33,7 @@ module.exports = function override(config, env) {
       })(config, env);
 
 
-      // FIX: @kiltprotocol/sdk-js
+      // Fix: @kiltprotocol/sdk-js
       // TypeError: _jsonabc_cjs__WEBPACK_IMPORTED_MODULE_1__.sortObj is not a function
 
       const fileLoaderRule = getFileLoaderRule(config.module.rules);

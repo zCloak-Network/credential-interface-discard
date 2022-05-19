@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-17 11:07:13
+ * @LastEditTime: 2022-05-19 10:42:40
  */
 import React, { useState, useEffect, useMemo } from "react";
 import { useInterval } from "ahooks";
@@ -22,8 +22,8 @@ import {
 import { IProof } from "./index";
 import { ICredential } from "./index";
 
-import failImg from "../../images/fail.svg";
-import successImg from "../../images/success.svg";
+import failImg from "../../images/fail.webp";
+import successImg from "../../images/success.webp";
 
 type UploadStatus = "uploading" | "success" | "prepare" | "fail" | "uploaded";
 

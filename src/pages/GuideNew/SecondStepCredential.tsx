@@ -2,11 +2,11 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 20:54:18
- * @LastEditTime: 2022-05-13 18:02:02
+ * @LastEditTime: 2022-05-19 10:56:03
  */
 import React from "react";
-import bgPerson from "../../images/bg_person.svg";
-import attested from "../../images/attested.svg";
+import bgPerson from "../../images/bg_person.webp";
+import attested from "../../images/attested.webp";
 import { CREDENTIAL_CLASS } from "../../constants/guide";
 import { ICredential } from "./index";
 
