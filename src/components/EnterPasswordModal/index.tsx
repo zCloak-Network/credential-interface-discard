@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-29 17:29:52
- * @LastEditTime: 2022-03-30 18:33:28
+ * @LastEditTime: 2022-05-18 18:53:07
  */
 import React, { useEffect, useState } from "react";
 import Modal from "../Modal";
@@ -54,6 +54,7 @@ const EnterPasswordModal: React.FC<Props> = ({
   useEffect(() => {
     setError(false);
     form.resetFields();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
   return (

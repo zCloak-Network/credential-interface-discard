@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-09 10:45:21
- * @LastEditTime: 2022-05-12 18:31:48
+ * @LastEditTime: 2022-05-18 18:11:50
  */
 import React, { useState, useEffect } from "react";
 import LogoBanner from "../../components/LogoBanner";
@@ -28,6 +28,10 @@ import useRole from "../../hooks/useRole";
 
 import "./index.scss";
 
+interface IProps {
+  password: string;
+}
+
 const { Step } = Steps;
 
 const getStepItem = (num: number, className: string) => {
@@ -40,11 +44,7 @@ const getStepItem = (num: number, className: string) => {
   );
 };
 
-type Props = {
-  password: string;
-};
-
-const RegisterAgain: React.FC<Props> = ({ password }) => {
+const RegisterAgain: React.FC<IProps> = ({ password }) => {
   const navigate = useNavigate();
   const isClaimer = useRole();
   const saveClaimer = useSaveClaimer();

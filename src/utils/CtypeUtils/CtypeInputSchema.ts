@@ -2,10 +2,10 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-07 15:19:54
- * @LastEditTime: 2022-04-01 10:57:45
+ * @LastEditTime: 2022-05-18 17:49:17
  */
 
-export default {
+ const schema ={
   $id: "http://kilt-protocol.org/draft-01/ctype-input#",
   $schema: "http://json-schema.org/draft-07/schema#",
   title: "",
@@ -81,3 +81,6 @@ export default {
   },
   required: ["$schema", "title", "properties", "type"],
 };
+
+
+export default schema

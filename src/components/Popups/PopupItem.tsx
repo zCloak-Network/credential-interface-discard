@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-23 18:20:26
- * @LastEditTime: 2022-01-11 18:50:09
+ * @LastEditTime: 2022-05-18 18:52:46
  */
 
 import React, { useCallback, useEffect } from "react";
@@ -73,7 +73,7 @@ export default function PopupItem({
     <div>
       <div>
         <span className="close-btn" onClick={removeThisPopup}>
-          <img src={closeImg} />
+          <img src={closeImg} alt="close" />
         </span>
         {popupContent}
       </div>

@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * @Description:
  * @Author: lixin
  * @Date: 2022-03-29 13:55:08
- * @LastEditTime: 2022-05-16 11:00:13
+ * @LastEditTime: 2022-05-18 18:21:59
  */
 import React, { useEffect, useState } from "react";
 import * as Kilt from "@kiltprotocol/sdk-js";
@@ -113,6 +112,7 @@ const AttesterGate: React.FC<Props> = ({ resetPassword, children }) => {
 
   useEffect(() => {
     getDid();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currAccount]);
 
   if (attesters.length === 0) {
