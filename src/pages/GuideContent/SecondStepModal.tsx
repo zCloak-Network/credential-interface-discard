@@ -2,10 +2,10 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 23:15:44
- * @LastEditTime: 2022-05-13 11:00:59
+ * @LastEditTime: 2022-05-19 11:36:12
  */
 import React, { useMemo, useState } from "react";
-import Modal from "../../components//Modal";
+import Modal from "../../components/Modal";
 import Button from "../../components/Button";
 import {
   useModalOpen,

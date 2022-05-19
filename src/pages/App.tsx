@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-04-29 14:28:56
+ * @LastEditTime: 2022-05-19 11:37:04
  */
 import React, { useEffect, useState } from "react";
 import Register from "./Register";
@@ -24,7 +24,7 @@ import ErrorModal from "../components/ErrorModal";
 import useRole from "../hooks/useRole";
 // import useGuide from "../hooks/useGuide";
 import Guide from "./Guide";
-import GuideNew from "./GuideNew";
+import GuideContent from "./GuideContent";
 import { useLocation } from "react-router-dom";
 
 export default function App(): JSX.Element {
@@ -71,7 +71,7 @@ export default function App(): JSX.Element {
         <Popups />
         <Routes>
           <Route path="/" element={<Guide />} />
-          <Route path="/tutorial/new" element={<GuideNew />} />
+          <Route path="/tutorial/new" element={<GuideContent />} />
           <Route
             path="/credential/user"
             element={<Navigate replace to="/credential/user/login" />}

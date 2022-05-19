@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-20 14:42:05
- * @LastEditTime: 2022-05-16 11:49:27
+ * @LastEditTime: 2022-05-19 11:40:54
  */
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
@@ -23,7 +23,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useGetCurrIdentity } from "../../state/wallet/hooks";
 import { IClaim, IEncryptedMessage } from "@kiltprotocol/types";
-import { ICredential } from "../GuideNew";
+import { ICredential } from "../GuideContent";
 import { IClaimSingle } from "../../state/claim/reducer";
 
 import "./index.scss";

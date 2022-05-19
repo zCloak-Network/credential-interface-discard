@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-16 15:06:41
+ * @LastEditTime: 2022-05-19 11:34:48
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -86,7 +86,7 @@ export interface IProof {
   verified: boolean;
 }
 
-const GuideNew: React.FC = () => {
+const GuideContent: React.FC = () => {
   const { account } = useWeb3React();
   const [current, setCurrent] = useState<number>(0);
   const [credentail, setCredentail] = useState<ICredential | null>(null);
@@ -211,12 +211,12 @@ const GuideNew: React.FC = () => {
   );
 };
 
-const GuideNewWrapper: React.FC = () => {
+const GuideContentWrapper: React.FC = () => {
   return (
     <GuideGate>
-      <GuideNew />
+      <GuideContent />
     </GuideGate>
   );
 };
 
-export default GuideNewWrapper;
+export default GuideContentWrapper;
