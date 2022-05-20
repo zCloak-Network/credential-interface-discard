@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-12 16:11:50
- * @LastEditTime: 2022-05-10 14:03:48
+ * @LastEditTime: 2022-05-20 17:33:34
  */
 export const CREDENTIAL_CLASS = [
   {
@@ -191,7 +191,10 @@ export const zkID_EXTENSION =
 
 export const METAMASK_EXTENSION = "https://metamask.io/";
 
-export const ZKID = "http://zkid.app/dashboard";
+export const ZKID_URL = "http://zkid.app/dashboard";
+export const ZCLOAK_URL = "https://zcloak.network";
+export const ZCLOAK_TWITTER_URL = "https://twitter.com/zcloaknetwork";
+export const ZCLOAK_DISCORD_URL = "https://discord.gg/3bzTAXS9Ys";
 
 export const MOONSCAN_TX_URL = "https://moonbase.moonscan.io/tx/";
 

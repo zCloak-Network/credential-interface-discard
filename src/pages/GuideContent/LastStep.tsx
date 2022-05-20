@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-18 16:05:49
+ * @LastEditTime: 2022-05-20 17:33:38
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -15,7 +15,7 @@ import { hexToNumber } from "@polkadot/util";
 import { stripHexPrefix, numberToHex } from "web3-utils";
 import { getPoapId } from "../../services/api";
 import { getImg } from "../../utils/poap";
-import { ZKID, GUIDE_DESC } from "../../constants/guide";
+import { ZKID_URL, GUIDE_DESC } from "../../constants/guide";
 import BN from "bn.js";
 import { SerializableTransactionReceipt } from "../../state/transactions/reducer";
 import { PoapDigitalLink } from "../../utils/poap";
@@ -31,7 +31,7 @@ const LastStep: React.FC = () => {
   const [nftId, setNftId] = useState<string | null>(null);
 
   const jumpToZKID = () => {
-    window.open(ZKID);
+    window.open(ZKID_URL);
   };
 
   const claimPoap = () => {

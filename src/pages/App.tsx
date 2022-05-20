@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-05-20 11:12:38
+ * @LastEditTime: 2022-05-20 16:54:52
  */
 import { useEffect, useState } from "react";
 import Register from "./Register";
@@ -28,7 +28,6 @@ import Web3Gate from "./Web3Gate";
 export default function App(): JSX.Element {
   const navigate = useNavigate();
   const isClaimer = useRole();
-  // const isGuide = useGuide();
   const location = useLocation();
   const [password, setPassword] = useState("");
 

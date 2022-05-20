@@ -2,13 +2,13 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-20 16:41:13
+ * @LastEditTime: 2022-05-20 17:33:45
  */
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import Button from "../../components/Button";
-import { ZKID } from "../../constants/guide";
+import { ZKID_URL } from "../../constants/guide";
 import { InitDataContext } from "../Guide";
 import {
   useToggleGuideReplay,
@@ -51,7 +51,7 @@ const GuideHome: React.FC = () => {
   };
 
   const jumpToZKID = () => {
-    window.open(ZKID);
+    window.open(ZKID_URL);
   };
 
   const updateMessage = async () => {
