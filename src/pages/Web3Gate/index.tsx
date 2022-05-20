@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-09 15:01:30
- * @LastEditTime: 2022-05-10 16:51:56
+ * @LastEditTime: 2022-05-19 16:50:31
  */
 import React from "react";
 import { createWeb3ReactRoot, Web3ReactProvider } from "@web3-react/core";
@@ -15,7 +15,8 @@ interface IProps {
 }
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
-const GuideGate: React.FC<IProps> = ({ children }) => {
+
+const Web3Gate: React.FC<IProps> = ({ children }) => {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
@@ -24,4 +25,4 @@ const GuideGate: React.FC<IProps> = ({ children }) => {
     </Web3ReactProvider>
   );
 };
-export default GuideGate;
+export default Web3Gate;

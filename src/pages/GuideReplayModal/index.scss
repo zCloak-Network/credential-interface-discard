@@ -1,0 +1,36 @@
+.login-err-modal {
+  text-align: center;
+
+  .err-tip {
+    text-align: left;
+    font-size: 16px;
+    font-family: Kanit;
+    font-weight: 400;
+    line-height: 24px;
+    color: #333333;
+    > span {
+      color: #6768ac;
+    }
+  }
+
+  .err-tip {
+    margin: 24px 0;
+  }
+
+  .clear-btn {
+    width: 439px;
+    height: 60px;
+    background: #d56386;
+    opacity: 1;
+    border-radius: 20px;
+    font-size: 18px;
+    font-family: Kanit;
+    font-weight: 500;
+
+    color: #ffffff;
+  }
+
+  .clear-btn:hover {
+    background: rgba(213, 99, 134, 0.8);
+  }
+}

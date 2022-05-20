@@ -5,6 +5,8 @@
   overflow: auto;
   background-repeat: no-repeat;
   background-size: cover;
+  padding-top: 108px;
+
   .guide-content {
     display: flex;
     align-items: center;
@@ -49,6 +51,10 @@
       .iconfont{
         font-size: 12px;
         margin-left: 10px;
+      }
+
+      .iconfont-refresh {
+        font-size: 16px;
       }
     }
 

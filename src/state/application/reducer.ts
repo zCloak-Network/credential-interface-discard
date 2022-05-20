@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:09:59
- * @LastEditTime: 2022-04-12 22:57:50
+ * @LastEditTime: 2022-05-20 15:15:20
  */
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { DEFAULT_TXN_DISMISS_MS } from "../../constants";
@@ -26,9 +26,10 @@ export type PopupContent = {
 
 export enum ApplicationModal {
   WALLET,
-  CONNECT_WALLET,
+  CHOOSE_ACCOUNT,
   SELECT_TOKEN,
   ERROR,
+  WRONG_NETWORK,
   SUBMIT_PROOF,
   ACCOUNT_DETAILS,
   CREATE_CLAIM,
@@ -36,6 +37,8 @@ export enum ApplicationModal {
   ATTESTATION_DETAIL,
   GUIDE_MESSAGE,
   GUIDE_RULE,
+  CONNECT_WALLET,
+  GUIDE_REPLAY
 }
 
 type PopupList = Array<{

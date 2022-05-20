@@ -2,25 +2,18 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-19 11:34:48
+ * @LastEditTime: 2022-05-20 16:38:49
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
 import classNames from "classnames";
-import GuideGate from "../GuideGate";
 import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
 import ThirdStep from "./ThirdStep";
-import FourthStep from "./FourthStep";
 import FifthStep from "./FifthStep";
 import LastStep from "./LastStep";
-import GuideHeader from "../../components/GuideHeader";
-import { useWeb3React } from "@web3-react/core";
-import Web3 from "web3";
 import { GUIDE_CREDENTIAL } from "../../constants/guide";
 import { getProof } from "../../services/api";
-import { ethers } from "ethers";
-import { fromWei } from "web3-utils";
 import {
   IMessage,
   IDidDetails,
@@ -47,7 +40,6 @@ export interface ICredential {
   inReplyTo?: IMessage["messageId"];
   references?: Array<IMessage["messageId"]>;
 }
-
 export interface IVerifying {
   _id: string;
   blockNumber: number;
@@ -64,7 +56,6 @@ export interface IVerifying {
   calcResult: number[];
   __v: number;
 }
-
 export interface IProof {
   _id: string;
   blockNumber: number;
@@ -87,11 +78,9 @@ export interface IProof {
 }
 
 const GuideContent: React.FC = () => {
-  const { account } = useWeb3React();
   const [current, setCurrent] = useState<number>(0);
   const [credentail, setCredentail] = useState<ICredential | null>(null);
   const [proof, setProof] = useState<boolean>();
-  const [balance, setBalance] = useState<string>("0");
 
   const handleNext = () => {
     setCurrent(current + 1);
@@ -106,7 +95,7 @@ const GuideContent: React.FC = () => {
       const data = res.data.data;
 
       if (Object.keys(data).length > 0) {
-        setCurrent(4);
+        setCurrent(3);
       }
     }
   };
@@ -133,10 +122,6 @@ const GuideContent: React.FC = () => {
     },
     {
       title: "Fourth",
-      content: <FourthStep handleNext={handleNext} balance={balance} />,
-    },
-    {
-      title: "Fifth",
       content: (
         <FifthStep
           handleNext={handleNext}
@@ -164,27 +149,8 @@ const GuideContent: React.FC = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (account) {
-      const provider = new ethers.providers.Web3Provider(Web3.givenProvider);
-
-      provider.on("block", async () => {
-        const _balance = await provider.getBalance(account);
-
-        const formatBalance = Number(fromWei(String(_balance))).toFixed(4);
-
-        setBalance(formatBalance);
-      });
-
-      return () => {
-        provider.removeAllListeners();
-      };
-    }
-  }, [account]);
-
   return (
     <div className="guide-new">
-      <GuideHeader balance={balance} />
       <div
         className={classNames("guide-new-container-wrapper", {
           "get-credential": current === 1 && !credentail,
@@ -211,12 +177,4 @@ const GuideContent: React.FC = () => {
   );
 };
 
-const GuideContentWrapper: React.FC = () => {
-  return (
-    <GuideGate>
-      <GuideContent />
-    </GuideGate>
-  );
-};
-
-export default GuideContentWrapper;
+export default GuideContent;

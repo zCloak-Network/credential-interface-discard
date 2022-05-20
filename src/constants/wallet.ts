@@ -2,14 +2,14 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-16 15:47:06
- * @LastEditTime: 2022-01-05 14:43:06
+ * @LastEditTime: 2022-05-19 15:38:18
  */
 import { AbstractConnector } from "@web3-react/abstract-connector";
 
 import METAMASK_ICON_URL from "../images/logo_metamask.svg";
 import { injected } from "../connectors";
 
-interface WalletInfo {
+export interface WalletInfo {
   connector?: AbstractConnector;
   name: string;
   iconURL: string;

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-21 17:03:58
- * @LastEditTime: 2022-04-12 22:57:58
+ * @LastEditTime: 2022-05-20 16:42:04
  */
 import { useMemo, useCallback } from "react";
 import { AppState } from "../PersistentStore";
@@ -40,8 +40,16 @@ export function useToggleErrorModal(): () => void {
   return useToggleModal(ApplicationModal.ERROR);
 }
 
+export function useToggleWrongNetworkModal(): () => void {
+  return useToggleModal(ApplicationModal.WRONG_NETWORK);
+}
+
 export function useToggleConnectWalletModal(): () => void {
   return useToggleModal(ApplicationModal.CONNECT_WALLET);
+}
+
+export function useToggleChooseAccountModal(): () => void {
+  return useToggleModal(ApplicationModal.CHOOSE_ACCOUNT);
 }
 
 export function useToggleSubmitProofModal(): () => void {
@@ -67,8 +75,13 @@ export function useToggleDetailModal(): () => void {
 export function useToggleGuideMessage(): () => void {
   return useToggleModal(ApplicationModal.GUIDE_MESSAGE);
 }
+
 export function useToggleGuideRule(): () => void {
   return useToggleModal(ApplicationModal.GUIDE_RULE);
+}
+
+export function useToggleGuideReplay(): () => void {
+  return useToggleModal(ApplicationModal.GUIDE_REPLAY);
 }
 
 // returns a function that allows adding a popup

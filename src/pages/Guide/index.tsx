@@ -2,60 +2,86 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-18 15:48:18
+ * @LastEditTime: 2022-05-20 16:37:04
  */
-import React from "react";
-import GuideHeader from "../../components/GuideHeader";
-import Button from "../../components/Button";
-import { useNavigate } from "react-router-dom";
-import { ZKID } from "../../constants/guide";
+import { useState, useEffect, createContext } from "react";
+import { Route, Routes } from "react-router-dom";
+import Web3 from "web3";
+import { ethers } from "ethers";
+import { fromWei } from "web3-utils";
+import { useWeb3React } from "@web3-react/core";
+import GuideHome from "../GuideHome";
+import GuideContent from "../GuideContent";
+import GuideHeader from "../GuideHeader";
+import { getPoapId } from "../../services/api";
+import { PoapDigitalLink } from "../../utils/poap";
 
-import Img from "../../images/poap.webp";
-import Star from "../../images/star.svg";
-import Star_1 from "../../images/star_1.svg";
-
-import "./index.scss";
+export const InitDataContext = createContext({
+  poapId: "",
+  nftId: "",
+  balance: "0",
+});
 
 const Guide: React.FC = () => {
-  const navigate = useNavigate();
+  const { account } = useWeb3React();
+  const [balance, setBalance] = useState<string>("0");
+  const [poapId, setPoapId] = useState<PoapDigitalLink | "">("");
+  const [nftId, setNftId] = useState<string>("");
 
-  const handleClick = () => {
-    navigate("/tutorial/new");
+  useEffect(() => {
+    if (account) {
+      const provider = new ethers.providers.Web3Provider(Web3.givenProvider);
+
+      provider.on("block", async () => {
+        const _balance = await provider.getBalance(account);
+
+        const formatBalance = Number(fromWei(String(_balance))).toFixed(4);
+
+        setBalance(formatBalance);
+      });
+
+      return () => {
+        provider.removeAllListeners();
+      };
+    }
+  }, [account]);
+
+  const getPoapIdByAccount = async () => {
+    if (!account) return;
+    const res = await getPoapId({ who: account });
+
+    if (res.data.code === 200) {
+      if (res.data.data) {
+        const { poapId, nftId } = res.data.data;
+        setPoapId(poapId);
+        setNftId(nftId);
+      } else {
+        setPoapId("");
+        setNftId("");
+      }
+    }
   };
 
-  const jumpToZKID = () => {
-    window.open(ZKID);
-  };
+  useEffect(() => {
+    getPoapIdByAccount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account]);
 
   return (
-    <div className="guide-home">
-      <GuideHeader />
-      <div className="guide-content">
-        <div className="guide-home-left">
-          <div className="guide-home-left-title">
-            A Privacy-Preserving <br />
-            Passport to the <br />
-            Web 3.0 World
-            <span className="guide-home-left-icon">
-              <img src={Star} alt="" />
-              <img src={Star_1} alt="" className="star-img" />
-            </span>
-          </div>
-          <div className="guide-home-left-desc">
-            Prove who you are, without telling who you are.
-            <br /> Data and computation, keep both in your own hands.
-          </div>
-          <Button className="guide-home-btn" onClick={handleClick}>
-            Go to Tutorial <i className="iconfont icon_1"></i>
-          </Button>
-          <Button className="guide-home-btn" onClick={jumpToZKID}>
-            Go to Dashboard <i className="iconfont icon_1"></i>
-          </Button>
-        </div>
-        <div className="guide-home-right">
-          <img src={Img} alt="" />
-        </div>
-      </div>
+    <div style={{ height: "100%" }}>
+      <InitDataContext.Provider
+        value={{
+          poapId: poapId,
+          nftId: nftId,
+          balance: balance,
+        }}
+      >
+        <GuideHeader balance={balance} />
+        <Routes>
+          <Route path="/" element={<GuideHome />} />
+          <Route path="/tutorial/new" element={<GuideContent />} />
+        </Routes>
+      </InitDataContext.Provider>
     </div>
   );
 };

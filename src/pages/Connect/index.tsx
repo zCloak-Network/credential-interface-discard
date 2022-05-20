@@ -2,7 +2,7 @@
  * @Description: submit modal
  * @Author: lixin
  * @Date: 2021-12-02 17:23:15
- * @LastEditTime: 2022-05-16 10:57:57
+ * @LastEditTime: 2022-05-20 16:31:09
  */
 import React, { ReactElement } from "react";
 import FileSaver from "file-saver";
@@ -18,20 +18,16 @@ import {
 } from "../../state/wallet/hooks";
 import {
   useModalOpen,
-  useToggleConnectWalletModal,
+  useToggleChooseAccountModal,
 } from "../../state/application/hooks";
 import useRole from "../../hooks/useRole";
 import CopyHelper from "../../components/Copy";
-// import EnterPasswordModal from "../../components/EnterPasswordModal";
 import { ApplicationModal } from "../../state/application/reducer";
 import { IIdentity } from "../../state/wallet/reducer";
 
 import "./index.scss";
-type Props = {
-  resetPassword: () => void;
-};
 
-export default function Connect({ resetPassword }: Props): ReactElement {
+export default function Connect(): ReactElement {
   const navigate = useNavigate();
   const isClaimer = useRole();
   const claimers = useGetClaimers();
@@ -39,10 +35,8 @@ export default function Connect({ resetPassword }: Props): ReactElement {
   const data = isClaimer ? claimers : attesters;
   const currAccount = useGetCurrIdentity();
   const saveCurrIdentity = useSaveCurrIdentity();
-  const connectWalletModalOpen = useModalOpen(ApplicationModal.CONNECT_WALLET);
-  const toggleConnectWalletModal = useToggleConnectWalletModal();
-  // const [enterPasswordStatus, setEnterPasswordStatus] =
-  //   useState<boolean>(false);
+  const connectWalletModalOpen = useModalOpen(ApplicationModal.CHOOSE_ACCOUNT);
+  const toggleConnectWalletModal = useToggleChooseAccountModal();
 
   const handleClick = (value: IIdentity) => {
     saveCurrIdentity(value);
@@ -61,7 +55,6 @@ export default function Connect({ resetPassword }: Props): ReactElement {
   const handleDownload = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     if (!currAccount) return;
-    // setEnterPasswordStatus(true);
 
     const blob = await new Blob([JSON.stringify(currAccount.mnemonic)], {
       type: "text/plain;charset=utf-8",

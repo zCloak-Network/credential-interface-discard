@@ -1,0 +1,33 @@
+.walletModal {
+  .ant-modal-content {
+    width: 424px;
+
+    .wallets {
+      margin-top: 34px;
+
+      > li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        height: $height-xl;
+        .wallet-img {
+          width: 32px;
+          height: 30px;
+        }
+
+        .wallet-name {
+          font-size: $font-size-base;
+          color: $sub-title-color;
+          display: inline-block;
+          margin-left: $margin-md;
+        }
+      }
+
+      > li:hover {
+        border-radius: 10px;
+        background: $item-hover-bg;
+      }
+    }
+  }
+}

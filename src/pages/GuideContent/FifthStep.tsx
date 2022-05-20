@@ -2,16 +2,17 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-19 10:42:40
+ * @LastEditTime: 2022-05-20 16:37:52
  */
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
+import { useWeb3React } from "@web3-react/core";
 import { useInterval } from "ahooks";
 import Button from "../../components/Button";
 import FifthStepSubmit from "./FifthStepSubmit";
-import { useWeb3React } from "@web3-react/core";
 import RuleModal from "./RuleModal";
 import Uploading from "./Uploading";
-import { getProof } from "../../services/api";
+import { getProof, getToken } from "../../services/api";
+import { InitDataContext } from "../Guide";
 import {
   CTYPE,
   CTYPE_HASH,
@@ -43,7 +44,9 @@ const FifthStep: React.FC<IProps> = ({
   handleProof,
 }) => {
   const { account } = useWeb3React();
+  const initData = useContext(InitDataContext);
   const [proof, setProof] = useState<IProof | null>(null);
+  const [getTokenLoading, setGetTokenLoading] = useState<boolean>(false);
   const [isSubmited, setIsSubmited] = useState<boolean>(false);
   const [interval, setIntervalStatus] = useState<number | undefined>(undefined);
   const [uploadStatus, setUploadStatus] = useState<UploadStatus | null>(null);
@@ -122,6 +125,13 @@ const FifthStep: React.FC<IProps> = ({
     setUploadStatus(result);
   };
 
+  const handleToken = async () => {
+    if (account) {
+      await setGetTokenLoading(true);
+      await getToken({ address: account });
+    }
+  };
+
   useEffect(() => {
     getProofData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -145,29 +155,62 @@ const FifthStep: React.FC<IProps> = ({
     return GUIDE_DESC.uploadProof;
   }, [uploadStatus]);
 
-  return (
-    <div className="step-wrapper">
-      <div className="title">{text.title}</div>
-      <div className="sub-title">{text.desc}</div>
-      {uploadStatus && ["uploading", "uploaded"].includes(uploadStatus) && (
+  const getContent = () => {
+    // Insufficient balance
+    if (initData.balance === "0.0000") {
+      return (
+        <div className="upload-fail">
+          <div className="upload-fail-content">
+            <img src={failImg} alt="fail" />
+            <span
+              style={{
+                marginRight: "88px",
+              }}
+            >
+              Sorry, you don’t have token.
+            </span>
+          </div>
+          <Button
+            size="default"
+            className="btn"
+            onClick={handleToken}
+            loading={getTokenLoading}
+          >
+            Get token
+          </Button>
+        </div>
+      );
+    }
+
+    // uploading
+    if (uploadStatus && ["uploading", "uploaded"].includes(uploadStatus)) {
+      return (
         <Uploading
           data={proof}
           uploaded={Boolean(uploadStatus === "uploaded")}
           handleNext={handleUploadingNext}
         />
-      )}
-      {uploadStatus === "fail" && (
+      );
+    }
+
+    // upload fail
+    if (uploadStatus === "fail") {
+      return (
         <div className="upload-fail">
           <div className="upload-fail-content">
             <img src={failImg} alt="fail" />
             <span>Your proof is verified False, You can‘t get an NFT.</span>
           </div>
-          <Button className="btn" onClick={handleNext}>
+          {/* <Button className="btn" onClick={handleNext}>
             Next
-          </Button>
+          </Button> */}
         </div>
-      )}
-      {uploadStatus === "success" && (
+      );
+    }
+
+    // upload success
+    if (uploadStatus === "success") {
+      return (
         <div className="upload-success">
           <div className="upload-success-content">
             <img src={successImg} alt="success" />
@@ -186,8 +229,12 @@ const FifthStep: React.FC<IProps> = ({
             Next
           </Button>
         </div>
-      )}
-      {uploadStatus === "prepare" && account && (
+      );
+    }
+
+    // not upload and submit
+    if (uploadStatus === "prepare" && account) {
+      return (
         <FifthStepSubmit
           account={account}
           cTypeHash={CTYPE_HASH}
@@ -202,7 +249,15 @@ const FifthStep: React.FC<IProps> = ({
             setIntervalStatus(TIME);
           }}
         />
-      )}
+      );
+    }
+  };
+
+  return (
+    <div className="step-wrapper">
+      <div className="title">{text.title}</div>
+      <div className="sub-title">{text.desc}</div>
+      {getContent()}
       <RuleModal />
     </div>
   );
