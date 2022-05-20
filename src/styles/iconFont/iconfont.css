@@ -1,9 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3139480 */
-  src: url('iconfont.woff2?t=1651139472592') format('woff2'),
-       url('iconfont.woff?t=1651139472592') format('woff'),
-       url('iconfont.ttf?t=1651139472592') format('truetype'),
-       url('iconfont.svg?t=1651139472592#iconfont') format('svg');
+  src: url('iconfont.woff2?t=1652953968384') format('woff2'),
+       url('iconfont.woff?t=1652953968384') format('woff'),
+       url('iconfont.ttf?t=1652953968384') format('truetype'),
+       url('iconfont.svg?t=1652953968384#iconfont') format('svg');
 }
 
 .iconfont {
@@ -12,6 +12,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.shuaxin:before {
+  content: "\e690";
 }
 
 .a-ziyuan11:before {
