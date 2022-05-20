@@ -2,9 +2,8 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-04-12 11:22:25
+ * @LastEditTime: 2022-05-20 14:57:20
  */
-import React from "react";
 import Modal from "../Modal";
 import Button from "../Button";
 import {
@@ -16,11 +15,11 @@ import { ApplicationModal } from "../../state/application/reducer";
 
 import "./index.scss";
 
-type Props = {
+interface IProps {
   resetPassword: () => void;
-};
+}
 
-export default function ErrorModal({ resetPassword }: Props): JSX.Element {
+export default function ErrorModal({ resetPassword }: IProps): JSX.Element {
   const toggleErrorModal = useToggleErrorModal();
   const errorModalOpen = useModalOpen(ApplicationModal.ERROR);
 

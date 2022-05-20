@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-28 17:56:31
- * @LastEditTime: 2022-05-12 17:28:53
+ * @LastEditTime: 2022-05-19 15:49:10
  */
 import React from "react";
 import Modal from "../Modal";
@@ -12,7 +12,7 @@ import { ExternalLink } from "react-feather";
 import Copy from "./Copy";
 import {
   useModalOpen,
-  useToggleConnectWalletModal,
+  useToggleChooseAccountModal,
   useToggleAccountDetailsModal,
 } from "../../state/application/hooks";
 import { ApplicationModal } from "../../state/application/reducer";
@@ -22,7 +22,7 @@ import "./indes.scss";
 
 export default function AccountDetails(): JSX.Element {
   const { account, chainId } = useActiveWeb3React();
-  const toggleConnectWalletModal = useToggleConnectWalletModal();
+  const toggleConnectWalletModal = useToggleChooseAccountModal();
   const toggleAccountDetailsModal = useToggleAccountDetailsModal();
   const accountDetailsModalOpen = useModalOpen(
     ApplicationModal.ACCOUNT_DETAILS

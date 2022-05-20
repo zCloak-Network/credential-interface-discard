@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-02 11:07:37
- * @LastEditTime: 2022-05-16 10:57:27
+ * @LastEditTime: 2022-05-19 15:49:24
  */
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ import classNames from "classnames";
 import { useClickAway } from "ahooks";
 import Menu from "../Menu";
 import Button from "../Button";
-import { useToggleConnectWalletModal } from "../../state/application/hooks";
+import { useToggleChooseAccountModal } from "../../state/application/hooks";
 import Logo from "../../images/logo.svg";
 import { shortenHash } from "../../utils";
 import * as Kilt from "@kiltprotocol/sdk-js";
@@ -36,7 +36,7 @@ export default function Header({ menu }: Props): React.ReactElement {
   const [menuStatus, setMenuStatus] = useState(true);
   const [balanceLoading, setBalanceLoading] = useState(false);
 
-  const toggleConnectWalletModal = useToggleConnectWalletModal();
+  const toggleConnectWalletModal = useToggleChooseAccountModal();
 
   const handleOpenConnect = async () => {
     toggleConnectWalletModal();
