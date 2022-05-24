@@ -3,7 +3,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-24 15:17:34
+ * @LastEditTime: 2022-05-24 19:48:07
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -65,7 +65,7 @@ const TIME = 6000;
 const messageKey = "getCredential";
 
 interface IProps {
-  handleNext: () => void;
+  jumpStep: (step: number) => void;
   handleCredentail: (data: ICredential | null) => void;
 }
 
@@ -78,7 +78,7 @@ interface IAccout {
 const WAITING_MESSAGE =
   "We are checking your documents. The attestation takes 30-60s.";
 
-const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
+const SecondStep: React.FC<IProps> = ({ jumpStep, handleCredentail }) => {
   const [form] = Form.useForm();
   const addPopup = useAddPopup();
   const toggleModal = useToggleGuideMessage();
@@ -455,7 +455,13 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
             <Button className="btn" onClick={handleDownload}>
               Download
             </Button>
-            <Button className="btn" disabled={!next} onClick={handleNext}>
+            <Button
+              className="btn"
+              disabled={!next}
+              onClick={() => {
+                jumpStep(2);
+              }}
+            >
               Next
             </Button>
           </div>

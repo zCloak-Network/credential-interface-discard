@@ -25,12 +25,12 @@ export interface IButtonStaus {
 }
 
 interface IProps {
-  handleNext: () => void;
+  jumpStep: (step: number) => void;
 }
 
 const messageKey = "installExtension";
 
-const FirstStep: React.FC<IProps> = ({ handleNext }) => {
+const FirstStep: React.FC<IProps> = ({ jumpStep }) => {
   const [status, setStatus] = useState<string>("next");
   const [hasPassword, setPassword] = useState<boolean>(false);
 
@@ -81,7 +81,9 @@ const FirstStep: React.FC<IProps> = ({ handleNext }) => {
     next: {
       buttonText: "Next",
       buttonType: null,
-      func: handleNext,
+      func: () => {
+        jumpStep(1);
+      },
       message: null,
       messageType: null,
     },

@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: lixin
  * @Date: 2021-12-08 19:47:31
- * @LastEditTime: 2022-05-24 16:34:35
+ * @LastEditTime: 2022-05-24 18:35:47
  */
 import axios from "axios";
 
@@ -177,5 +177,15 @@ export async function getTokenStatus(
     params: {
       ...params,
     },
+  });
+}
+
+export async function getRootHashsOwner(
+  params: { rootHash: string },
+  options?: { [key: string]: any }
+) {
+  return axios({
+    method: "get",
+    url: `${ZKID_SERVICE_URL}/credential/${params.rootHash}/user`
   });
 }

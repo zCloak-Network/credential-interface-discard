@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-24 17:20:34
+ * @LastEditTime: 2022-05-24 19:44:19
  */
 import { useState, useEffect, useMemo, useContext } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -33,13 +33,13 @@ type UploadStatus = "uploading" | "success" | "prepare" | "fail" | "uploaded";
 type UploadResult = "success" | "fail";
 
 interface IProps {
-  handleNext: () => void;
+  jumpStep: (step: number) => void;
   handleProof: (proof: boolean) => void;
 }
 
 const TIME = 3000;
 
-const FourthStep: React.FC<IProps> = ({ handleNext, handleProof }) => {
+const FourthStep: React.FC<IProps> = ({ handleProof, jumpStep }) => {
   const { account } = useWeb3React();
   const initData = useContext(InitDataContext);
   const [proof, setProof] = useState<IProof | null>(null);
@@ -229,7 +229,12 @@ const FourthStep: React.FC<IProps> = ({ handleNext, handleProof }) => {
               </span>
             </span>
           </div>
-          <Button className="btn" onClick={handleNext}>
+          <Button
+            className="btn"
+            onClick={() => {
+              jumpStep(4);
+            }}
+          >
             Next
           </Button>
         </div>
@@ -247,6 +252,7 @@ const FourthStep: React.FC<IProps> = ({ handleNext, handleProof }) => {
           proHash={ZK_PROGRAM.hash}
           proName={ZK_PROGRAM.name}
           programDetail={ZK_PROGRAM.detailString}
+          jumpStep={jumpStep}
           handleNext={() => {
             setIsSubmited(true);
             setUploadStatus("uploading");

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-05-24 17:21:10
+ * @LastEditTime: 2022-05-24 20:11:43
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -17,6 +17,8 @@ import { decodeAddress } from "@polkadot/keyring";
 import { GUIDE_ACCOUNT } from "../../constants/guide";
 import { openMessage, destroyMessage } from "../../utils/message";
 import classNames from "classnames";
+import { getRootHashsOwner } from "../../services/api";
+import Modal from "../../components/Modal";
 
 import { IButtonStaus } from "./FirstStep";
 import { SerializableTransactionReceipt } from "../../state/transactions/reducer";
@@ -43,6 +45,7 @@ interface IProps {
   fieldName: string;
   programDetail: string;
   handleNext: () => void;
+  jumpStep: (step: number) => void;
 }
 
 interface IProofInfo {
@@ -79,9 +82,12 @@ const FourthStepSubmit: React.FC<IProps> = ({
   proName,
   programDetail,
   handleNext,
+  jumpStep,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [generateLoading, setGenerateLoading] = useState<boolean>(false);
+  const [usedRoothashErrorModal, setUsedRoothashErrorModal] =
+    useState<boolean>(false);
   // const [status, setStatus] = useState("submit");
   const [generationInfo, setGenerationInfo] = useState<IProofInfo>({
     proofCid: "",
@@ -107,8 +113,26 @@ const FourthStepSubmit: React.FC<IProps> = ({
     });
   };
 
-  const handleSumbit = () => {
+  const checkRootHashIsUsed = async (rootHash: string) => {
+    const res = await getRootHashsOwner({ rootHash: rootHash });
+    if (res.data.code === 200 && !!res.data.data.address) {
+      // rootHash is used
+      return true;
+    }
+
+    return false;
+  };
+
+  const handleSumbit = async () => {
     setLoading(true);
+    const isUsed = await checkRootHashIsUsed(generationInfo.rootHash);
+
+    if (isUsed) {
+      setUsedRoothashErrorModal(true);
+      setLoading(false);
+      return;
+    }
+
     const localAccount = JSON.parse(localStorage.getItem(GUIDE_ACCOUNT) ?? "");
     if (localAccount) {
       const formatUserAddress = u8aToHex(
@@ -264,6 +288,31 @@ const FourthStepSubmit: React.FC<IProps> = ({
       >
         Submit
       </Button>
+
+      <Modal
+        width="488px"
+        visible={usedRoothashErrorModal}
+        title="Error"
+        onCancel={() => {
+          setUsedRoothashErrorModal(false);
+        }}
+        wrapClassName="login-err-modal"
+      >
+        <p className="err-tip">
+          This credential has already been used, please reupload it in the
+          extension or &nbsp;
+          <span
+            className="regenerate-btn"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              jumpStep(1);
+            }}
+          >
+            jump to step 2
+          </span>
+          &nbsp; to regenerate the credential.
+        </p>
+      </Modal>
     </div>
   );
 };

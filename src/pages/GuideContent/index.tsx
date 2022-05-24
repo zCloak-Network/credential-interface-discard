@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-24 17:16:28
+ * @LastEditTime: 2022-05-24 19:58:21
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -91,8 +91,8 @@ const GuideContent: React.FC = () => {
   const [credentail, setCredentail] = useState<ICredential | null>(null);
   const [proof, setProof] = useState<boolean>();
 
-  const handleNext = () => {
-    setCurrent(current + 1);
+  const jumpStep = (step: number) => {
+    setCurrent(step);
   };
 
   const getProofData = async () => {
@@ -121,13 +121,13 @@ const GuideContent: React.FC = () => {
   const steps = [
     {
       title: "First",
-      content: <FirstStep handleNext={handleNext} />,
+      content: <FirstStep jumpStep={jumpStep} />,
     },
     {
       title: "Second",
       content: (
         <SecondStep
-          handleNext={handleNext}
+          jumpStep={jumpStep}
           handleCredentail={(data) => {
             setCredentail(data);
           }}
@@ -136,13 +136,13 @@ const GuideContent: React.FC = () => {
     },
     {
       title: "Third",
-      content: <ThirdStep handleNext={handleNext} />,
+      content: <ThirdStep jumpStep={jumpStep} />,
     },
     {
       title: "Fourth",
       content: (
         <FourthStep
-          handleNext={handleNext}
+          jumpStep={jumpStep}
           handleProof={(data) => {
             setProof(data);
           }}

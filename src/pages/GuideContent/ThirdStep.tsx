@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-18 15:51:55
+ * @LastEditTime: 2022-05-24 20:04:40
  */
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -14,12 +14,12 @@ import { IButtonStaus } from "./FirstStep";
 import bg from "../../images/step_import.webp";
 
 interface IProps {
-  handleNext: () => void;
+  jumpStep: (step: number) => void;
 }
 
 const messageKey = "importCredential";
 
-const ThirdStep: React.FC<IProps> = ({ handleNext }) => {
+const ThirdStep: React.FC<IProps> = ({ jumpStep }) => {
   const [status, setStatus] = useState<string>("next");
   const [hasCredential, setHasCredential] = useState<boolean>(false);
 
@@ -51,7 +51,9 @@ const ThirdStep: React.FC<IProps> = ({ handleNext }) => {
     next: {
       buttonText: "Next",
       buttonType: null,
-      func: handleNext,
+      func: () => {
+        jumpStep(3);
+      },
       message: null,
       messageType: null,
     },
