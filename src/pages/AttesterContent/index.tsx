@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-21 14:20:49
- * @LastEditTime: 2022-05-16 12:52:08
+ * @LastEditTime: 2022-05-24 14:35:22
  */
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
@@ -158,7 +158,7 @@ const Content: React.FC = () => {
         };
 
         const messageBack = new Kilt.Message(
-          // TODO 强行断言了messageBody
+          // TODO
           messageBody as MessageBody,
           currIdentity.fullDid.did,
           selectItem.sender

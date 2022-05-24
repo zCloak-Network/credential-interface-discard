@@ -2,9 +2,9 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-05-16 11:29:09
+ * @LastEditTime: 2022-05-24 14:32:20
  */
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import omit from "omit.js";
 import { Claim, CType } from "@kiltprotocol/sdk-js";
 import Modal from "../Modal";

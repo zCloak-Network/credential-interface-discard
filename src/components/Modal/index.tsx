@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:13:47
- * @LastEditTime: 2022-04-12 10:59:40
+ * @LastEditTime: 2022-05-24 14:27:18
  */
 import React, { useMemo } from "react";
 import { Modal } from "antd";
@@ -50,7 +50,7 @@ export default function MyModal({
       wrapClassName={wrapClassNames}
       closeIcon={
         <span className="close-btn">
-          <img src={closeImg} />
+          <img src={closeImg} alt="close" />
         </span>
       }
       {...rest}
