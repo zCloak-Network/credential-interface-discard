@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-24 14:15:49
+ * @LastEditTime: 2022-05-24 16:28:57
  */
 import { useState, useEffect, useMemo, useContext } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -139,6 +139,8 @@ const FifthStep: React.FC<IProps> = ({
     if (initData.proof && Object.keys(initData.proof).length > 0) {
       setProof(initData.proof);
       setUploadStatus("uploaded");
+      setResult("success");
+      handleProof(true);
     } else {
       getProofData();
     }
