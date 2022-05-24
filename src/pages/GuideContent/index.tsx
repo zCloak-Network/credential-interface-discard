@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-24 10:41:17
+ * @LastEditTime: 2022-05-24 17:16:28
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -10,7 +10,7 @@ import classNames from "classnames";
 import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
 import ThirdStep from "./ThirdStep";
-import FifthStep from "./FifthStep";
+import FourthStep from "./FourthStep";
 import LastStep from "./LastStep";
 import { useWeb3React } from "@web3-react/core";
 import {
@@ -141,9 +141,8 @@ const GuideContent: React.FC = () => {
     {
       title: "Fourth",
       content: (
-        <FifthStep
+        <FourthStep
           handleNext={handleNext}
-          credentail={credentail}
           handleProof={(data) => {
             setProof(data);
           }}
@@ -168,8 +167,8 @@ const GuideContent: React.FC = () => {
           "get-credential": current === 1 && !credentail,
           "credential-wrapper": current === 1 && !!credentail,
           "import-credential": current === 2,
-          "upload-proof": current === 4 && !proof,
-          "has-proof": current === 4 && !!proof,
+          "upload-proof": current === 3 && !proof,
+          "has-proof": current === 3 && !!proof,
         })}
       >
         <div className="guide-new-container" id="content">

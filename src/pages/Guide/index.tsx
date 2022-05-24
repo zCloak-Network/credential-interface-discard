@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-24 11:03:38
+ * @LastEditTime: 2022-05-24 17:08:52
  */
 import { useState, useEffect, createContext } from "react";
 import { Route, Routes } from "react-router-dom";
@@ -96,9 +96,7 @@ const Guide: React.FC = () => {
     if (res.data.code === 200) {
       const data = res.data.data;
 
-      if (Object.keys(data).length > 0) {
-        setProof(data);
-      }
+      setProof(data);
     }
   };
 

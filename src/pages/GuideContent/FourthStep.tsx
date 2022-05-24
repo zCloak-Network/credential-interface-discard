@@ -2,251 +2,267 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-13 18:06:58
+ * @LastEditTime: 2022-05-24 17:20:34
  */
-import React, { useEffect, useState } from "react";
-import Button from "../../components/Button";
-import { SUPPORTED_WALLETS } from "../../constants/wallet";
-import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
-import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import { AbstractConnector } from "@web3-react/abstract-connector";
-import { shortenAddress } from "../../utils";
-import { SupportedChainId, CHAIN_INFO } from "../../constants/chains";
-import classNames from "classnames";
-import { openMessage, destroyMessage } from "../../utils/message";
-import { METAMASK_EXTENSION } from "../../constants/guide";
-import { getToken, getTokenStatus } from "../../services/api";
+import { useState, useEffect, useMemo, useContext } from "react";
+import { useWeb3React } from "@web3-react/core";
 import { useInterval } from "ahooks";
-import { GUIDE_DESC } from "../../constants/guide";
-import { IButtonStaus } from "./FirstStep";
+import Button from "../../components/Button";
+import FourthStepSubmit from "./FourthStepSubmit";
+import RuleModal from "./RuleModal";
+import Uploading from "./Uploading";
+import { getProof, getToken } from "../../services/api";
+import { InitDataContext } from "../Guide";
+import { getRequestHash } from "../../utils";
+import { decodeAddress } from "@polkadot/keyring";
+import { stringToHex, u8aToHex } from "@polkadot/util";
+import {
+  CTYPE,
+  CTYPE_HASH,
+  ZK_PROGRAM,
+  GUIDE_DESC,
+  ADMIN_ATTESTER_ADDRESS,
+} from "../../constants/guide";
+import { IProof } from "./index";
+
+import failImg from "../../images/fail.webp";
+import successImg from "../../images/success.webp";
+
+type UploadStatus = "uploading" | "success" | "prepare" | "fail" | "uploaded";
+
+type UploadResult = "success" | "fail";
 
 interface IProps {
   handleNext: () => void;
-  balance: string;
+  handleProof: (proof: boolean) => void;
 }
+
 const TIME = 3000;
 
-enum FAUCET_STATUS {
-  notFauceted = 1,
-  fauceting = 2,
-  fauceted = 3,
-}
-const messageKey = "installMetamask";
-
-const FourthStep: React.FC<IProps> = ({ balance, handleNext }) => {
-  const { account, error, activate } = useWeb3React();
-  const [status, setStatus] = useState<string>("connect");
+const FourthStep: React.FC<IProps> = ({ handleNext, handleProof }) => {
+  const { account } = useWeb3React();
+  const initData = useContext(InitDataContext);
+  const [proof, setProof] = useState<IProof | null>(null);
+  const [getTokenLoading, setGetTokenLoading] = useState<boolean>(false);
+  const [isSubmited, setIsSubmited] = useState<boolean>(false);
   const [interval, setIntervalStatus] = useState<number | undefined>(undefined);
-  const [faucetStatus, setFaucetStatus] = useState<number>(1);
+  const [uploadStatus, setUploadStatus] = useState<UploadStatus | null>(null);
+  const [result, setResult] = useState<UploadResult | null>(null);
 
-  const handleConnect = async (connector: AbstractConnector | undefined) => {
-    // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
-    if (connector instanceof WalletConnectConnector) {
-      connector.walletConnectProvider = undefined;
+  useEffect(() => {
+    if (uploadStatus === "uploading") {
+      handleProof(true);
+      setIntervalStatus(TIME);
+    } else {
+      handleProof(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uploadStatus]);
 
-    connector &&
-      activate(connector, undefined, true).catch((error) => {
-        if (error instanceof UnsupportedChainIdError) {
-          activate(connector); // a little janky...can't use setError because the connector isn't set
-        } else {
-        }
-      });
-  };
+  const getProofData = async () => {
+    if (!account) return;
 
-  const handleInstall = () => {
-    window.open(METAMASK_EXTENSION);
-  };
+    const requestHash = getRequestHash({
+      cType: CTYPE_HASH,
+      programHash: ZK_PROGRAM.hash,
+      fieldNames: ZK_PROGRAM.filed.split(",").map((it) => stringToHex(it)),
+      attester: u8aToHex(decodeAddress(ADMIN_ATTESTER_ADDRESS)),
+    });
 
-  const handleSwitch = async () => {
-    const { ethereum } = window;
-    if (ethereum && ethereum.isMetaMask) {
-      try {
-        await ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [
-            { chainId: CHAIN_INFO[SupportedChainId.MOONBASEALPHA].chainId },
-          ],
-        });
-      } catch (switchError: any) {
-        // This error code indicates that the chain has not been added to MetaMask.
-        if (switchError.code === 4902) {
-          try {
-            await ethereum.request({
-              method: "wallet_addEthereumChain",
-              params: [
-                {
-                  ...CHAIN_INFO[SupportedChainId.MOONBASEALPHA],
-                },
-              ],
-            });
-          } catch (addError) {
-            // handle "add" error
-          }
+    const res = await getProof({
+      dataOwner: account,
+      requestHash,
+    });
+
+    if (res.data.code === 200) {
+      const data = res.data.data;
+
+      if (Object.keys(data).length === 0 && !isSubmited) {
+        // if submitted
+        setIntervalStatus(undefined);
+        setUploadStatus("prepare");
+      } else {
+        const { verified, finished } = data;
+
+        if (!verified && finished) {
+          // if finished and failed
+          setIntervalStatus(undefined);
+          setUploadStatus("uploaded");
+          // if (isFirst) {
+          //   setUploadStatus("fail");
+          // } else {
+          //   setUploadStatus("uploaded");
+          // }
+          setResult("fail");
+          setProof(data);
+          handleProof(true);
+        } else if (verified && finished) {
+          // if finished and success
+          setIntervalStatus(undefined);
+          setUploadStatus("uploaded");
+          // if (isFirst) {
+          //   setUploadStatus("success");
+          // } else {
+          //   setUploadStatus("uploaded");
+          // }
+          setResult("success");
+
+          setProof(data);
+          handleProof(true);
+        } else if (!finished && !verified) {
+          // if verifing
+          setIntervalStatus(TIME);
+          setUploadStatus("uploading");
         }
       }
     }
   };
 
-  const queryTokenStatus = async () => {
-    if (!account) return;
-
-    const res = await getTokenStatus({ address: account });
-    if (res.data.code === 200) {
-      setFaucetStatus(res.data.data.status);
-    }
+  const handleUploadingNext = () => {
+    setUploadStatus(result);
   };
-
-  const updateStatus = async () => {
-    if (faucetStatus === FAUCET_STATUS.fauceting) {
-      queryTokenStatus();
-    } else {
-      await setIntervalStatus(undefined);
-      await setStatus("connected");
-    }
-  };
-
-  useInterval(() => {
-    if (account) {
-      updateStatus();
-    }
-  }, interval);
 
   const handleToken = async () => {
     if (account) {
-      await setStatus("loading");
-      const res = await getToken({ address: account });
-      if (res.data.code === 200) {
-        // await setStatus("loading");
-        await queryTokenStatus();
-        await setIntervalStatus(TIME);
-      }
+      await setGetTokenLoading(true);
+      await getToken({ address: account });
     }
   };
 
-  const BUTTON_MESSAGE_STATUS: {
-    [statusName: string]: IButtonStaus;
-  } = {
-    install: {
-      buttonText: "Install MetaMask",
-      buttonType: null,
-      func: handleInstall,
-      message: "You don’t have MetaMask installed",
-      messageType: "error",
-    },
-    connect: {
-      buttonText: "connect wallet",
-      buttonType: null,
-      func: handleConnect,
-      message: null,
-      messageType: null,
-    },
-    loading: {
-      buttonText: "loading",
-      buttonType: "loading",
-      func: null,
-      message: "Please sign the message in your wallet",
-      messageType: "warning",
-    },
-    switch: {
-      buttonText: "Switch network",
-      buttonType: null,
-      func: handleSwitch,
-      message: "You are on the wrong network",
-      messageType: "error",
-    },
-    connected: {
-      buttonText: "Next",
-      buttonType: null,
-      func: handleNext,
-      message: null,
-      messageType: null,
-    },
-    balance: {
-      buttonText: "Get token",
-      buttonType: null,
-      func: handleToken,
-      message: null,
-      messageType: null,
-    },
-  };
-  const allStatus = BUTTON_MESSAGE_STATUS[status];
-
   useEffect(() => {
-    setFaucetStatus(FAUCET_STATUS.notFauceted);
-  }, [account]);
-
-  useEffect(() => {
-    if (!(window.web3 || window.ethereum)) {
-      setStatus("install");
-      const data = BUTTON_MESSAGE_STATUS.install;
-      openMessage(data.message, data.messageType, messageKey);
-      return;
+    if (initData.proof && Object.keys(initData.proof).length > 0) {
+      setProof(initData.proof);
+      setUploadStatus("uploaded");
+      setResult("success");
+      handleProof(true);
+    } else {
+      getProofData();
     }
-
-    if (error && error instanceof UnsupportedChainIdError) {
-      setStatus("switch");
-      const data = BUTTON_MESSAGE_STATUS.switch;
-      openMessage(data.message, data.messageType, messageKey);
-      return;
-    }
-    if (!account) {
-      setStatus("connect");
-      return;
-    }
-
-    if (balance === "0.0000") {
-      setStatus("balance");
-      return;
-    }
-
-    setStatus("connected");
-    destroyMessage(messageKey);
-
-    return () => {
-      destroyMessage(messageKey);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, account, balance]);
+  }, [initData]);
+
+  useInterval(() => {
+    getProofData();
+  }, interval);
+
+  const text = useMemo(() => {
+    if (uploadStatus === "prepare") {
+      return GUIDE_DESC.uploadProof;
+    }
+    if (uploadStatus && ["uploading", "uploaded"].includes(uploadStatus)) {
+      return GUIDE_DESC.verifyingProof;
+    }
+    if (uploadStatus === "success") {
+      return GUIDE_DESC.proofVerified;
+    }
+
+    return GUIDE_DESC.uploadProof;
+  }, [uploadStatus]);
+
+  const getContent = () => {
+    // Insufficient balance
+    if (initData.balance === "0.0000") {
+      return (
+        <div className="upload-fail">
+          <div className="upload-fail-content">
+            <img src={failImg} alt="fail" />
+            <span
+              style={{
+                marginRight: "88px",
+              }}
+            >
+              Sorry, you don’t have token.
+            </span>
+          </div>
+          <Button
+            size="default"
+            className="btn"
+            onClick={handleToken}
+            loading={getTokenLoading}
+          >
+            Get token
+          </Button>
+        </div>
+      );
+    }
+
+    // uploading
+    if (uploadStatus && ["uploading", "uploaded"].includes(uploadStatus)) {
+      return (
+        <Uploading
+          data={proof}
+          uploaded={Boolean(uploadStatus === "uploaded")}
+          handleNext={handleUploadingNext}
+        />
+      );
+    }
+
+    // upload fail
+    if (uploadStatus === "fail") {
+      return (
+        <div className="upload-fail">
+          <div className="upload-fail-content">
+            <img src={failImg} alt="fail" />
+            <span>Your proof is verified False, You can‘t get an NFT.</span>
+          </div>
+          {/* <Button className="btn" onClick={handleNext}>
+            Next
+          </Button> */}
+        </div>
+      );
+    }
+
+    // upload success
+    if (uploadStatus === "success") {
+      return (
+        <div className="upload-success">
+          <div className="upload-success-content">
+            <img src={successImg} alt="success" />
+            <span className="upload-success-content-tip">
+              <span>Congratulations! Your STARK proof has been verified.</span>
+              <span
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                You can get a POAP now.
+              </span>
+            </span>
+          </div>
+          <Button className="btn" onClick={handleNext}>
+            Next
+          </Button>
+        </div>
+      );
+    }
+
+    // not upload and submit
+    if (uploadStatus === "prepare" && account) {
+      return (
+        <FourthStepSubmit
+          account={account}
+          cTypeHash={CTYPE_HASH}
+          cTypeName={CTYPE.title}
+          fieldName={ZK_PROGRAM.filed}
+          proHash={ZK_PROGRAM.hash}
+          proName={ZK_PROGRAM.name}
+          programDetail={ZK_PROGRAM.detailString}
+          handleNext={() => {
+            setIsSubmited(true);
+            setUploadStatus("uploading");
+            setIntervalStatus(TIME);
+          }}
+        />
+      );
+    }
+  };
 
   return (
     <div className="step-wrapper">
-      <div className="title">{GUIDE_DESC.connectMetamask.title}</div>
-      <div className="sub-title">{GUIDE_DESC.connectMetamask.desc}</div>
-      <ul
-        className={classNames("wallets", {
-          "has-account": account,
-        })}
-      >
-        {Object.keys(SUPPORTED_WALLETS).map((key) => {
-          const option = SUPPORTED_WALLETS[key];
-          return (
-            <li className="wallet-item" key={key}>
-              <img
-                src={option.iconURL}
-                className="wallet-img"
-                alt={option.name}
-              />
-              <span className="wallet-name">{option.name}</span>
-            </li>
-          );
-        })}
-      </ul>
-      {account && (
-        <div className="connect-tip">
-          {shortenAddress(account)} is connected.
-        </div>
-      )}
-      <Button
-        size="default"
-        loading={status === "loading"}
-        className="btn connect-btn"
-        onClick={() => {
-          allStatus.func(SUPPORTED_WALLETS.METAMASK.connector);
-        }}
-      >
-        {allStatus.buttonText}
-      </Button>
+      <div className="title">{text.title}</div>
+      <div className="sub-title">{text.desc}</div>
+      {getContent()}
+      <RuleModal />
     </div>
   );
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-05-24 16:11:14
+ * @LastEditTime: 2022-05-24 17:21:10
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -21,7 +21,7 @@ import classNames from "classnames";
 import { IButtonStaus } from "./FirstStep";
 import { SerializableTransactionReceipt } from "../../state/transactions/reducer";
 
-import "./FifthStepSubmit.scss";
+import "./FourthStepSubmit.scss";
 
 const messageKey = "uploadProof";
 
@@ -70,7 +70,7 @@ const BUTTON_MESSAGE_STATUS: {
   },
 };
 
-const FifthStepSubmit: React.FC<IProps> = ({
+const FourthStepSubmit: React.FC<IProps> = ({
   account,
   cTypeHash,
   // cTypeName,
@@ -267,4 +267,4 @@ const FifthStepSubmit: React.FC<IProps> = ({
     </div>
   );
 };
-export default FifthStepSubmit;
+export default FourthStepSubmit;
