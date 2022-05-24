@@ -3,7 +3,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-18 14:59:07
+ * @LastEditTime: 2022-05-24 11:47:35
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -36,11 +36,7 @@ import type { MessageBody } from "@kiltprotocol/sdk-js";
 import SecondStepCredential from "./SecondStepCredential";
 import classNames from "classnames";
 import { openMessage, destroyMessage } from "../../utils/message";
-import {
-  GUIDE_ACCOUNT,
-  GUIDE_CREDENTIAL,
-  GUIDE_DESC,
-} from "../../constants/guide";
+import { GUIDE_DESC } from "../../constants/guide";
 import Loading from "../../components/Loading";
 import moment from "moment";
 import {
@@ -50,6 +46,7 @@ import {
   CTypeSchemaWithoutId,
   IClaimContents,
 } from "@kiltprotocol/types";
+import { GUIDE_ACCOUNT } from "../../constants/guide";
 import { IContents } from "../../types/claim";
 
 import { ICredential } from "./index";
@@ -208,8 +205,8 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
     setDisabled(!allTrue);
   };
 
-  const saveAccount = async () => {
-    // 助记词生成账户
+  const generateNewAccount = async () => {
+    // Generate account by mnemonic
     const mnemonic = mnemonicGenerate();
     const account = await generateAccount(mnemonic);
 
@@ -229,12 +226,7 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
 
   // init kilt account
   useEffect(() => {
-    const localAccount = localStorage.getItem(GUIDE_ACCOUNT);
-    if (localAccount) {
-      setAccount(JSON.parse(localAccount));
-    } else {
-      saveAccount();
-    }
+    generateNewAccount();
   }, []);
 
   const decrypt = async (data: IEncryptedMessage) => {
@@ -273,7 +265,6 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const decryptData = (await decrypt(res.data.data[0])) as any;
 
-        localStorage.setItem(GUIDE_CREDENTIAL, JSON.stringify(decryptData));
         setCredentail(decryptData);
         handleCredentail(decryptData);
         await setLoading(false);

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-06 16:32:12
- * @LastEditTime: 2022-05-13 15:33:56
+ * @LastEditTime: 2022-05-24 10:33:33
  */
 import { getAddress } from "@ethersproject/address";
 import { AddressZero } from "@ethersproject/constants";
@@ -10,6 +10,7 @@ import { Contract } from "@ethersproject/contracts";
 import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
 import { ProofStatus } from "../types/index";
 import BN from "bn.js";
+import { keccak256 } from "@ethersproject/solidity";
 
 const { STATUSTRUE, STATUSFALSE, STATUSING } = ProofStatus;
 
@@ -131,3 +132,15 @@ export function getAgeByBirth(year: number, month: number, date: number) {
 export const hexToInt10 = (hexData: string): string => {
   return new BN(hexData, 16).toString(10);
 };
+
+export function getRequestHash(requestDetails: any) {
+  return keccak256(
+    ["bytes32", "uint128[]", "bytes32", "bytes32"],
+    [
+      requestDetails.cType,
+      requestDetails.fieldNames,
+      requestDetails.programHash,
+      requestDetails.attester,
+    ]
+  );
+}

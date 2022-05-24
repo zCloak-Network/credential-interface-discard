@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-01-11 15:45:14
- * @LastEditTime: 2022-05-20 16:54:52
+ * @LastEditTime: 2022-05-23 15:44:56
  */
 import { useEffect, useState } from "react";
 import Register from "./Register";
@@ -133,7 +133,6 @@ export default function App(): JSX.Element {
                 element={<Ctypes />}
               />
             </Route>
-
             <Route path="/*" element={<Guide />} />
           </Routes>
           <Modals />

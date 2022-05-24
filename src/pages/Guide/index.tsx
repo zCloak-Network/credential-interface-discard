@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-20 16:37:04
+ * @LastEditTime: 2022-05-24 11:03:38
  */
 import { useState, useEffect, createContext } from "react";
 import { Route, Routes } from "react-router-dom";
@@ -15,11 +15,27 @@ import GuideContent from "../GuideContent";
 import GuideHeader from "../GuideHeader";
 import { getPoapId } from "../../services/api";
 import { PoapDigitalLink } from "../../utils/poap";
+import { decodeAddress } from "@polkadot/keyring";
+import { stringToHex, u8aToHex } from "@polkadot/util";
+import { getRequestHash } from "../../utils";
+import {
+  CTYPE_HASH,
+  ZK_PROGRAM,
+  ADMIN_ATTESTER_ADDRESS,
+} from "../../constants/guide";
+import { getProof } from "../../services/api";
+import { IProof } from "../GuideContent/index";
 
-export const InitDataContext = createContext({
+export const InitDataContext = createContext<{
+  poapId: string;
+  nftId: string;
+  balance: string;
+  proof: IProof | null;
+}>({
   poapId: "",
   nftId: "",
   balance: "0",
+  proof: null,
 });
 
 const Guide: React.FC = () => {
@@ -27,6 +43,7 @@ const Guide: React.FC = () => {
   const [balance, setBalance] = useState<string>("0");
   const [poapId, setPoapId] = useState<PoapDigitalLink | "">("");
   const [nftId, setNftId] = useState<string>("");
+  const [proof, setProof] = useState<IProof | null>(null);
 
   useEffect(() => {
     if (account) {
@@ -62,7 +79,31 @@ const Guide: React.FC = () => {
     }
   };
 
+  const getProofData = async () => {
+    if (!account) return;
+    const requestHash = getRequestHash({
+      cType: CTYPE_HASH,
+      programHash: ZK_PROGRAM.hash,
+      fieldNames: ZK_PROGRAM.filed.split(",").map((it) => stringToHex(it)),
+      attester: u8aToHex(decodeAddress(ADMIN_ATTESTER_ADDRESS)),
+    });
+
+    const res = await getProof({
+      dataOwner: account,
+      requestHash,
+    });
+
+    if (res.data.code === 200) {
+      const data = res.data.data;
+
+      if (Object.keys(data).length > 0) {
+        setProof(data);
+      }
+    }
+  };
+
   useEffect(() => {
+    getProofData();
     getPoapIdByAccount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
@@ -71,9 +112,10 @@ const Guide: React.FC = () => {
     <div style={{ height: "100%" }}>
       <InitDataContext.Provider
         value={{
-          poapId: poapId,
-          nftId: nftId,
-          balance: balance,
+          poapId,
+          nftId,
+          balance,
+          proof,
         }}
       >
         <GuideHeader balance={balance} />

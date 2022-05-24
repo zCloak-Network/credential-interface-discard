@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-20 17:33:45
+ * @LastEditTime: 2022-05-24 14:00:51
  */
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ import {
   useToggleWrongNetworkModal,
 } from "../../state/application/hooks";
 import { openMessage, destroyMessage } from "../../utils/message";
-import { GUIDE_ACCOUNT, GUIDE_CREDENTIAL } from "../../constants/guide";
+import { GUIDE_ACCOUNT } from "../../constants/guide";
 
 import Img from "../../images/poap.webp";
 import Star from "../../images/star.svg";
@@ -66,32 +66,35 @@ const GuideHome: React.FC = () => {
 
   const updateStatus = () => {
     const localAccount = localStorage.getItem(GUIDE_ACCOUNT);
-    const credentail = localStorage.getItem(GUIDE_CREDENTIAL);
 
+    // Network error
     if (error instanceof UnsupportedChainIdError) {
       setPageStatus("switchNetwork");
     }
+    // connect wallet
     if (!account) {
       setPageStatus("connect");
       return;
     }
 
-    if (!initData.poapId && !initData.nftId && localAccount && credentail) {
-      setPageStatus("replayWithNewAccount");
+    // if (!initData.poapId && !initData.nftId && localAccount && credentail) {
+    //   setPageStatus("replayWithNewAccount");
 
-      return;
-    }
+    //   return;
+    // }
 
-    if (initData.poapId && initData.nftId && !localAccount && !credentail) {
+    if (initData.poapId && initData.nftId && initData.proof && !localAccount) {
       setPageStatus("playedError");
       return;
     }
 
-    if (initData.poapId && initData.nftId && localAccount && credentail) {
+    // The current account has already acquired poap
+    if (initData.poapId && initData.nftId && initData.proof && localAccount) {
       setPageStatus("played");
       return;
     }
 
+    // get start with a new accout
     setPageStatus("getStart");
   };
 

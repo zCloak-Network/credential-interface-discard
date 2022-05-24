@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-08 19:47:31
- * @LastEditTime: 2022-05-13 13:54:13
+ * @LastEditTime: 2022-05-23 16:27:58
  */
 import axios from "axios";
 import { HOSTPREFIX, PROOFHOSTPREFIX } from "../constants";
@@ -127,12 +127,12 @@ export async function getAttestationStatus(
 }
 
 export async function getProof(
-  params: { rootHash: string },
+  params: { dataOwner: string, requestHash: string },
   options?: { [key: string]: any }
 ) {
   return axios({
     method: "get",
-    url: `${PROOFHOSTPREFIX}/proof/result`,
+    url: `${PROOFHOSTPREFIX}/proof/process`,
     params: {
       ...params,
     },

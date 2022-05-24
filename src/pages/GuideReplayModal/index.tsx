@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-12-20 14:49:32
- * @LastEditTime: 2022-05-20 15:59:55
+ * @LastEditTime: 2022-05-24 14:18:43
  */
 import Modal from "../../components/Modal";
 import Button from "../../components/Button";
@@ -11,7 +11,7 @@ import {
   useToggleGuideReplay,
 } from "../../state/application/hooks";
 import { ApplicationModal } from "../../state/application/reducer";
-import { GUIDE_ACCOUNT, GUIDE_CREDENTIAL } from "../../constants/guide";
+import { GUIDE_ACCOUNT } from "../../constants/guide";
 
 import "./index.scss";
 
@@ -21,7 +21,6 @@ export default function ErrorModal(): JSX.Element {
 
   const clear = (): void => {
     localStorage.removeItem(GUIDE_ACCOUNT);
-    localStorage.removeItem(GUIDE_CREDENTIAL);
     toggleGuideReplayModal();
     window.location.reload();
   };

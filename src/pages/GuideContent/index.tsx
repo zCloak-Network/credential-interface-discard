@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 10:34:13
- * @LastEditTime: 2022-05-20 16:38:49
+ * @LastEditTime: 2022-05-24 10:41:17
  */
 import React, { useState, useEffect } from "react";
 import { Steps } from "antd";
@@ -12,7 +12,12 @@ import SecondStep from "./SecondStep";
 import ThirdStep from "./ThirdStep";
 import FifthStep from "./FifthStep";
 import LastStep from "./LastStep";
-import { GUIDE_CREDENTIAL } from "../../constants/guide";
+import { useWeb3React } from "@web3-react/core";
+import {
+  CTYPE_HASH,
+  ZK_PROGRAM,
+  ADMIN_ATTESTER_ADDRESS,
+} from "../../constants/guide";
 import { getProof } from "../../services/api";
 import {
   IMessage,
@@ -20,6 +25,9 @@ import {
   IAttestation,
   IRequestForAttestation,
 } from "@kiltprotocol/types";
+import { decodeAddress } from "@polkadot/keyring";
+import { stringToHex, u8aToHex } from "@polkadot/util";
+import { getRequestHash } from "../../utils";
 
 import "./index.scss";
 
@@ -78,6 +86,7 @@ export interface IProof {
 }
 
 const GuideContent: React.FC = () => {
+  const { account } = useWeb3React();
   const [current, setCurrent] = useState<number>(0);
   const [credentail, setCredentail] = useState<ICredential | null>(null);
   const [proof, setProof] = useState<boolean>();
@@ -86,9 +95,18 @@ const GuideContent: React.FC = () => {
     setCurrent(current + 1);
   };
 
-  const getProofData = async (claimHash: string) => {
+  const getProofData = async () => {
+    if (!account) return;
+    const requestHash = getRequestHash({
+      cType: CTYPE_HASH,
+      programHash: ZK_PROGRAM.hash,
+      fieldNames: ZK_PROGRAM.filed.split(",").map((it) => stringToHex(it)),
+      attester: u8aToHex(decodeAddress(ADMIN_ATTESTER_ADDRESS)),
+    });
+
     const res = await getProof({
-      rootHash: claimHash,
+      dataOwner: account,
+      requestHash,
     });
 
     if (res.data.code === 200) {
@@ -139,14 +157,8 @@ const GuideContent: React.FC = () => {
   ];
 
   useEffect(() => {
-    const credentail = localStorage.getItem(GUIDE_CREDENTIAL);
-
-    if (credentail) {
-      const claimHash =
-        JSON.parse(credentail)?.body?.content?.attestation.claimHash;
-
-      claimHash && getProofData(claimHash);
-    }
+    getProofData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

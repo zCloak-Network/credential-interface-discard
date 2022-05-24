@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-20 16:37:52
+ * @LastEditTime: 2022-05-24 14:15:49
  */
 import { useState, useEffect, useMemo, useContext } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -13,12 +13,15 @@ import RuleModal from "./RuleModal";
 import Uploading from "./Uploading";
 import { getProof, getToken } from "../../services/api";
 import { InitDataContext } from "../Guide";
+import { getRequestHash } from "../../utils";
+import { decodeAddress } from "@polkadot/keyring";
+import { stringToHex, u8aToHex } from "@polkadot/util";
 import {
   CTYPE,
   CTYPE_HASH,
   ZK_PROGRAM,
-  GUIDE_CREDENTIAL,
   GUIDE_DESC,
+  ADMIN_ATTESTER_ADDRESS,
 } from "../../constants/guide";
 import { IProof } from "./index";
 import { ICredential } from "./index";
@@ -62,19 +65,19 @@ const FifthStep: React.FC<IProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadStatus]);
 
-  const getClaimHash = () => {
-    const credentailLocal = localStorage.getItem(GUIDE_CREDENTIAL) || "";
-
-    const data = JSON.parse(credentailLocal) || credentail;
-
-    return data?.body?.content?.attestation.claimHash;
-  };
-
   const getProofData = async () => {
-    const claimHash = getClaimHash();
+    if (!account) return;
+
+    const requestHash = getRequestHash({
+      cType: CTYPE_HASH,
+      programHash: ZK_PROGRAM.hash,
+      fieldNames: ZK_PROGRAM.filed.split(",").map((it) => stringToHex(it)),
+      attester: u8aToHex(decodeAddress(ADMIN_ATTESTER_ADDRESS)),
+    });
 
     const res = await getProof({
-      rootHash: claimHash,
+      dataOwner: account,
+      requestHash,
     });
 
     if (res.data.code === 200) {
@@ -133,7 +136,12 @@ const FifthStep: React.FC<IProps> = ({
   };
 
   useEffect(() => {
-    getProofData();
+    if (initData.proof && Object.keys(initData.proof).length > 0) {
+      setProof(initData.proof);
+      setUploadStatus("uploaded");
+    } else {
+      getProofData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
