@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-11 10:53:01
- * @LastEditTime: 2022-05-13 17:00:45
+ * @LastEditTime: 2022-05-24 16:11:14
  */
 import React, { useState, useMemo, useEffect } from "react";
 import { useAddPopup } from "../../state/application/hooks";
@@ -10,7 +10,6 @@ import { shortenHash, hexToInt10 } from "../../utils";
 import { getContract } from "../../utils/web3Utils";
 import Button from "../../components/Button";
 import abi from "../../constants/contract/contractAbi/KiltProofs";
-import { KiltProofsAdddress as contractAddress } from "../../constants/contract/address";
 import { useToggleGuideRule } from "../../state/application/hooks";
 import { MESSAGE_CODE, ADMIN_ATTESTER_ADDRESS } from "../../constants/guide";
 import { u8aToHex, stringToHex } from "@polkadot/util";
@@ -25,6 +24,15 @@ import { SerializableTransactionReceipt } from "../../state/transactions/reducer
 import "./FifthStepSubmit.scss";
 
 const messageKey = "uploadProof";
+
+const PROOF_STORAGE_CONTRACT_ADDRESS =
+  process.env.REACT_APP_PROOF_STORAGE_CONTRACT_ADDRESS;
+
+if (typeof PROOF_STORAGE_CONTRACT_ADDRESS === "undefined") {
+  throw new Error(
+    `PROOF_STORAGE_CONTRACT_ADDRESS must be a defined environment variable`
+  );
+}
 
 interface IProps {
   account: string;
@@ -112,7 +120,7 @@ const FifthStepSubmit: React.FC<IProps> = ({
       const formatField = fieldName
         .split(",")
         .map((it) => hexToInt10(stringToHex(it).substring(2)));
-      const contract = getContract(abi, contractAddress);
+      const contract = getContract(abi, PROOF_STORAGE_CONTRACT_ADDRESS);
 
       contract.methods
         .addProof(

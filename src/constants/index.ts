@@ -2,7 +2,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-08-27 11:52:05
- * @LastEditTime: 2022-04-16 17:36:42
+ * @LastEditTime: 2022-05-24 15:42:14
  *
  */
 
@@ -13,14 +13,6 @@ export const WSSURL = "wss://peregrine.kilt.io/parachain-public-ws/";
 // wss://spiritnet.kilt.io/:
 // export const WSSURL = "wss://spiritnet.kilt.io/";
 // export const WSSURL = "wss://spiritnet.api.onfinality.io/public-ws";
-// OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws',
-// 'BOTLabs Trusted Entity': 'wss://spiritnet.kilt.io',
-// export const HOSTPREFIX = 'http://107.191.53.163:3009'
-export const HOSTPREFIX = "https://credential-service.zcloak.network";
-export const PROOFHOSTPREFIX = "https://zkid-service.zcloak.network";
-
-// export const HOSTPREFIX = "http://192.168.31.198:7001";
-// export const PROOFHOSTPREFIX = "http://192.168.31.198:7002";
 
 // 日期格式配置
 export const timeFormat = {

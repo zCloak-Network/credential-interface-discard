@@ -3,7 +3,7 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-24 11:47:35
+ * @LastEditTime: 2022-05-24 15:17:34
  */
 import React, { useEffect, useState } from "react";
 import FileSaver from "file-saver";
@@ -53,10 +53,11 @@ import { ICredential } from "./index";
 
 const { Option } = Select;
 
-enum status {
+enum AttestationStatus {
   notAttested = 1,
   attesting = 2,
   attested = 3,
+  attestedFail = -1,
 }
 
 const TIME = 6000;
@@ -90,7 +91,8 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
   const [initLoading, setInitLoading] = useState<boolean>(false);
   const [account, setAccount] = useState<IAccout>();
   const [interval, setIntervalStatus] = useState<number | undefined>(TIME);
-  const [attestationStatus, setAttestationStatus] = useState<status>();
+  const [attestationStatus, setAttestationStatus] =
+    useState<AttestationStatus>();
 
   // request attestation
   const requestAttestation = async (data: IClaimContents) => {
@@ -251,7 +253,7 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
   const queryAttestation = async () => {
     if (!account) return;
 
-    if (attestationStatus === status.attested) {
+    if (attestationStatus === AttestationStatus.attested) {
       const lightDid = Kilt.Did.LightDidDetails.fromUri(
         account.lightDidDetails.did
       );
@@ -290,12 +292,28 @@ const SecondStep: React.FC<IProps> = ({ handleNext, handleCredentail }) => {
       senderKeyId: `${account?.lightDidDetails.did}#${lightDid.encryptionKey.id}`,
     });
     if (res.data.code === 200) {
-      if (res.data.data.attestationStatus !== status.attesting) {
+      if (res.data.data.attestationStatus === AttestationStatus.attestedFail) {
+        addPopup({
+          txn: {
+            hash: "",
+            success: false,
+            title: "Attestation failed",
+            summary: "Attestation failed, please resubmit.",
+          },
+        });
+
+        setLoading(false);
+      }
+
+      // Only the interface will be called during validation
+      if (res.data.data.attestationStatus !== AttestationStatus.attesting) {
         setIntervalStatus(undefined);
       }
-      if (res.data.data.attestationStatus === status.notAttested) {
+
+      if (res.data.data.attestationStatus === AttestationStatus.notAttested) {
         await setInitLoading(false);
       }
+
       setAttestationStatus(res.data.data.attestationStatus);
     } else {
       setIntervalStatus(undefined);

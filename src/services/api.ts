@@ -1,17 +1,19 @@
 /*
- * @Description:
+ * @Description: 
  * @Author: lixin
  * @Date: 2021-12-08 19:47:31
- * @LastEditTime: 2022-05-23 16:27:58
+ * @LastEditTime: 2022-05-24 16:34:35
  */
 import axios from "axios";
-import { HOSTPREFIX, PROOFHOSTPREFIX } from "../constants";
+
+const CREDENTIAL_SERVICE_URL = process.env.REACT_APP_CREDENTIAL_SERVICE_URL
+const ZKID_SERVICE_URL = process.env.REACT_APP_ZKID_SERVICE_URL
 
 /** 添加ctype */
 export async function addCtype(data: any, options?: { [key: string]: any }) {
   return axios({
     method: "post",
-    url: `${HOSTPREFIX}/ctypes/add`,
+    url: `${CREDENTIAL_SERVICE_URL}/ctypes/add`,
     data: {
       ...data,
     },
@@ -22,7 +24,7 @@ export async function addCtype(data: any, options?: { [key: string]: any }) {
 export async function queryCtypes(params: { owner: string | null}) {
   return axios({
     method: "get",
-    url: `${HOSTPREFIX}/ctypes/all`,
+    url: `${CREDENTIAL_SERVICE_URL}/ctypes/all`,
     params: {
       ...params,
     },
@@ -33,7 +35,7 @@ export async function queryCtypes(params: { owner: string | null}) {
 export async function sendMessage(data: any, options?: { [key: string]: any }) {
   return axios({
     method: "post",
-    url: `${HOSTPREFIX}/message/add`,
+    url: `${CREDENTIAL_SERVICE_URL}/message/add`,
     data: {
       ...data,
     },
@@ -47,7 +49,7 @@ export async function getMessage(
 ) {
   return axios({
     method: "get",
-    url: `${HOSTPREFIX}/message/one`,
+    url: `${CREDENTIAL_SERVICE_URL}/message/one`,
     params: {
       ...params,
     },
@@ -61,7 +63,7 @@ export async function sendAttestation(
 ) {
   return axios({
     method: "post",
-    url: `${HOSTPREFIX}/attestation/add`,
+    url: `${CREDENTIAL_SERVICE_URL}/attestation/add`,
     data: {
       ...data,
     },
@@ -75,7 +77,7 @@ export async function getAttestation(
 ) {
   return axios({
     method: "get",
-    url: `${HOSTPREFIX}/attestation/one`,
+    url: `${CREDENTIAL_SERVICE_URL}/attestation/one`,
     params: {
       ...params,
     },
@@ -86,7 +88,7 @@ export async function getAttestation(
 export async function addAttester(data: any, options?: { [key: string]: any }) {
   return axios({
     method: "post",
-    url: `${HOSTPREFIX}/attester/add`,
+    url: `${CREDENTIAL_SERVICE_URL}/attester/add`,
     data: {
       ...data,
     },
@@ -97,7 +99,7 @@ export async function addAttester(data: any, options?: { [key: string]: any }) {
 export async function getAttester() {
   return axios({
     method: "get",
-    url: `${HOSTPREFIX}/attester/all`,
+    url: `${CREDENTIAL_SERVICE_URL}/attester/all`,
   });
 }
 
@@ -105,7 +107,7 @@ export async function getAttester() {
 export async function submitClaim(data: any, options?: { [key: string]: any }) {
   return axios({
     method: "post",
-    url: `${HOSTPREFIX}/admin-attester/submit-claim`,
+    url: `${CREDENTIAL_SERVICE_URL}/admin-attester/submit-claim`,
     data: {
       ...data,
     },
@@ -119,7 +121,7 @@ export async function getAttestationStatus(
 ) {
   return axios({
     method: "get",
-    url: `${HOSTPREFIX}/admin-attester/attestation-status`,
+    url: `${CREDENTIAL_SERVICE_URL}/admin-attester/attestation-status`,
     params: {
       ...params,
     },
@@ -132,7 +134,7 @@ export async function getProof(
 ) {
   return axios({
     method: "get",
-    url: `${PROOFHOSTPREFIX}/proof/process`,
+    url: `${ZKID_SERVICE_URL}/proof/process`,
     params: {
       ...params,
     },
@@ -145,7 +147,7 @@ export async function getPoapId(
 ) {
   return axios({
     method: "get",
-    url: `${PROOFHOSTPREFIX}/mint-poap`,
+    url: `${ZKID_SERVICE_URL}/mint-poap`,
     params: {
       ...params,
     },
@@ -158,7 +160,7 @@ export async function getToken(
 ) {
   return axios({
     method: "get",
-    url: `${HOSTPREFIX}/user/faucet`,
+    url: `${CREDENTIAL_SERVICE_URL}/user/faucet`,
     params: {
       ...params,
     },
@@ -171,7 +173,7 @@ export async function getTokenStatus(
 ) {
   return axios({
     method: "get",
-    url: `${HOSTPREFIX}/user/faucet-status`,
+    url: `${CREDENTIAL_SERVICE_URL}/user/faucet-status`,
     params: {
       ...params,
     },

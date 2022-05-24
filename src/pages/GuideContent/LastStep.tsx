@@ -2,14 +2,13 @@
  * @Description:
  * @Author: lixin
  * @Date: 2022-04-08 16:22:45
- * @LastEditTime: 2022-05-20 17:33:38
+ * @LastEditTime: 2022-05-24 16:10:59
  */
 import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import Button from "../../components/Button";
 import { getContract } from "../../utils/web3Utils";
 import abi from "../../constants/contract/contractAbi/Poap";
-import { PoapAdddress } from "../../constants/contract/address";
 import { useAddPopup } from "../../state/application/hooks";
 import { hexToNumber } from "@polkadot/util";
 import { stripHexPrefix, numberToHex } from "web3-utils";
@@ -23,6 +22,14 @@ import _ from "lodash";
 
 import bg from "../../images/nft_cover.webp";
 
+const POAP_CONTRACT_ADDRESS = process.env.REACT_APP_POAP_CONTRACT_ADDRESS;
+
+if (typeof POAP_CONTRACT_ADDRESS === "undefined") {
+  throw new Error(
+    `POAP_CONTRACT_ADDRESS must be a defined environment variable`
+  );
+}
+
 const LastStep: React.FC = () => {
   const addPopup = useAddPopup();
   const { account } = useWeb3React();
@@ -35,7 +42,7 @@ const LastStep: React.FC = () => {
   };
 
   const claimPoap = () => {
-    const contract = getContract(abi, PoapAdddress);
+    const contract = getContract(abi, POAP_CONTRACT_ADDRESS);
     setClaimLoading(true);
     contract.methods
       .claim()
@@ -70,7 +77,7 @@ const LastStep: React.FC = () => {
   };
 
   useEffect(() => {
-    const contract = getContract(abi, PoapAdddress);
+    const contract = getContract(abi, POAP_CONTRACT_ADDRESS);
     contract.events.MintPoap({}, (_: never, event: any) => {
       const { nftId, poapId } = event.returnValues;
       setPoapId(poapId);
